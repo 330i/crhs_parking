@@ -25,6 +25,7 @@ dependencies:
   image_crop: ^0.3.2
   google_sign_in: ^4.5.1
   rxdart: ^0.20.0
+  bottom_navy_bar: ^5.4.0
 
   flutter:
     sdk: flutter

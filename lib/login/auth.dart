@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:validators/validators.dart';
 
 class AuthService{
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -31,21 +32,31 @@ class AuthService{
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
     final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-    updateUserData(user);
-    print(user.displayName+'has been signed in');
+    if(user.email.endsWith('@students.katyisd.org')) {
+      updateUserData(user);
+    }
+    print(user.displayName+' has been signed in');
     loading.add(false);
     return user;
   }
   void updateUserData(FirebaseUser user) async {
     DocumentReference ref = _db.collection('users').document(user.uid);
+    DocumentSnapshot snap = await _db.collection('users').document(user.uid).get();
+    String spotid;
+    if(snap.exists){
+      spotid = snap.data['spotuid'];
+    }
     return ref.setData({
       'uid': user.uid,
       'email': user.email,
       'displayName': user.displayName,
+      'spotuid': spotid,
     }, merge: true);
   }
   void signOut() {
+    print('signed out');
     _auth.signOut();
+    _googleSignIn.signOut();
   }
 }
 

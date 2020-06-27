@@ -2,9 +2,13 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:crhs_parking_app/login/auth.dart';
+import 'package:crhs_parking_app/login/google_sign_in.dart';
+import 'package:crhs_parking_app/pages/info_page.dart';
+import 'package:crhs_parking_app/pages/navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:crhs_parking_app/login/login.dart';
 import 'package:image_crop/image_crop.dart';
 
 class SplashPage extends StatefulWidget {
@@ -65,7 +69,12 @@ class _MyHomePageState extends State<SplashPage> with SingleTickerProviderStateM
     })
     ..addStatusListener((status) {
       if(status == AnimationStatus.completed) {
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Login()),ModalRoute.withName('/splash'));
+        if(authService.user==null){
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Signin()),ModalRoute.withName('/splash'));
+        }
+        else{
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/splash'));
+        }
       }
     });
 
@@ -75,7 +84,7 @@ class _MyHomePageState extends State<SplashPage> with SingleTickerProviderStateM
         const Duration(seconds: 2),
             () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Login()),
+          MaterialPageRoute(builder: (context) => Signin()),
         ));
   }
 
