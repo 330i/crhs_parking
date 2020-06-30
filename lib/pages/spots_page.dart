@@ -3,7 +3,6 @@ import 'package:crhs_parking_app/pages/info_page.dart';
 import 'package:crhs_parking_app/pages/information_submission.dart';
 import 'package:flutter/material.dart';
 import 'package:crhs_parking_app/animations/fade_animation.dart';
-import 'package:select_dialog/select_dialog.dart';
 
 class Spots extends StatefulWidget {
   String position;
@@ -115,7 +114,7 @@ class _SpotsState extends State<Spots> {
           Container(
             height: 423,
             child: Container(
-              
+
             ),
           ),
         ],
