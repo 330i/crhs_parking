@@ -11,7 +11,7 @@ class Signin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 43, 1),
+      backgroundColor: Color.fromRGBO(240, 240, 250, 1),
       body: ListView(
         children: [
           Column(
@@ -33,7 +33,7 @@ class Signin extends StatelessWidget {
                 child: Text('Login',
                   style: TextStyle(
                     fontSize: 50,
-                    color: Colors.white,
+                    color: Colors.black87,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
@@ -44,6 +44,7 @@ class Signin extends StatelessWidget {
               Container(
                 width: 300,
                 child: MaterialButton(
+                  padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
                     await authService.googleSignIn();

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:validators/validators.dart';
 
 class AuthService{
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -43,8 +42,11 @@ class AuthService{
     DocumentReference ref = _db.collection('users').document(user.uid);
     DocumentSnapshot snap = await _db.collection('users').document(user.uid).get();
     String spotid;
-    if(snap.exists){
+    if(snap.data!=null){
       spotid = snap.data['spotuid'];
+    }
+    else{
+      spotid = 'none';
     }
     return ref.setData({
       'uid': user.uid,
