@@ -4,9 +4,7 @@ import 'dart:ui';
 
 import 'package:crhs_parking_app/login/auth.dart';
 import 'package:crhs_parking_app/login/google_sign_in.dart';
-import 'package:crhs_parking_app/pages/info_page.dart';
 import 'package:crhs_parking_app/pages/navigation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_crop/image_crop.dart';

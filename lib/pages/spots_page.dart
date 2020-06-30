@@ -1,6 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crhs_parking_app/pages/info_page.dart';
-import 'package:crhs_parking_app/pages/information_submission.dart';
 import 'package:flutter/material.dart';
 import 'package:crhs_parking_app/animations/fade_animation.dart';
 
@@ -53,8 +50,6 @@ class _SpotsState extends State<Spots> {
         spots.add(i);
       }
     }
-
-    Color _buttonColor = Color.fromRGBO(83, 109, 254, 1);
 
     return Scaffold(
       body: Column(

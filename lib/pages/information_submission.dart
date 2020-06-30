@@ -348,7 +348,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   height: 20,
                 ),
                 InkWell(
-                  child: FlatButton(
+                  child: Container(
                     child: Container(
                       height: 48,
                       width: 360,
@@ -445,6 +445,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                       'licenseExpiration': _licenseExpiration,
                                       'insuranceExpiration': _insuranceExpiration,
                                       'isCash': _payCash,
+                                      'spot': widget.spot,
                                     });
                                     currentUser = await FirebaseAuth.instance.currentUser();
                                     Firestore.instance.collection('users').document(currentUser.uid).setData({
