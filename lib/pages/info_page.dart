@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crhs_parking_app/animations/fade_animation.dart';
+import 'package:crhs_parking_app/animations/FadeAnimationStatic.dart';
+import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
+import 'package:crhs_parking_app/pages/information_submission.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -71,66 +73,423 @@ class _InfoPageState extends State<InfoPage> {
             else {
               if(snapshot.data['spotuid']=='none') {
                 return Scaffold(
-                  backgroundColor: Colors.indigo,
-                  body: Column(
-                    children: [
-                      Container(
-                        height: 200,
+                  body: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 200,
+                        ),
+                        GestureDetector(
+                          child: FadeAnimationUp(
+                            1,
+                            Container(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 50,
+                                  ),
+                                  Container(
+                                    height: 200,
+                                    child: AspectRatio(
+                                      aspectRatio: 1000/560,
+                                      child: FlareActor(
+                                        "assets/add.flr",
+                                        alignment:Alignment.center,
+                                        fit: BoxFit.fill,
+                                        animation: 'active',
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Spacer(
+                                        flex: 11,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        child: AspectRatio(
+                                          aspectRatio: 8.5,
+                                          child: FlareActor(
+                                            "assets/parktext.flr",
+                                            alignment:Alignment.center,
+                                            fit: BoxFit.fill,
+                                            animation: 'reserve',
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(
+                                        flex: 9,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height-256,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => Map()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Colors.blue, Colors.purple]
                       ),
-                      GestureDetector(
-                        child: FadeAnimation(
-                          1,
-                          Container(
+                    ),
+                  ),
+                );
+              }
+              else{
+                return FutureBuilder(
+                  future: Firestore.instance.collection('spots').document(snapshot.data['spotuid']).get(),
+                  builder: (context, spotData) {
+                    if(spotData.hasData) {
+                      if(!spotData.data['completed']) {
+                        return Scaffold(
+                          body: Container(
                             child: Column(
                               children: [
                                 Container(
-                                  child: FlareActor(
-                                    "assets/add.flr",
-                                    alignment:Alignment.center,
-                                    fit:BoxFit.contain,
-                                    animation: 'active'
-                                  ),
-                                  height: 250,
+                                  height: 200,
                                 ),
-                                FadeAnimation(
-                                  1.2,
-                                  Text(
-                                    'Reserve a Parking Spot',
-                                    style: TextStyle(
-                                      fontSize: 20,
+                                Container(
+                                  child: FadeAnimationUp(
+                                    1,
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          GestureDetector(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 50,
+                                                ),
+                                                Container(
+                                                  height: 200,
+                                                  child: AspectRatio(
+                                                    aspectRatio: 1000/560,
+                                                    child: FlareActor(
+                                                      "assets/add.flr",
+                                                      alignment:Alignment.center,
+                                                      fit: BoxFit.fill,
+                                                      animation: 'parking',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    Spacer(
+                                                      flex: 11,
+                                                    ),
+                                                    Container(
+                                                      height: 30,
+                                                      child: AspectRatio(
+                                                        aspectRatio: 8.5,
+                                                        child: FlareActor(
+                                                          "assets/parktext.flr",
+                                                          alignment:Alignment.center,
+                                                          fit: BoxFit.fill,
+                                                          animation: 'continue',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Spacer(
+                                                      flex: 10,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () {
+                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(builder: (context) => InfoSubmit(spotRef))
+                                              );
+                                            },
+                                          ),
+                                          Container(
+                                            height: 50,
+                                          ),
+                                          GestureDetector(
+                                            child: Container(
+                                              height: 60,
+                                              child: FadeAnimationStatic(
+                                                6,
+                                                Container(
+                                                  height: 60,
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        height: 5,
+                                                        width: 1,
+                                                      ),
+                                                      FadeAnimationUp(
+                                                        6,
+                                                        Text(
+                                                          'or',
+                                                          style: TextStyle(
+                                                              fontSize: 20
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      FadeAnimationUp(
+                                                        6.5,
+                                                        Text(
+                                                          '  Change Your Selection  ',
+                                                          style: TextStyle(
+                                                              fontSize: 20
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: Color.fromRGBO(207, 216, 220, 1),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blueGrey.withOpacity(0.3),
+                                                        spreadRadius: 5,
+                                                        blurRadius: 7,
+                                                        offset: Offset(0, 3), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(builder: (context) => Map())
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height-256,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black54.withOpacity(.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0, 3), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height-256,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3), // changes position of shadow
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [Colors.blue, Colors.purple]
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      else {
+                        return Scaffold(
+                          body: Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 200,
+                                ),
+                                Container(
+                                  child: FadeAnimationUp(
+                                    1,
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          GestureDetector(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 50,
+                                                ),
+                                                Container(
+                                                  height: 200,
+                                                  child: AspectRatio(
+                                                    aspectRatio: 1000/560,
+                                                    child: FlareActor(
+                                                      "assets/add.flr",
+                                                      alignment:Alignment.center,
+                                                      fit: BoxFit.fill,
+                                                      animation: 'parking',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    Spacer(
+                                                      flex: 11,
+                                                    ),
+                                                    Container(
+                                                      height: 30,
+                                                      child: AspectRatio(
+                                                        aspectRatio: 8.5,
+                                                        child: FlareActor(
+                                                          "assets/parktext.flr",
+                                                          alignment:Alignment.center,
+                                                          fit: BoxFit.fill,
+                                                          animation: 'continue',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Spacer(
+                                                      flex: 10,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () {
+                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(builder: (context) => InfoSubmit(spotRef))
+                                              );
+                                            },
+                                          ),
+                                          Container(
+                                            height: 50,
+                                          ),
+                                          GestureDetector(
+                                            child: Container(
+                                              height: 60,
+                                              child: FadeAnimationStatic(
+                                                6,
+                                                Container(
+                                                  height: 60,
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        height: 5,
+                                                        width: 1,
+                                                      ),
+                                                      FadeAnimationUp(
+                                                        6,
+                                                        Text(
+                                                          'or',
+                                                          style: TextStyle(
+                                                              fontSize: 20
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      FadeAnimationUp(
+                                                        6.5,
+                                                        Text(
+                                                          '  Change Your Selection  ',
+                                                          style: TextStyle(
+                                                              fontSize: 20
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: Color.fromRGBO(207, 216, 220, 1),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.blueGrey.withOpacity(0.3),
+                                                        spreadRadius: 5,
+                                                        blurRadius: 7,
+                                                        offset: Offset(0, 3), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(builder: (context) => Map())
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height-256,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black54.withOpacity(.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0, 3), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [Colors.blue, Colors.purple]
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                    else {
+                      return Scaffold(
+                        body: Center(
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(),
                           ),
                         ),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Map())
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                      );
+                    }
+                  },
                 );
-              }
-              else{
-                return Scaffold();
               }
             }
           },

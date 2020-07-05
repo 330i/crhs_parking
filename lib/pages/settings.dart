@@ -13,12 +13,65 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       body: Column(
         children: [
-          FlatButton(
-            child: Text('Sign Out'),
-            onPressed: () {
-              authService.signOut();
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Signin()),ModalRoute.withName('/pages'));
-            },
+          Container(
+            height: 50,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: 20,
+              ),
+              Container(
+                child: Text('Settings',
+                  style: TextStyle(
+                    fontSize: 50,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            height: 25,
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 10,
+              ),
+              Container(
+                child: FlatButton(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width-50,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.exit_to_app,
+                          color: Colors.redAccent,
+                        ),
+                        Container(
+                          width: 10,
+                        ),
+                        Text(
+                          'Sign Out',
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    authService.signOut();
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Signin()),ModalRoute.withName('/pages'));
+                  },
+                  splashColor: Color.fromRGBO(239, 154, 154, 1),
+                  highlightColor: Color.fromRGBO(255, 205, 210, 1),
+                ),
+              ),
+            ],
           ),
         ],
       ),

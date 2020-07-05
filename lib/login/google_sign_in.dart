@@ -6,8 +6,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Signin extends StatelessWidget {
+class Signin extends StatefulWidget {
+  @override
+  _SigninState createState() => _SigninState();
+}
 
+class _SigninState extends State<Signin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,30 +23,58 @@ class Signin extends StatelessWidget {
               Container(
                 height: 50,
               ),
-              Container(
-                child: Hero(
-                  tag: 'logo',
-                  child: Image.asset(
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 20,
+                  ),
+                  Image.asset(
                     'assets/crhs.png',
-                    width: 150,
-                    height: 150,
+                    width: 70,
+                    height: 70,
                   ),
-                ),
+                ],
               ),
               Container(
-                child: Text('Login',
-                  style: TextStyle(
-                    fontSize: 50,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w300,
+                height: 20,
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 20,
                   ),
-                ),
+                  Container(
+                    child: Text('Welcome',
+                      style: TextStyle(
+                        fontSize: 50,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 20,
+                  ),
+                  Container(
+                    child: Text('Sign in to continue',
+                      style: TextStyle(
+                        fontSize: 35,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
-                height: 150,
+                height: 180,
               ),
               Container(
-                width: 300,
+                width: 250,
                 child: MaterialButton(
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
@@ -63,14 +95,14 @@ class Signin extends StatelessWidget {
                       FirebaseAuth.instance.signOut();
                       authService.signOut();
                       showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Error'),
-                            content: Text('Use your KatyISD Google Account'),
-                          );
-                        }
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Error'),
+                              content: Text('Use your KatyISD Google Account'),
+                            );
+                          }
                       );
                     }
                   },

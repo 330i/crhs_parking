@@ -57,7 +57,7 @@ class _NavigationState extends State<Navigation> {
             BottomNavyBarItem(
               icon: Icon(Icons.home),
               title: Text('Home'),
-              activeColor: Colors.red,
+              activeColor: Colors.blue,
             ),
             BottomNavyBarItem(
                 icon: Icon(Icons.settings),

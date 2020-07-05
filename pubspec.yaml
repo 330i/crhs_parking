@@ -24,13 +24,14 @@ dependencies:
   validators: ^2.0.0
   image_crop: ^0.3.2
   google_sign_in: ^4.5.1
-  rxdart: ^0.20.0
+  rxdart: ^0.23.1
   bottom_navy_bar: ^5.4.0
   photo_view: ^0.9.2
   simple_animations: ^2.2.1
-  flare_flutter: ^2.0.4
+  flare_flutter: any
   url_launcher: ^5.4.11
   toggle_switch: ^0.1.4
+  select_dialog: ^1.1.0
 
   flutter:
     sdk: flutter

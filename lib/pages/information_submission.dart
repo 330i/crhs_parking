@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
+import 'package:crhs_parking_app/pages/info_page.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,9 +14,22 @@ DateTime _licenseExpiration;
 DateTime _insuranceExpiration;
 bool _payCash = true;
 
+String firstSave = '';
+String lastSave = '';
+String gradeSave = '';
+String idSave = '';
+String addressSave = '';
+String zipSave = '';
+String phoneSave = '';
+String modelSave = '';
+String colorSave = '';
+String yearSave = '';
+String plateSave = '';
+String driverSave = '';
+
 class InfoSubmit extends StatefulWidget {
-  int spot;
-  InfoSubmit(this.spot);
+  DocumentReference reference;
+  InfoSubmit(this.reference);
   @override
   _InfoSubmitState createState() => _InfoSubmitState();
 }
@@ -24,32 +38,52 @@ class _InfoSubmitState extends State<InfoSubmit> {
   @override
   Widget build(BuildContext context) {
 
-    TextEditingController first = new TextEditingController();
-    TextEditingController last = new TextEditingController();
-    TextEditingController grade = new TextEditingController();
-    TextEditingController id = new TextEditingController();
-    TextEditingController address = new TextEditingController();
-    TextEditingController zip = new TextEditingController();
-    TextEditingController phone = new TextEditingController();
-    TextEditingController model = new TextEditingController();
-    TextEditingController color = new TextEditingController();
-    TextEditingController year = new TextEditingController();
-    TextEditingController plate = new TextEditingController();
-    TextEditingController driver = new TextEditingController();
+    TextEditingController first = new TextEditingController(text: firstSave);
+    TextEditingController last = new TextEditingController(text: lastSave);
+    TextEditingController grade = new TextEditingController(text: gradeSave);
+    TextEditingController id = new TextEditingController(text: idSave);
+    TextEditingController address = new TextEditingController(text: addressSave);
+    TextEditingController zip = new TextEditingController(text: zipSave);
+    TextEditingController phone = new TextEditingController(text: phoneSave);
+    TextEditingController model = new TextEditingController(text: modelSave);
+    TextEditingController color = new TextEditingController(text: colorSave);
+    TextEditingController year = new TextEditingController(text: yearSave);
+    TextEditingController plate = new TextEditingController(text: plateSave);
+    TextEditingController driver = new TextEditingController(text: driverSave);
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        title: Text(
-          "Parking Information/Agreement",
-          style: (TextStyle(fontSize: 22)),
-        ),
-        backgroundColor: Color.fromRGBO(128, 0, 0, .7),
-        centerTitle: true,
-      ),
       body: Container(
         child: ListView(
           children: [
+            Container(
+              height: 20,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 10,
+                ),
+                Text(
+                  "Parking Information",
+                  style: TextStyle(fontSize: 30),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 10,
+                ),
+                Text(
+                  "and Agreement",
+                  style: TextStyle(fontSize: 30),
+                ),
+              ],
+            ),
+            Container(
+              height: 10,
+            ),
             Column(
               children: [
                 SizedBox(height: 10,),
@@ -98,7 +132,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FieldGen('Street Address', TextInputType.streetAddress, address),
+                    FieldGen('Street Address', TextInputType.text, address),
                     FieldGenMax("Zip Code", TextInputType.number, zip, 5),
                   ],
                 ),
@@ -132,6 +166,19 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           ],
                         ),
                         onPressed: () {
+                          firstSave = first.text;
+                          lastSave = last.text;
+                          gradeSave = grade.text;
+                          idSave = id.text;
+                          addressSave = address.text;
+                          zipSave = zip.text;
+                          phoneSave = phone.text;
+                          modelSave = model.text;
+                          colorSave = color.text;
+                          yearSave = year.text;
+                          plateSave = plate.text;
+                          driverSave = driver.text;
+
                           showDatePicker(
                             context: context,
                             initialDate: _birth != null ? _birth : DateTime(DateTime.now().year),
@@ -197,7 +244,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FieldGenSmall("Driver's License Number", TextInputType.text, driver),
+                    FieldGenMaxSmall("Driver's License Number", TextInputType.number, driver, 8),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -221,6 +268,19 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           ],
                         ),
                         onPressed: () {
+                          firstSave = first.text;
+                          lastSave = last.text;
+                          gradeSave = grade.text;
+                          idSave = id.text;
+                          addressSave = address.text;
+                          zipSave = zip.text;
+                          phoneSave = phone.text;
+                          modelSave = model.text;
+                          colorSave = color.text;
+                          yearSave = year.text;
+                          plateSave = plate.text;
+                          driverSave = driver.text;
+
                           showDatePicker(
                             context: context,
                             initialDate: _licenseExpiration != null ? _licenseExpiration : DateTime(DateTime.now().year),
@@ -265,6 +325,19 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           ],
                         ),
                         onPressed: () {
+                          firstSave = first.text;
+                          lastSave = last.text;
+                          gradeSave = grade.text;
+                          idSave = id.text;
+                          addressSave = address.text;
+                          zipSave = zip.text;
+                          phoneSave = phone.text;
+                          modelSave = model.text;
+                          colorSave = color.text;
+                          yearSave = year.text;
+                          plateSave = plate.text;
+                          driverSave = driver.text;
+
                           showDatePicker(
                             context: context,
                             initialDate: _insuranceExpiration != null ? _insuranceExpiration : DateTime(DateTime.now().year),
@@ -363,7 +436,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                       ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: Color.fromRGBO(128, 0, 0, .7)
+                          color: Colors.redAccent,
                       ),
                     ),
                   ),
@@ -382,7 +455,9 @@ class _InfoSubmitState extends State<InfoSubmit> {
                        plate!=null&&
                        driver!=null&&
                        _licenseExpiration!=null&&
-                       _insuranceExpiration!=null){
+                       _insuranceExpiration!=null&&
+                       _isAgreed&&
+                       _isRead) {
                       showDialog(
                           context: context,
                           barrierDismissible: true,
@@ -410,47 +485,133 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                     ),
                                   ),
                                   onPressed: () async {
+
+                                    firstSave = '';
+                                    lastSave = '';
+                                    gradeSave = '';
+                                    idSave = '';
+                                    addressSave = '';
+                                    zipSave = '';
+                                    phoneSave = '';
+                                    modelSave = '';
+                                    colorSave = '';
+                                    yearSave = '';
+                                    plateSave = '';
+                                    driverSave = '';
+                                    _isRead = false;
+                                    _isAgreed = false;
+                                    _payCash = true;
+
+                                    bool finished = false;
                                     showDialog(
                                         context: context,
                                         barrierDismissible: false,
                                         builder: (BuildContext context) {
-                                          bool finished = false;
-                                          return AlertDialog(
-                                            content: FlareActor(
-                                              "assets/confirm.flr",
-                                              alignment:Alignment.center,
-                                              fit:BoxFit.contain,
-                                              animation: !finished ? 'Loading' : 'Complete',
+                                          return WillPopScope(
+                                            onWillPop: () async => false,
+                                            child: AlertDialog(
+                                              content: Container(
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height,
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 70,
+                                                    ),
+                                                    AspectRatio(
+                                                      aspectRatio: 1,
+                                                      child: FlareActor(
+                                                        "assets/confirm.flr",
+                                                        alignment:Alignment.center,
+                                                        fit:BoxFit.contain,
+                                                        animation: !finished ? 'Loading' : 'Complete',
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 10,
+                                                    ),
+                                                    FadeAnimationUp(
+                                                      3,
+                                                      Text(
+                                                        'Confirmed!',
+                                                        style: TextStyle(
+                                                            color: Colors.greenAccent,
+                                                            fontSize: 30,
+                                                            fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 20,
+                                                    ),
+                                                    FadeAnimationUp(
+                                                      3.5,
+                                                      Text(
+                                                        'Show your License and Insurance to your Counselor to Confirm your Parking Spot',
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w300,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 40,
+                                                    ),
+                                                    FlatButton(
+                                                      child: Container(
+                                                        width: MediaQuery.of(context).size.width-50,
+                                                        height: 50,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Continue',
+                                                            style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight.w700,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(25),
+                                                            color: Colors.redAccent
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pushAndRemoveUntil(context,
+                                                            MaterialPageRoute(builder: (BuildContext context) => InfoPage()),
+                                                            ModalRoute.withName('/'));
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           );
-
                                         }
                                     );
-                                    FirebaseUser currentUser;
-                                    DocumentReference spotDoc = Firestore.instance.collection('spots').document();
-                                    spotDoc.setData({
-                                      'first': first,
-                                      'last': last,
-                                      'grade': grade,
-                                      'schoolID': id,
-                                      'address': address,
-                                      'zipCode': zip,
-                                      'phone': phone,
+                                    widget.reference.setData({
+                                      'first': first.text,
+                                      'last': last.text,
+                                      'grade': grade.text,
+                                      'schoolID': id.text,
+                                      'address': address.text,
+                                      'zipCode': zip.text,
+                                      'phone': phone.text,
                                       'birth': _birth,
-                                      'model': model,
-                                      'color': color,
-                                      'year': year,
-                                      'licensePlate': plate,
-                                      'driverLicenseNumber': driver,
+                                      'model': model.text,
+                                      'color': color.text,
+                                      'year': year.text,
+                                      'licensePlate': plate.text,
+                                      'driverLicenseNumber': driver.text,
                                       'licenseExpiration': _licenseExpiration,
                                       'insuranceExpiration': _insuranceExpiration,
                                       'isCash': _payCash,
-                                      'spot': widget.spot,
+                                      'confirmed': false,
+                                      'completed': true,
                                     });
-                                    currentUser = await FirebaseAuth.instance.currentUser();
-                                    Firestore.instance.collection('users').document(currentUser.uid).setData({
-                                      'spotuid': spotDoc.documentID,
-                                    }, merge: true);
+                                    setState(() {
+                                      finished = true;
+                                    });
                                   },
                                 ),
                               ],
@@ -458,7 +619,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           }
                       );
                     }
-                    else{
+                    else if(_isAgreed&&_isRead) {
                       showDialog(
                         context: context,
                         barrierDismissible: true,
@@ -467,6 +628,17 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             content: Text('Please submit all info to continue'),
                           );
                         }
+                      );
+                    }
+                    else {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Text('Please agree to the Terms and Conditions'),
+                            );
+                          }
                       );
                     }
                   },
@@ -481,94 +653,125 @@ class _InfoSubmitState extends State<InfoSubmit> {
       ),
     );
   }
-}
 
+  Widget FieldGen (String hint, TextInputType type, TextEditingController controller) {
+    return Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5))
 
-Widget FieldGen (String hint, TextInputType type, TextEditingController controller) {
-  return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(5))
-
-      ),
-      width: 170,
-      child: TextField(
-        controller: controller,
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.black,
         ),
-        keyboardType: type,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(
-              top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
-          hintText: " " + hint,
-          hintStyle: TextStyle(
-              fontSize: 18,
-              color: Colors.black
+        width: 170,
+        child: TextField(
+          controller: controller,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
           ),
-          border: InputBorder.none,
+          keyboardType: type,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(
+                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+            hintText: " " + hint,
+            hintStyle: TextStyle(
+                fontSize: 18,
+                color: Colors.black
+            ),
+            border: InputBorder.none,
 
-        ),
-      ));
-}
-
-Widget FieldGenMax (String hint, TextInputType type, TextEditingController controller, int max) {
-  return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(5))
-
-      ),
-      width: 170,
-      child: TextField(
-        maxLength: max,
-        controller: controller,
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.black,
-        ),
-        keyboardType: type,
-        decoration: InputDecoration(
-          counterText: '',
-          contentPadding: const EdgeInsets.only(
-              top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
-          hintText: " " + hint,
-          hintStyle: TextStyle(
-              fontSize: 18,
-              color: Colors.black
           ),
-          border: InputBorder.none,
+        ));
+  }
+
+  Widget FieldGenMax (String hint, TextInputType type, TextEditingController controller, int max) {
+    return Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-      ));
-}
-
-Widget FieldGenSmall (String hint, TextInputType type, TextEditingController controller) {
-  return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(5))
-
-      ),
-      width: 170,
-      child: TextField(
-        controller: controller,
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.black,
-        ),
-        keyboardType: type,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(
-              top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
-          hintText: " " + hint,
-          hintStyle: TextStyle(
-              fontSize: 13,
-              color: Colors.black
+        width: 170,
+        child: TextField(
+          maxLength: max,
+          controller: controller,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
           ),
-          border: InputBorder.none,
+          keyboardType: type,
+          decoration: InputDecoration(
+            counterText: '',
+            contentPadding: const EdgeInsets.only(
+                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+            hintText: " " + hint,
+            hintStyle: TextStyle(
+                fontSize: 18,
+                color: Colors.black
+            ),
+            border: InputBorder.none,
+
+          ),
+        ));
+  }
+
+  Widget FieldGenSmall (String hint, TextInputType type, TextEditingController controller) {
+    return Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-      ));
+        width: 170,
+        child: TextField(
+          controller: controller,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+          ),
+          keyboardType: type,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(
+                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+            hintText: " " + hint,
+            hintStyle: TextStyle(
+                fontSize: 13,
+                color: Colors.black
+            ),
+            border: InputBorder.none,
+
+          ),
+        ));
+  }
+
+  Widget FieldGenMaxSmall (String hint, TextInputType type, TextEditingController controller, int max) {
+    return Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5))
+
+        ),
+        width: 170,
+        child: TextField(
+          maxLength: max,
+          controller: controller,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+          ),
+          keyboardType: type,
+          decoration: InputDecoration(
+            counterText: '',
+            contentPadding: const EdgeInsets.only(
+                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+            hintText: " " + hint,
+            hintStyle: TextStyle(
+                fontSize: 13,
+                color: Colors.black
+            ),
+            border: InputBorder.none,
+
+          ),
+        ));
+  }
+
 }

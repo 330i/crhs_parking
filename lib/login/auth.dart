@@ -8,18 +8,18 @@ class AuthService{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
 
-  Observable<FirebaseUser> user;
-  Observable<Map<String,dynamic>> profile;
+  Stream<FirebaseUser> user;
+  Stream<Map<String,dynamic>> profile;
   PublishSubject loading = PublishSubject();
 
   AuthService() {
-    user = Observable(_auth.onAuthStateChanged);
+    user = _auth.onAuthStateChanged;
     profile = user.switchMap((FirebaseUser u) {
       if(u!=null) {
         return _db.collection('users').document(u.uid).snapshots().map((snap) => snap.data);
       }
       else{
-        return Observable.just({
+        return Stream.value({
 
         });
       }

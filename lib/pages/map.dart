@@ -1,6 +1,6 @@
+import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/spots_page.dart';
 import 'package:flutter/material.dart';
-import 'package:crhs_parking_app/animations/fade_animation.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -16,8 +16,8 @@ class _MapState extends State<Map> {
     return Scaffold(
       body: Column(
         children: [
-          FadeAnimation(
-            3,
+          FadeAnimationUp(
+            1,
             Container(
               child: Column(
                 children: [
@@ -69,7 +69,7 @@ class _MapState extends State<Map> {
             ),
           ),
           Container(
-            height: 423,
+            height: MediaQuery.of(context).size.height-314,
             child: ListView(
               children: [
                 Container(
@@ -77,8 +77,8 @@ class _MapState extends State<Map> {
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: [
-                      FadeAnimation(
-                        3.5,
+                      FadeAnimationUp(
+                        1.5,
                         Container(
                           width: MediaQuery.of(context).size.width-20,
                           child: ButtonTheme(
@@ -114,8 +114,8 @@ class _MapState extends State<Map> {
                       Spacer(
                         flex: 1,
                       ),
-                      FadeAnimation(
-                        4,
+                      FadeAnimationUp(
+                        2,
                         Container(
                           width: MediaQuery.of(context).size.width-20,
                           child: ButtonTheme(
@@ -151,8 +151,8 @@ class _MapState extends State<Map> {
                       Spacer(
                         flex: 1,
                       ),
-                      FadeAnimation(
-                        4.5,
+                      FadeAnimationUp(
+                        2.5,
                         Container(
                           width: MediaQuery.of(context).size.width-20,
                           child: ButtonTheme(
@@ -188,8 +188,8 @@ class _MapState extends State<Map> {
                       Spacer(
                         flex: 1,
                       ),
-                      FadeAnimation(
-                        5,
+                      FadeAnimationUp(
+                        3,
                         Container(
                           width: MediaQuery.of(context).size.width-20,
                           child: ButtonTheme(
@@ -225,8 +225,8 @@ class _MapState extends State<Map> {
                       Spacer(
                         flex: 1,
                       ),
-                      FadeAnimation(
-                        5.5,
+                      FadeAnimationUp(
+                        3.5,
                         Container(
                           width: MediaQuery.of(context).size.width-20,
                           child: ButtonTheme(
@@ -262,8 +262,8 @@ class _MapState extends State<Map> {
                       Spacer(
                         flex: 1,
                       ),
-                      FadeAnimation(
-                        6,
+                      FadeAnimationUp(
+                        4,
                         Container(
                           width: MediaQuery.of(context).size.width-20,
                           child: ButtonTheme(
