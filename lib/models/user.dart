@@ -5,10 +5,12 @@ class User {
   String name;
   String email;
   String uid;
+  String url;
+  String spotuid;
 
   DocumentReference reference;
 
-  User({this.name, this.email, this.uid, this.reference});
+  User({this.name, this.email, this.uid, this.url, this.spotuid, this.reference});
 
   factory User.fromSnapshot(DocumentSnapshot snapshot) {
     User newUser = User.fromJson(snapshot.data);
@@ -21,6 +23,8 @@ class User {
       name: json['displayName'] as String,
       email: json['email'] as String,
       uid: json['uid'] as String,
+      url: json['url'] as String,
+      spotuid: json['spotuid'] as String,
     );
   }
 

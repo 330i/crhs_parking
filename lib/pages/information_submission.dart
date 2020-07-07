@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
-import 'package:crhs_parking_app/pages/info_page.dart';
+import 'package:crhs_parking_app/pages/navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:validators/sanitizers.dart';
 
 bool _isAgreed = false;
 bool _isRead = false;
+bool _isGood = false;
 DateTime _birth;
 DateTime _licenseExpiration;
 DateTime _insuranceExpiration;
@@ -380,6 +383,20 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _isAgreed,
                   onChanged: (agree) {
+
+                    firstSave = first.text;
+                    lastSave = last.text;
+                    gradeSave = grade.text;
+                    idSave = id.text;
+                    addressSave = address.text;
+                    zipSave = zip.text;
+                    phoneSave = phone.text;
+                    modelSave = model.text;
+                    colorSave = color.text;
+                    yearSave = year.text;
+                    plateSave = plate.text;
+                    driverSave = driver.text;
+
                     setState(() {
                       _isAgreed = agree;
                     });
@@ -399,6 +416,20 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _isRead,
                   onChanged: (read) async {
+
+                    firstSave = first.text;
+                    lastSave = last.text;
+                    gradeSave = grade.text;
+                    idSave = id.text;
+                    addressSave = address.text;
+                    zipSave = zip.text;
+                    phoneSave = phone.text;
+                    modelSave = model.text;
+                    colorSave = color.text;
+                    yearSave = year.text;
+                    plateSave = plate.text;
+                    driverSave = driver.text;
+
                     if (await canLaunch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf')&&read) {
                     await launch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf');
                     }
@@ -414,6 +445,39 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     'I acknowledge that I have received and read the KISD & CRHS Parking Rules and Regulations information.',
                     style: TextStyle(
                       fontSize: 15
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _isGood,
+                  onChanged: (good) {
+
+                    firstSave = first.text;
+                    lastSave = last.text;
+                    gradeSave = grade.text;
+                    idSave = id.text;
+                    addressSave = address.text;
+                    zipSave = zip.text;
+                    phoneSave = phone.text;
+                    modelSave = model.text;
+                    colorSave = color.text;
+                    yearSave = year.text;
+                    plateSave = plate.text;
+                    driverSave = driver.text;
+
+                    setState(() {
+                      _isGood = good;
+                    });
+                    print(_isGood);
+                  },
+                  title: Text(
+                    'I have paid all school related fines and have a valid Driver\'s License, Insurance and School ID.',
+                    style: TextStyle(
+                        fontSize: 15
                     ),
                   ),
                 ),
@@ -457,18 +521,31 @@ class _InfoSubmitState extends State<InfoSubmit> {
                        _licenseExpiration!=null&&
                        _insuranceExpiration!=null&&
                        _isAgreed&&
-                       _isRead) {
+                       _isRead&&
+                       _isGood&&
+                        first.text!=''&&
+                        last.text!=''&&
+                        grade.text!=''&&
+                        id.text!=''&&
+                        address.text!=''&&
+                        zip.text!=''&&
+                        phone.text!=''&&
+                        model.text!=''&&
+                        color.text!=''&&
+                        year.text!=''&&
+                        plate.text!=''&&
+                        driver.text!='') {
                       showDialog(
                           context: context,
                           barrierDismissible: true,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('Wait'),
-                              content: Text('Did you double check your info? You can\'t change it after you submitted it.'),
+                              content: Text('Please double check your information. Information regarding the reserved spot can be changed before the reserved spot is confirmed.'),
                               actions: [
                                 FlatButton(
                                   child: Text(
-                                    'No',
+                                    'Double Check',
                                     style: TextStyle(
                                       color: Colors.lightBlueAccent,
                                     ),
@@ -479,30 +556,17 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                 ),
                                 FlatButton(
                                   child: Text(
-                                    'Yes',
+                                    'Continue',
                                     style: TextStyle(
                                       color: Colors.lightBlueAccent,
                                     ),
                                   ),
                                   onPressed: () async {
 
-                                    firstSave = '';
-                                    lastSave = '';
-                                    gradeSave = '';
-                                    idSave = '';
-                                    addressSave = '';
-                                    zipSave = '';
-                                    phoneSave = '';
-                                    modelSave = '';
-                                    colorSave = '';
-                                    yearSave = '';
-                                    plateSave = '';
-                                    driverSave = '';
                                     _isRead = false;
                                     _isAgreed = false;
-                                    _payCash = true;
+                                    _isGood = false;
 
-                                    bool finished = false;
                                     showDialog(
                                         context: context,
                                         barrierDismissible: false,
@@ -524,7 +588,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                         "assets/confirm.flr",
                                                         alignment:Alignment.center,
                                                         fit:BoxFit.contain,
-                                                        animation: !finished ? 'Loading' : 'Complete',
+                                                        animation: 'Complete',
                                                       ),
                                                     ),
                                                     Container(
@@ -578,7 +642,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                       ),
                                                       onPressed: () {
                                                         Navigator.pushAndRemoveUntil(context,
-                                                            MaterialPageRoute(builder: (BuildContext context) => InfoPage()),
+                                                            MaterialPageRoute(builder: (BuildContext context) => Navigation()),
                                                             ModalRoute.withName('/'));
                                                       },
                                                     ),
@@ -589,18 +653,19 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                           );
                                         }
                                     );
+                                    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
                                     widget.reference.setData({
-                                      'first': first.text,
-                                      'last': last.text,
-                                      'grade': grade.text,
-                                      'schoolID': id.text,
+                                      'first': first.text.substring(0, 1).toUpperCase()+first.text.substring(1),
+                                      'last': last.text.substring(0, 1).toUpperCase()+last.text.substring(1),
+                                      'grade': toInt(grade.text),
+                                      'schoolID': id.text.substring(0, 1).toUpperCase()+id.text.substring(1),
                                       'address': address.text,
                                       'zipCode': zip.text,
                                       'phone': phone.text,
                                       'birth': _birth,
                                       'model': model.text,
                                       'color': color.text,
-                                      'year': year.text,
+                                      'year': toInt(year.text),
                                       'licensePlate': plate.text,
                                       'driverLicenseNumber': driver.text,
                                       'licenseExpiration': _licenseExpiration,
@@ -608,10 +673,10 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                       'isCash': _payCash,
                                       'confirmed': false,
                                       'completed': true,
-                                    });
-                                    setState(() {
-                                      finished = true;
-                                    });
+                                      'userid': currentUser.uid,
+                                    }, merge: true);
+
+                                    _payCash = true;
                                   },
                                 ),
                               ],
@@ -619,7 +684,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           }
                       );
                     }
-                    else if(_isAgreed&&_isRead) {
+                    else if(_isAgreed&&_isRead&&_isGood) {
                       showDialog(
                         context: context,
                         barrierDismissible: true,

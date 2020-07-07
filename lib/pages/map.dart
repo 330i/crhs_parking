@@ -42,7 +42,9 @@ class _MapState extends State<Map> {
                     height: 5,
                   ),
                   Container(
-                    child: Image.asset('assets/schoolparking.png'),
+                    child: Image.asset(
+                      'assets/schoolparking.png',
+                    ),
                   ),
                   Container(
                     height: 35,
@@ -69,7 +71,7 @@ class _MapState extends State<Map> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height-314,
+            height: MediaQuery.of(context).size.height-120-((2094/4241)*MediaQuery.of(context).size.width),
             child: ListView(
               children: [
                 Container(

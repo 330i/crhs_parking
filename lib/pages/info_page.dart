@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crhs_parking_app/animations/FadeAnimationDown.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationStatic.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/information_submission.dart';
@@ -77,7 +78,75 @@ class _InfoPageState extends State<InfoPage> {
                     child: Column(
                       children: [
                         Container(
-                          height: 200,
+                          height: 240,
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 60,
+                                ),
+                                FadeAnimationStatic(
+                                  3.8,
+                                  Stack(
+                                    children: <Widget>[
+                                      Center(
+                                        child: Container(
+                                          width: 105,
+                                          height: 105,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(50),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black.withOpacity(0.3),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 5,
+                                                  offset: Offset(0, 3), // changes position of shadow
+                                                ),
+                                              ]
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              height: 5,
+                                            ),
+                                            SizedBox(
+                                              width: 95,
+                                              height: 95,
+                                              child: ClipRRect(
+                                                child: Image.network(currentStudent.url),
+                                                borderRadius: BorderRadius.circular(45),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 5,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 25,
+                                ),
+                                FadeAnimationDown(
+                                  3.9,
+                                  Text(
+                                    'Welcome ${currentStudent.name}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         GestureDetector(
                           child: FadeAnimationUp(
@@ -128,7 +197,7 @@ class _InfoPageState extends State<InfoPage> {
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height-256,
+                              height: MediaQuery.of(context).size.height-296,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                                 color: Colors.white,
@@ -172,7 +241,75 @@ class _InfoPageState extends State<InfoPage> {
                             child: Column(
                               children: [
                                 Container(
-                                  height: 200,
+                                  height: 240,
+                                  child: Center(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                          height: 60,
+                                        ),
+                                        FadeAnimationStatic(
+                                          3.8,
+                                          Stack(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Container(
+                                                  width: 105,
+                                                  height: 105,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(50),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black.withOpacity(0.3),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 5,
+                                                          offset: Offset(0, 3), // changes position of shadow
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 5,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 95,
+                                                      height: 95,
+                                                      child: ClipRRect(
+                                                        child: Image.network(currentStudent.url),
+                                                        borderRadius: BorderRadius.circular(45),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 5,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 25,
+                                        ),
+                                        FadeAnimationDown(
+                                          3.9,
+                                          Text(
+                                            'Welcome ${currentStudent.name}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 Container(
                                   child: FadeAnimationUp(
@@ -184,7 +321,7 @@ class _InfoPageState extends State<InfoPage> {
                                             child: Column(
                                               children: <Widget>[
                                                 Container(
-                                                  height: 50,
+                                                  height: 20,
                                                 ),
                                                 Container(
                                                   height: 200,
@@ -293,7 +430,222 @@ class _InfoPageState extends State<InfoPage> {
                                         ],
                                       ),
                                       width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height-256,
+                                      height: MediaQuery.of(context).size.height-296,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black54.withOpacity(.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0, 3), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [Colors.blue, Colors.purple]
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      else if(!spotData.data['confirmed']) {
+                        return Scaffold(
+                          body: Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 240,
+                                  child: Center(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                          height: 60,
+                                        ),
+                                        FadeAnimationStatic(
+                                          1.8,
+                                          Stack(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Container(
+                                                  width: 105,
+                                                  height: 105,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(50),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black.withOpacity(0.3),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 5,
+                                                          offset: Offset(0, 3), // changes position of shadow
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 5,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 95,
+                                                      height: 95,
+                                                      child: ClipRRect(
+                                                        child: Image.network(currentStudent.url),
+                                                        borderRadius: BorderRadius.circular(45),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 5,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 25,
+                                        ),
+                                        FadeAnimationDown(
+                                          1.9,
+                                          Text(
+                                            'Welcome ${currentStudent.name}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: FadeAnimationUp(
+                                    1,
+                                    Container(
+                                      child: PageView(
+                                        scrollDirection: Axis.vertical,
+                                        physics: ScrollPhysics(),
+                                        children: [
+                                          Container(
+                                            height: MediaQuery.of(context).size.height-296,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 160,
+                                                ),
+                                                Text(
+                                                  'Due at Counselor\'s Office',
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  width: 200,
+                                                  child: Text(
+                                                    'Show your valid License, Insurance, and your School ID to your Counselor to Confirm your Parking Spot',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: MediaQuery.of(context).size.height-616,
+                                                ),
+                                                Text(
+                                                  'Spot Information',
+                                                  style: TextStyle(
+                                                    color: Colors.black38,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: Colors.black38,
+                                                  size: 35,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            children: <Widget>[
+                                              Container(
+                                                width: 20,
+                                              ),
+                                              Container(
+                                                width: MediaQuery.of(context).size.width-20,
+                                                height: MediaQuery.of(context).size.height-326,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 10,
+                                                    ),
+                                                    Text(
+                                                      'Your spot is',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 20,
+                                                        color: Colors.black87,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      spotData.data['spot'].toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 60,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Payment Method: ',
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          spotData.data['isCash'] ? 'Cash' : 'Check',
+                                                          style: TextStyle(
+                                                            color: spotData.data['isCash'] ? Colors.green : Colors.blue,
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height-296,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                                         color: Colors.white,
@@ -327,128 +679,138 @@ class _InfoPageState extends State<InfoPage> {
                             child: Column(
                               children: [
                                 Container(
-                                  height: 200,
+                                  height: 240,
+                                  child: Center(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                          height: 60,
+                                        ),
+                                        FadeAnimationStatic(
+                                          1.8,
+                                          Stack(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Container(
+                                                  width: 105,
+                                                  height: 105,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(50),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black.withOpacity(0.3),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 5,
+                                                          offset: Offset(0, 3), // changes position of shadow
+                                                        ),
+                                                      ]
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 5,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 95,
+                                                      height: 95,
+                                                      child: ClipRRect(
+                                                        child: Image.network(currentStudent.url),
+                                                        borderRadius: BorderRadius.circular(45),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 5,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 25,
+                                        ),
+                                        FadeAnimationDown(
+                                          1.9,
+                                          Text(
+                                            'Welcome ${currentStudent.name}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 Container(
                                   child: FadeAnimationUp(
                                     1,
                                     Container(
-                                      child: Column(
-                                        children: [
-                                          GestureDetector(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 50,
-                                                ),
-                                                Container(
-                                                  height: 200,
-                                                  child: AspectRatio(
-                                                    aspectRatio: 1000/560,
-                                                    child: FlareActor(
-                                                      "assets/add.flr",
-                                                      alignment:Alignment.center,
-                                                      fit: BoxFit.fill,
-                                                      animation: 'parking',
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 10,
-                                                ),
-                                                Row(
-                                                  children: <Widget>[
-                                                    Spacer(
-                                                      flex: 11,
-                                                    ),
-                                                    Container(
-                                                      height: 30,
-                                                      child: AspectRatio(
-                                                        aspectRatio: 8.5,
-                                                        child: FlareActor(
-                                                          "assets/parktext.flr",
-                                                          alignment:Alignment.center,
-                                                          fit: BoxFit.fill,
-                                                          animation: 'continue',
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Spacer(
-                                                      flex: 10,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 20,
                                             ),
-                                            onTap: () {
-                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(builder: (context) => InfoSubmit(spotRef))
-                                              );
-                                            },
-                                          ),
-                                          Container(
-                                            height: 50,
-                                          ),
-                                          GestureDetector(
-                                            child: Container(
-                                              height: 60,
-                                              child: FadeAnimationStatic(
-                                                6,
-                                                Container(
-                                                  height: 60,
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        height: 5,
-                                                        width: 1,
-                                                      ),
-                                                      FadeAnimationUp(
-                                                        6,
-                                                        Text(
-                                                          'or',
-                                                          style: TextStyle(
-                                                              fontSize: 20
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      FadeAnimationUp(
-                                                        6.5,
-                                                        Text(
-                                                          '  Change Your Selection  ',
-                                                          style: TextStyle(
-                                                              fontSize: 20
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                            Container(
+                                              width: MediaQuery.of(context).size.width-20,
+                                              height: MediaQuery.of(context).size.height-326,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Container(
+                                                    height: 10,
                                                   ),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    color: Color.fromRGBO(207, 216, 220, 1),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.blueGrey.withOpacity(0.3),
-                                                        spreadRadius: 5,
-                                                        blurRadius: 7,
-                                                        offset: Offset(0, 3), // changes position of shadow
-                                                      ),
-                                                    ],
+                                                  Text(
+                                                    'Your spot is',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w300,
+                                                      fontSize: 20,
+                                                      color: Colors.black87,
+                                                    ),
                                                   ),
-                                                ),
+                                                  Text(
+                                                    spotData.data['spot'].toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 60,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${spotData.data['year']} ${spotData.data['model']}',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 25,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    spotData.data['licensePlate'],
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            onTap: () {
-                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(builder: (context) => Map())
-                                              );
-                                            },
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height-256,
+                                      height: MediaQuery.of(context).size.height-296,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                                         color: Colors.white,

@@ -2,7 +2,6 @@ import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -117,12 +116,12 @@ class _SigninState extends State<Signin> {
   }
 }
 
-class User extends StatefulWidget {
+class Users extends StatefulWidget {
   @override
-  _UserState createState() => _UserState();
+  _UsersState createState() => _UsersState();
 }
 
-class _UserState extends State<User> {
+class _UsersState extends State<Users> {
   Map<String,dynamic> _profile;
   bool _loading = false;
 

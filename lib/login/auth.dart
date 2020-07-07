@@ -53,8 +53,10 @@ class AuthService{
       'email': user.email,
       'displayName': user.displayName,
       'spotuid': spotid,
+      'url': user.photoUrl,
     }, merge: true);
   }
+
   void signOut() {
     print('signed out');
     _auth.signOut();

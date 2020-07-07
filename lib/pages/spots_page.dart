@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/information_submission.dart';
+import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _SpotsState extends State<Spots> {
         spotSearch.add(spots[i]);
         print('added 0 ${spots[i]}');
       }
-      if(spots[i].toString().startsWith(query)) {
+      else if(spots[i].toString().startsWith(query)) {
         spotSearch.add(spots[i]);
         print('added 1 ${spots[i]}');
       }
@@ -62,6 +63,8 @@ class _SpotsState extends State<Spots> {
       }
       min = 1420;
       max = 1593;
+      print('min is $min');
+      print('max is $max');
     }
     if(widget.position=='b'){
       //9th Grade Center
@@ -70,6 +73,8 @@ class _SpotsState extends State<Spots> {
       }
       min = 1305;
       max = 1419;
+      print('min is $min');
+      print('max is $max');
     }
     if(widget.position=='c'){
       //PAC Lot
@@ -78,6 +83,8 @@ class _SpotsState extends State<Spots> {
       }
       min = 1192;
       max = 1304;
+      print('min is $min');
+      print('max is $max');
     }
     if(widget.position=='d'){
       //1200 Lot
@@ -86,6 +93,8 @@ class _SpotsState extends State<Spots> {
       }
       min = 736;
       max = 1191;
+      print('min is $min');
+      print('max is $max');
     }
     if(widget.position=='e'){
       //1600 Lot
@@ -94,6 +103,8 @@ class _SpotsState extends State<Spots> {
       }
       min = 356;
       max = 735;
+      print('min is $min');
+      print('max is $max');
     }
     if(widget.position=='f'){
       //Athletic Lot
@@ -102,6 +113,8 @@ class _SpotsState extends State<Spots> {
       }
       min = 1;
       max = 355;
+      print('min is $min');
+      print('max is $max');
     }
 
     Search(spots);
@@ -198,8 +211,7 @@ class _SpotsState extends State<Spots> {
                                   Container(
                                     width: 10,
                                   ),
-                                  Container(
-                                    width: 200,
+                                  Expanded(
                                     child: TextField(
                                       controller: searchController,
                                       keyboardType: TextInputType.number,
@@ -298,26 +310,36 @@ class _SpotsState extends State<Spots> {
                                               ),
                                             ],
                                           ),
+                                          color: Colors.transparent,
                                         ),
                                         onTap: () async {
                                           if(!isOccupied) {
-                                            DocumentReference spotDoc = await Firestore.instance.collection('spots').document();
                                             FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                            spotDoc.setData({
-                                              'spot': spotSearch[i],
-                                              'completed': false,
-                                            }, merge: true);
-                                            currentUser = await FirebaseAuth.instance.currentUser();
                                             DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(currentUser.uid).get();
                                             if(userDoc.data['spotuid']!='none') {
-                                              await Firestore.instance.collection('spots').document(userDoc.data['spotuid']).delete();
+                                              DocumentReference currentSpotDoc = await Firestore.instance.collection('spots').document(userDoc.data['spotuid']);
+                                              currentSpotDoc.setData({
+                                                'spot': spotSearch[i],
+                                                'confirmed': false,
+                                              }, merge: true);
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(builder: (context) => Navigation()),
+                                              );
                                             }
-                                            await Firestore.instance.collection('users').document(currentUser.uid).setData({
-                                              'spotuid': spotDoc.documentID,
-                                            }, merge: true);
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(builder: (context) => InfoSubmit(spotDoc)),
-                                            );
+                                            else {
+                                              DocumentReference spotDoc = await Firestore.instance.collection('spots').document();
+                                              spotDoc.setData({
+                                                'spot': spotSearch[i],
+                                                'completed': false,
+                                                'confirmed': false,
+                                              }, merge: true);
+                                              await Firestore.instance.collection('users').document(currentUser.uid).setData({
+                                                'spotuid': spotDoc.documentID,
+                                              }, merge: true);
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(builder: (context) => InfoSubmit(spotDoc)),
+                                              );
+                                            }
                                           }
                                           else {
                                             showDialog(

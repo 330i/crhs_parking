@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>654745743572-tf1tsc5gbcticpabq8ioigvjno4rf2gp.apps.googleusercontent.com</string>
+	<string>654745743572-h1gd3hk457vk1jdt61ccupk97r3a0bec.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.654745743572-tf1tsc5gbcticpabq8ioigvjno4rf2gp</string>
+	<string>com.googleusercontent.apps.654745743572-h1gd3hk457vk1jdt61ccupk97r3a0bec</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>654745743572-i4v19qpggkjcv6c27d9qq7ugs0fpac9j.apps.googleusercontent.com</string>
+	<string>654745743572-ph3i0otalgbts5g7bssl7tgdik2etbn1.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBjFOwcpKIwjhpV8eHHUlCexJ-X-4jR4Ys</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.crhsidea.crhsParkingApp</string>
+	<string>org.crhsidea.crhsParkingAdmin</string>
 	<key>PROJECT_ID</key>
 	<string>crhs-parking-database</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:654745743572:ios:e977ab5866a3e82123cb41</string>
+	<string>1:654745743572:ios:f84117ec7cb2184923cb41</string>
 	<key>DATABASE_URL</key>
 	<string>https://crhs-parking-database.firebaseio.com</string>
 </dict>
