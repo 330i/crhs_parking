@@ -673,7 +673,6 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                       'isCash': _payCash,
                                       'confirmed': false,
                                       'completed': true,
-                                      'userid': currentUser.uid,
                                     }, merge: true);
 
                                     _payCash = true;

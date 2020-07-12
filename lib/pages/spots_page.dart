@@ -332,6 +332,7 @@ class _SpotsState extends State<Spots> {
                                                 'spot': spotSearch[i],
                                                 'completed': false,
                                                 'confirmed': false,
+                                                'userid': currentUser.uid,
                                               }, merge: true);
                                               await Firestore.instance.collection('users').document(currentUser.uid).setData({
                                                 'spotuid': spotDoc.documentID,
