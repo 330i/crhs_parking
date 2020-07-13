@@ -673,6 +673,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                       'isCash': _payCash,
                                       'confirmed': false,
                                       'completed': true,
+                                      'submitDate': DateTime.now(),
                                     }, merge: true);
 
                                     _payCash = true;

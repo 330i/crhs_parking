@@ -421,6 +421,7 @@ class _InfoChangeState extends State<InfoChange> {
                         'confirmed': false,
                         'completed': true,
                         'userid': currentUser.uid,
+                        'modifiedDate': DateTime.now(),
                       }, merge: true);
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
                     }
