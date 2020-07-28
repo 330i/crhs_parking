@@ -1,22 +1,22 @@
-import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crhs_parking_app/admin/login/google_sign_in.dart';
+import 'package:crhs_parking_app/admin/pages/navigation.dart';
+import 'package:crhs_parking_app/login/google_sign_in.dart';
 
-String key = '';
-
-class Signin extends StatefulWidget {
+class AdminSignin extends StatefulWidget {
   @override
-  _SigninState createState() => _SigninState();
+  _AdminSigninState createState() => _AdminSigninState();
 }
 
-class _SigninState extends State<Signin> {
+class _AdminSigninState extends State<AdminSignin> {
+
+  TextEditingController keyController = new TextEditingController(text: key);
+
   @override
   Widget build(BuildContext context) {
-    key = '';
     return Scaffold(
       backgroundColor: Color.fromRGBO(240, 240, 250, 1),
       body: ListView(
@@ -32,7 +32,7 @@ class _SigninState extends State<Signin> {
                     width: 20,
                   ),
                   Image.asset(
-                    'assets/crhs.png',
+                    'assets/adminlogo.png',
                     width: 70,
                     height: 70,
                   ),
@@ -74,7 +74,55 @@ class _SigninState extends State<Signin> {
                 ],
               ),
               Container(
-                height: 180,
+                height: 2,
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 20,
+                  ),
+                  Container(
+                    child: Text('KatyISD Account Required',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                height: 140,
+              ),
+              Container(
+                width: 250,
+                child: TextField(
+                  controller: keyController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: 'Enter Key Here',
+                    hintStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+              Container(
+                height: 10,
               ),
               Container(
                 width: 250,
@@ -82,7 +130,8 @@ class _SigninState extends State<Signin> {
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
-                    await authService.googleSignIn();
+                    key = keyController.text;
+                    await adminAuthService.googleSignIn();
                     String uid;
                     String email;
                     await FirebaseAuth.instance.currentUser().then((currentUser) {
@@ -90,13 +139,13 @@ class _SigninState extends State<Signin> {
                       email = currentUser.email;
                     });
                     DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(uid).get();
-                    if(email.endsWith('@students.katyisd.org')){
+                    if(true){
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                     }
                     else {
                       print('invalid account');
                       FirebaseAuth.instance.signOut();
-                      authService.signOut();
+                      adminAuthService.signOut();
                       showDialog(
                           context: context,
                           barrierDismissible: true,
@@ -108,45 +157,6 @@ class _SigninState extends State<Signin> {
                           }
                       );
                     }
-                  },
-                ),
-              ),
-              Container(
-                height: 10,
-              ),
-              Container(
-                width: 240,
-                height: 50,
-                child: MaterialButton(
-                  padding: EdgeInsets.all(0),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 10,
-                      ),
-                      Image.asset(
-                        'assets/adminlogo.png',
-                        height: 30,
-                      ),
-                      Container(
-                        width: 30,
-                      ),
-                      Text(
-                        'Admin Access',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  color: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onPressed: () async {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AdminSignin()),
-                    );
                   },
                 ),
               ),
@@ -171,9 +181,9 @@ class _UsersState extends State<Users> {
   @override
   void initState() {
     super.initState();
-    authService.profile.listen((state) => setState(() => _profile = state));
+    adminAuthService.profile.listen((state) => setState(() => _profile = state));
     
-    authService.loading.listen((state) => setState(() => _loading = state));
+    adminAuthService.loading.listen((state) => setState(() => _loading = state));
   }
 
   @override
