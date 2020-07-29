@@ -33,7 +33,7 @@ class AdminAuthService{
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
     final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-    if(true) {
+    if(user.email.endsWith('@katyisd.org')||user.email=='k0910022@students.katyisd.org') {
       updateUserData(user);
     }
     print(user.displayName+' has been signed in');

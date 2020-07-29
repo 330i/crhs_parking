@@ -139,7 +139,7 @@ class _AdminSigninState extends State<AdminSignin> {
                       email = currentUser.email;
                     });
                     DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(uid).get();
-                    if(true){
+                    if(email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org'){
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                     }
                     else {

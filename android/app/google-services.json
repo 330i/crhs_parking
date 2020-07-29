@@ -8,42 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:654745743572:android:a25373633863713023cb41",
-        "android_client_info": {
-          "package_name": "org.crhsidea.crhs_parking_admin"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "654745743572-v6l1a4agi6n77cmqtj55jkfprigll809.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCX2Gm3azYIb_0z9FwiNM1VTLhu8x_LGmI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "654745743572-v6l1a4agi6n77cmqtj55jkfprigll809.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "654745743572-tf1tsc5gbcticpabq8ioigvjno4rf2gp.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "org.crhsidea.crhsParkingApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:654745743572:android:1ad1777f1c438e2323cb41",
         "android_client_info": {
           "package_name": "org.crhsidea.crhs_parking_app"
@@ -51,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "654745743572-ph3i0otalgbts5g7bssl7tgdik2etbn1.apps.googleusercontent.com",
+          "client_id": "654745743572-45kvp7h26kcr61dfhshc2pjm46b4cnj6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "org.crhsidea.crhs_parking_app",
-            "certificate_hash": "fb6436858cdf688f9218bdbbbd37e3b8f282d38a"
+            "certificate_hash": "6cf03d8d5606fb0c9e9d94827b5cf8c2b53f359a"
           }
         },
         {
@@ -76,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "654745743572-tf1tsc5gbcticpabq8ioigvjno4rf2gp.apps.googleusercontent.com",
+              "client_id": "654745743572-h1gd3hk457vk1jdt61ccupk97r3a0bec.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.crhsidea.crhsParkingApp"
+                "bundle_id": "org.crhsidea.crhsParkingAdmin"
               }
             }
           ]
