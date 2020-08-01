@@ -331,11 +331,11 @@ class _InfoChangeState extends State<InfoChange> {
                         minWidth: 85.0,
                         cornerRadius: 5,
                         activeBgColor: Colors.green,
-                        activeTextColor: Colors.white,
+                        //activeTextColor: Colors.white,
                         inactiveBgColor: Colors.grey,
-                        inactiveTextColor: Colors.white,
+                        //inactiveTextColor: Colors.white,
                         labels: ['Cash', 'Check'],
-                        activeColors: [Colors.green, Colors.blue],
+                        //activeColors: [Colors.green, Colors.blue],
                         onToggle: (index) {
                           if (index == 0) {
                             payCash = true;
