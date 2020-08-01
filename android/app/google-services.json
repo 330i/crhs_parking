@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:654745743572:android:1ad1777f1c438e2323cb41",
+        "mobilesdk_app_id": "1:654745743572:android:74df43d2b8d2b30123cb41",
         "android_client_info": {
           "package_name": "org.crhsidea.crhs_parking_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "654745743572-45kvp7h26kcr61dfhshc2pjm46b4cnj6.apps.googleusercontent.com",
+          "client_id": "654745743572-mojbcnmhimt9s1jtq1429mfttvf366k0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "org.crhsidea.crhs_parking_app",
-            "certificate_hash": "6cf03d8d5606fb0c9e9d94827b5cf8c2b53f359a"
+            "certificate_hash": "10d9ebd276030689f4446c27ca1d38e9c47968dc"
           }
         },
         {
