@@ -82,7 +82,21 @@ class _SigninState extends State<Signin> {
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
-                    await authService.googleSignIn();
+                    await authService.googleSignIn().catchError((onError) {
+                      print(onError.toString());
+                      if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content: Text('Cannot Sign in with Google'),
+                              );
+                            }
+                        );
+                      }
+                    });
                     String uid;
                     String email;
                     await FirebaseAuth.instance.currentUser().then((currentUser) {
