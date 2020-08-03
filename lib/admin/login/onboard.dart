@@ -1,3 +1,4 @@
+import 'package:crhs_parking_app/admin/login/auth.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationStatic.dart';
 import 'package:crhs_parking_app/login/google_sign_in.dart';
 import 'package:crhs_parking_app/login/auth.dart';
@@ -14,6 +15,7 @@ class _DontDoItState extends State<DontDoIt> {
   @override
   Widget build(BuildContext context) {
     authService.signOut();
+    adminAuthService.signOut();
     return Scaffold(
       body: Container(
         child: Column(
@@ -27,7 +29,7 @@ class _DontDoItState extends State<DontDoIt> {
               child: AspectRatio(
                 aspectRatio: 9/12,
                 child: Container(
-                  child: Column(
+                  child: ListView(
                     children: <Widget>[
                       FadeAnimationStatic(
                         1,
@@ -129,6 +131,7 @@ class _DontDoItState extends State<DontDoIt> {
                         ),
                       ),
                     ],
+                    scrollDirection: Axis.vertical,
                   ),
                 ),
               ),
