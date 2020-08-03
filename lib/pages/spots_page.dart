@@ -354,7 +354,7 @@ class _SpotsState extends State<Spots> {
                                                 'spotuid': spotDoc.documentID,
                                               }, merge: true);
                                               Navigator.of(context).push(
-                                                MaterialPageRoute(builder: (context) => InfoSubmit(spotDoc)),
+                                                CupertinoPageRoute(builder: (context) => InfoSubmit(spotDoc)),
                                               );
                                             }
                                           }
