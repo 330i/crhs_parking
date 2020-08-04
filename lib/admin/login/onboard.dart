@@ -39,16 +39,26 @@ class _DontDoItState extends State<DontDoIt> {
                           color: Colors.redAccent,
                         ),
                       ),
-                      FadeAnimationStatic(
-                        1,
-                        Text(
-                          'User Agreement',
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
+                      Row(
+                        children: <Widget>[
+                          Spacer(
+                            flex: 1,
                           ),
-                        ),
+                          FadeAnimationStatic(
+                            1,
+                            Text(
+                              'User Agreement',
+                              style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                          Spacer(
+                            flex: 1,
+                          ),
+                        ],
                       ),
                       Container(
                         height: 33,
