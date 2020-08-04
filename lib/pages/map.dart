@@ -115,6 +115,7 @@ class _MapState extends State<Map> {
                 children: [
                   Text(
                     ' $name',
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w400,

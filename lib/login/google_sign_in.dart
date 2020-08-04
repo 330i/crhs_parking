@@ -109,7 +109,7 @@ class _SigninState extends State<Signin> {
                     width: 20,
                   ),
                   Container(
-                    child: Text('Sign in to continue',
+                    child: Text('Sign in',
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>=16/9 ? MediaQuery.of(context).size.width/12 : 35,
                         color: Colors.white,
