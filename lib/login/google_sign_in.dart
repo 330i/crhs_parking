@@ -119,8 +119,24 @@ class _SigninState extends State<Signin> {
                   ),
                 ],
               ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 20,
+                  ),
+                  Container(
+                    child: Text('with your KatyISD Account',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>=16/9 ? MediaQuery.of(context).size.width/20 : 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Container(
-                height: MediaQuery.of(context).size.height-560,
+                height: MediaQuery.of(context).size.height-600,
               ),
               Container(
                 height: 60,
