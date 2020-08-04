@@ -25,7 +25,7 @@ class _DontDoItState extends State<DontDoIt> {
               flex: 2,
             ),
             Container(
-              height: 530,
+              height: MediaQuery.of(context).size.height-150,
               child: AspectRatio(
                 aspectRatio: 9/12,
                 child: Container(
