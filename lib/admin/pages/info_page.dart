@@ -20,15 +20,15 @@ class _SpotInfoState extends State<SpotInfo> {
         child: Row(
           children: <Widget>[
             Container(
-              width: 20,
+              width: 10,
             ),
             Container(
-              width: MediaQuery.of(context).size.width-20,
+              width: MediaQuery.of(context).size.width-10,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    height: (10*log(MediaQuery.of(context).size.width+5)-7)/64*40,
+                    height: 50,
                   ),
                   Text(
                     '${widget.reference.data['first']} ${widget.reference.data['last']}',
@@ -176,66 +176,66 @@ class _SpotInfoState extends State<SpotInfo> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: (10*log(MediaQuery.of(context).size.width+5)-7)/64*13,
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: (10*log(MediaQuery.of(context).size.width+5)-7)/64*13,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: <Widget>[
+                        Spacer(
+                          flex: 1,
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            children: <Widget>[
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Container(
-                                width: 200,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.greenAccent,
+                          width: 200,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.greenAccent,
+                          ),
+                          child: InkWell(
+                            child: Center(
+                              child: Text(
+                                'Confirm',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                child: InkWell(
-                                  child: Center(
-                                    child: Text(
-                                      'Confirm',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () async {
-                                    Firestore.instance.collection('spots').document(widget.reference.documentID).setData({
-                                      'confirmed': true,
-                                    }, merge: true);
-                                    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                    Firestore.instance.collection('admin').document(currentUser.uid).collection('history').document().setData({
-                                      'time': DateTime.now(),
-                                      'documentID': widget.reference.documentID,
-                                      'action': 'confirm',
-                                    }, merge: true);
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text('User Has Been Confirmed'),
-                                        );
-                                      }
+                              ),
+                            ),
+                            onTap: () async {
+                              Firestore.instance.collection('spots').document(widget.reference.documentID).setData({
+                                'confirmed': true,
+                              }, merge: true);
+                              FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+                              Firestore.instance.collection('admin').document(currentUser.uid).collection('history').document().setData({
+                                'time': DateTime.now(),
+                                'documentID': widget.reference.documentID,
+                                'action': 'confirm',
+                              }, merge: true);
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: Text('User Has Been Confirmed'),
                                     );
-                                  },
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                            ],
+                                  }
+                              );
+                            },
                           ),
                         ),
-                        Container(
-                          height: 40,
+                        Spacer(
+                          flex: 1,
                         ),
                       ],
                     ),
+                  ),
+                  Container(
+                    height: 25,
                   ),
                 ],
               ),
@@ -252,7 +252,7 @@ class _SpotInfoState extends State<SpotInfo> {
         Text(
           info,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: FontWeight.w400
           ),
         ),

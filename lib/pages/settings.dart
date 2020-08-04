@@ -5,6 +5,7 @@ import 'package:crhs_parking_app/pages/process_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:crhs_parking_app/login/auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'map.dart';
 import 'package:crhs_parking_app/models/user.dart';
 
@@ -73,6 +74,47 @@ class _SettingsState extends State<Settings> {
             ),
             Container(
               height: 25,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 10,
+                ),
+                Container(
+                  child: FlatButton(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width-50,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.feedback,
+                            color: Colors.lightBlueAccent,
+                          ),
+                          Container(
+                            width: 10,
+                          ),
+                          Text(
+                            'Feedback',
+                            style: TextStyle(
+                              color: Colors.lightBlueAccent,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (await canLaunch('https://forms.gle/NcPZGGcLJKaFFEEh7')) {
+                      await launch('https://forms.gle/NcPZGGcLJKaFFEEh7');
+                      }
+                      else {
+
+                      }
+                    },
+                    splashColor: Color.fromRGBO(79, 195, 247, 1),
+                    highlightColor: Color.fromRGBO(129, 212, 250, 1),
+                  ),
+                ),
+              ],
             ),
             Row(
               children: <Widget>[
@@ -254,7 +296,7 @@ class _SettingsState extends State<Settings> {
                         children: <Widget>[
                           Icon(
                             Icons.exit_to_app,
-                            color: Colors.redAccent,
+                            color: Colors.red,
                           ),
                           Container(
                             width: 10,
@@ -262,7 +304,7 @@ class _SettingsState extends State<Settings> {
                           Text(
                             'Sign Out',
                             style: TextStyle(
-                              color: Colors.redAccent,
+                              color: Colors.red,
                             ),
                           ),
                         ],

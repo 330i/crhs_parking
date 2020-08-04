@@ -51,7 +51,7 @@ class _NavigationState extends State<Navigation> {
           curve: Curves.easeInBack,
           onItemSelected: (index) => setState(() {
             _currentIndex = index;
-            _pageController.jumpToPage(index);
+            _pageController.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.easeInOutSine);
           }),
           items: [
             BottomNavyBarItem(

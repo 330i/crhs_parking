@@ -63,7 +63,7 @@ class _SpotsState extends State<Spots> {
     if(widget.position=='a'){
       //Back Lot
       for(int i=1420;i<=1593;i++){
-        if(Between(1420, 1430, i)||Between(1447, 1478, i)||Between(1495, 1505, i)||Between(1506, 1515, i)||Between(1584, 1593, i)) {
+        if(!(Between(1420, 1430, i)||Between(1447, 1478, i)||Between(1495, 1505, i)||Between(1506, 1515, i)||Between(1584, 1593, i))) {
           spots.add(i);
         }
       }
@@ -75,7 +75,7 @@ class _SpotsState extends State<Spots> {
     if(widget.position=='b'){
       //9th Grade Center
       for(int i=1305;i<=1419;i++){
-        if(Between(1305, 1312, i)||Between(1328, 1341, i)||Between(1355, 1368, i)||Between(1379, 1389, i)||Between(1399, 1402, i)||Between(1404, 1408, i)) {
+        if(!(Between(1305, 1312, i)||Between(1328, 1341, i)||Between(1355, 1368, i)||Between(1379, 1389, i)||Between(1399, 1402, i)||Between(1404, 1408, i))) {
           spots.add(i);
         }
       }
@@ -87,7 +87,7 @@ class _SpotsState extends State<Spots> {
     if(widget.position=='c'){
       //PAC Lot
       for(int i=1192;i<=1304;i++){
-        if(Between(1192, 1204, i)) {
+        if(!(Between(1192, 1204, i))) {
           spots.add(i);
         }
       }
@@ -99,7 +99,7 @@ class _SpotsState extends State<Spots> {
     if(widget.position=='d'){
       //1200 Lot
       for(int i=736;i<=1191;i++){
-        if(Between(739, 748, i)||Between(751, 766, i)||Between(812, 861, i)||Between(908, 952, i)||Between(1030, 1044, i)||Between(1143, 1147, i)) {
+        if(!(Between(739, 748, i)||Between(751, 766, i)||Between(812, 861, i)||Between(908, 952, i)||Between(1030, 1044, i)||Between(1143, 1147, i))) {
           spots.add(i);
         }
       }
@@ -111,7 +111,7 @@ class _SpotsState extends State<Spots> {
     if(widget.position=='e'){
       //1600 Lot
       for(int i=356;i<=735;i++){
-        if(Between(723, 726, i)||Between(730, 735, i)||Between(358, 458, i)||Between(490, 501, i)) {
+        if(!(Between(723, 726, i)||Between(730, 735, i)||Between(358, 458, i)||Between(490, 501, i))) {
           spots.add(i);
         }
       }
@@ -123,7 +123,7 @@ class _SpotsState extends State<Spots> {
     if(widget.position=='f'){
       //Athletic Lot
       for(int i=1;i<=355;i++){
-        if(Between(1, 6, i)||Between(62, 79, i)||Between(134, 142, i)) {
+        if(!(Between(1, 6, i)||Between(62, 79, i)||Between(134, 142, i))) {
           spots.add(i);
         }
       }
@@ -136,16 +136,16 @@ class _SpotsState extends State<Spots> {
     Search(spots);
 
     return Scaffold(
-      body: ListView(
+      body: Column(
         children: [
+          Container(
+            height: 25,
+          ),
           FadeAnimationUp(
             1,
             Container(
               child: Column(
                 children: [
-                  Container(
-                    height: 30,
-                  ),
                   Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width,
@@ -349,12 +349,13 @@ class _SpotsState extends State<Spots> {
                                                 'completed': false,
                                                 'confirmed': false,
                                                 'userid': currentUser.uid,
+                                                'submitDate': DateTime.now(),
                                               }, merge: true);
                                               await Firestore.instance.collection('users').document(currentUser.uid).setData({
                                                 'spotuid': spotDoc.documentID,
                                               }, merge: true);
                                               Navigator.of(context).push(
-                                                MaterialPageRoute(builder: (context) => InfoSubmit(spotDoc)),
+                                                CupertinoPageRoute(builder: (context) => InfoSubmit(spotDoc)),
                                               );
                                             }
                                           }

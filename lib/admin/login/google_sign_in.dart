@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'auth.dart';
@@ -13,7 +14,7 @@ class AdminSignin extends StatefulWidget {
 
 class _AdminSigninState extends State<AdminSignin> {
 
-  TextEditingController keyController = new TextEditingController(text: key);
+  TextEditingController keyController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +131,8 @@ class _AdminSigninState extends State<AdminSignin> {
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
-                    key = keyController.text;
-                    await adminAuthService.googleSignIn().catchError((onError) {
+                    String key = keyController.text;
+                    await adminAuthService.googleSignIn(key).catchError((onError) {
                       if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
                         showDialog(
                             context: context,
@@ -145,31 +146,61 @@ class _AdminSigninState extends State<AdminSignin> {
                         );
                       }
                     });
-                    String uid;
                     String email;
-                    await FirebaseAuth.instance.currentUser().then((currentUser) {
-                      uid = currentUser.uid;
-                      email = currentUser.email;
-                    });
-                    DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(uid).get();
-                    if(email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org'){
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
-                    }
-                    else {
-                      print('invalid account');
-                      FirebaseAuth.instance.signOut();
-                      adminAuthService.signOut();
-                      showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Error'),
-                              content: Text('Use your KatyISD Google Account'),
+                    FirebaseAuth.instance.currentUser().then((currentUser) {
+                      if(currentUser!=null) {
+                        email = currentUser.email;
+                      }
+                      if(hasError!=null&&email!=null) {
+                        if((email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')&&!hasError&&FirebaseAuth.instance.currentUser()!=null){
+                          Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
+                        }
+                        else {
+                          print(hasError);
+                          if(!(email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')) {
+                            print('invalid account');
+                            FirebaseAuth.instance.signOut();
+                            adminAuthService.signOut();
+                            showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Error'),
+                                    content: Text('Use your KatyISD Google Account'),
+                                  );
+                                }
                             );
                           }
-                      );
-                    }
+                          else {
+                            adminAuthService.signOut();
+                            showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Stop'),
+                                    content: Text('Unauthorized'),
+                                  );
+                                }
+                            );
+                          }
+                        }
+                      }
+                      else if(currentUser==null) {
+                        adminAuthService.signOut();
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Stop'),
+                                content: Text('Unauthorized'),
+                              );
+                            }
+                        );
+                      }
+                    });
                   },
                 ),
               ),
@@ -195,7 +226,7 @@ class _UsersState extends State<Users> {
   void initState() {
     super.initState();
     adminAuthService.profile.listen((state) => setState(() => _profile = state));
-    
+
     adminAuthService.loading.listen((state) => setState(() => _loading = state));
   }
 

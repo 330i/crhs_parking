@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:video_player/video_player.dart';
 import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/admin/login/google_sign_in.dart';
-
-String key = '';
 
 class Signin extends StatefulWidget {
   @override
@@ -14,17 +16,61 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+
+  VideoPlayerController videoPlayerController;
+  Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    setState(() {
+      videoPlayerController = VideoPlayerController.asset('assets/above.mp4');
+    });
+    _initializeVideoPlayerFuture = videoPlayerController.initialize();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    key = '';
     return Scaffold(
       backgroundColor: Color.fromRGBO(240, 240, 250, 1),
-      body: ListView(
-        children: [
+      body: Stack(
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height,
+            child: FutureBuilder(
+              future: _initializeVideoPlayerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  videoPlayerController.play();
+                  videoPlayerController.setLooping(true);
+                  return Container(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: videoPlayerController.value.size.width,
+                        height: videoPlayerController.value.size.height,
+                        child: VideoPlayer(
+                          videoPlayerController,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                else {
+                  return Container(
+                    color: Colors.black,
+                  );
+                }
+              },
+            ),
+          ),
+          Container(
+            color: Color.fromRGBO(83, 148, 255, 0.25),
+          ),
           Column(
             children: <Widget>[
               Container(
-                height: 50,
+                height: MediaQuery.of(context).size.height/8,
               ),
               Row(
                 children: <Widget>[
@@ -49,8 +95,8 @@ class _SigninState extends State<Signin> {
                   Container(
                     child: Text('Welcome',
                       style: TextStyle(
-                        fontSize: 50,
-                        color: Colors.black87,
+                        fontSize: MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>=16/9 ? MediaQuery.of(context).size.width/8 : 50,
+                        color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -65,8 +111,8 @@ class _SigninState extends State<Signin> {
                   Container(
                     child: Text('Sign in to continue',
                       style: TextStyle(
-                        fontSize: 35,
-                        color: Colors.black87,
+                        fontSize: MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>=16/9 ? MediaQuery.of(context).size.width/12 : 35,
+                        color: Colors.white,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -74,10 +120,10 @@ class _SigninState extends State<Signin> {
                 ],
               ),
               Container(
-                height: 180,
+                height: MediaQuery.of(context).size.height-560,
               ),
               Container(
-                width: 250,
+                height: 60,
                 child: MaterialButton(
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
@@ -105,7 +151,7 @@ class _SigninState extends State<Signin> {
                     });
                     DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(uid).get();
                     if(email.endsWith('@students.katyisd.org')){
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
+                      Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                     }
                     else {
                       print('invalid account');
@@ -155,7 +201,7 @@ class _SigninState extends State<Signin> {
                       ),
                     ],
                   ),
-                  color: Colors.transparent,
+                  color: Colors.black54,
                   splashColor: Colors.transparent,
                   onPressed: () async {
                     Navigator.of(context).push(
@@ -167,7 +213,6 @@ class _SigninState extends State<Signin> {
             ],
           ),
         ],
-        scrollDirection: Axis.vertical,
       ),
     );
   }

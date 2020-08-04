@@ -1,3 +1,4 @@
+import 'package:crhs_parking_app/admin/login/auth.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationStatic.dart';
 import 'package:crhs_parking_app/login/google_sign_in.dart';
 import 'package:crhs_parking_app/login/auth.dart';
@@ -14,6 +15,7 @@ class _DontDoItState extends State<DontDoIt> {
   @override
   Widget build(BuildContext context) {
     authService.signOut();
+    adminAuthService.signOut();
     return Scaffold(
       body: Container(
         child: Column(
@@ -23,11 +25,11 @@ class _DontDoItState extends State<DontDoIt> {
               flex: 2,
             ),
             Container(
-              height: 530,
+              height: MediaQuery.of(context).size.height-150,
               child: AspectRatio(
                 aspectRatio: 9/12,
                 child: Container(
-                  child: Column(
+                  child: ListView(
                     children: <Widget>[
                       FadeAnimationStatic(
                         1,
@@ -37,16 +39,26 @@ class _DontDoItState extends State<DontDoIt> {
                           color: Colors.redAccent,
                         ),
                       ),
-                      FadeAnimationStatic(
-                        1,
-                        Text(
-                          'User Agreement',
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
+                      Row(
+                        children: <Widget>[
+                          Spacer(
+                            flex: 1,
                           ),
-                        ),
+                          FadeAnimationStatic(
+                            1,
+                            Text(
+                              'User Agreement',
+                              style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                          Spacer(
+                            flex: 1,
+                          ),
+                        ],
                       ),
                       Container(
                         height: 33,
@@ -129,6 +141,7 @@ class _DontDoItState extends State<DontDoIt> {
                         ),
                       ),
                     ],
+                    scrollDirection: Axis.vertical,
                   ),
                 ),
               ),

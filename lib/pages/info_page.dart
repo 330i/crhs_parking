@@ -44,6 +44,10 @@ class _InfoPageState extends State<InfoPage> {
       DeviceOrientation.portraitUp,
     ]);
 
+    List<Color> completedGradient = [Color.fromRGBO(100, 181, 246, 1),Color.fromRGBO(159, 168, 218, 1)];
+    List<Color> unconfirmedGradient = [Color.fromRGBO(139, 195, 74, 1),Color.fromRGBO(102, 187, 106, 1)];
+    List<Color> incompleteGradient = [Color.fromRGBO(229, 115, 115, 1),Color.fromRGBO(255, 171, 145, 1)];
+
     if(currentStudent==null){
       return Scaffold(
         body: Center(
@@ -199,7 +203,7 @@ class _InfoPageState extends State<InfoPage> {
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height-296,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
@@ -224,7 +228,7 @@ class _InfoPageState extends State<InfoPage> {
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [Colors.blue, Colors.purple]
+                          colors: incompleteGradient
                       ),
                     ),
                   ),
@@ -372,7 +376,9 @@ class _InfoPageState extends State<InfoPage> {
                                           Container(
                                             height: 50,
                                           ),
-                                          GestureDetector(
+                                          RaisedButton(
+                                            splashColor: Colors.transparent,
+                                            color: Colors.transparent,
                                             child: Container(
                                               height: 60,
                                               child: FadeAnimationStatic(
@@ -397,7 +403,7 @@ class _InfoPageState extends State<InfoPage> {
                                                       FadeAnimationUp(
                                                         6.5,
                                                         Text(
-                                                          '  Change Your Selection  ',
+                                                          'Change Your Selection',
                                                           style: TextStyle(
                                                               fontSize: 20
                                                           ),
@@ -407,20 +413,11 @@ class _InfoPageState extends State<InfoPage> {
                                                   ),
                                                   decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(10),
-                                                    color: Color.fromRGBO(207, 216, 220, 1),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.blueGrey.withOpacity(0.3),
-                                                        spreadRadius: 5,
-                                                        blurRadius: 7,
-                                                        offset: Offset(0, 3), // changes position of shadow
-                                                      ),
-                                                    ],
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                            onTap: () {
+                                            onPressed: () {
                                               DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(builder: (context) => Map())
@@ -432,7 +429,7 @@ class _InfoPageState extends State<InfoPage> {
                                       width: MediaQuery.of(context).size.width,
                                       height: MediaQuery.of(context).size.height-296,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
@@ -452,7 +449,7 @@ class _InfoPageState extends State<InfoPage> {
                               gradient: LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
-                                  colors: [Colors.blue, Colors.purple]
+                                  colors: incompleteGradient
                               ),
                             ),
                           ),
@@ -647,7 +644,7 @@ class _InfoPageState extends State<InfoPage> {
                                       width: MediaQuery.of(context).size.width,
                                       height: MediaQuery.of(context).size.height-296,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
@@ -667,7 +664,7 @@ class _InfoPageState extends State<InfoPage> {
                               gradient: LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
-                                  colors: [Colors.blue, Colors.purple]
+                                  colors: unconfirmedGradient
                               ),
                             ),
                           ),
@@ -812,7 +809,7 @@ class _InfoPageState extends State<InfoPage> {
                                       width: MediaQuery.of(context).size.width,
                                       height: MediaQuery.of(context).size.height-296,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
@@ -832,7 +829,7 @@ class _InfoPageState extends State<InfoPage> {
                               gradient: LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
-                                  colors: [Colors.blue, Colors.purple]
+                                  colors: completedGradient
                               ),
                             ),
                           ),

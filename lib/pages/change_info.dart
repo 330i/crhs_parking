@@ -31,7 +31,7 @@ class _InfoChangeState extends State<InfoChange> {
     TextEditingController driver = new TextEditingController(text: driverSave);
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Color.fromRGBO(236, 239, 241, 1),
       body: Container(
         child: ListView(
           children: [
@@ -44,18 +44,15 @@ class _InfoChangeState extends State<InfoChange> {
                   width: 10,
                 ),
                 Container(
-                  child: Text('Settings',
+                  child: Text('Change Your Info',
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: 30,
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
               ],
-            ),
-            Container(
-              height: 10,
             ),
             Column(
               children: [
@@ -354,7 +351,7 @@ class _InfoChangeState extends State<InfoChange> {
                   child: Container(
                     child: Container(
                       height: 48,
-                      width: 360,
+                      width: 180,
                       child: Center(
                         child: Text(
                           'Submit',
@@ -421,7 +418,6 @@ class _InfoChangeState extends State<InfoChange> {
                         'confirmed': false,
                         'completed': true,
                         'userid': currentUser.uid,
-                        'modifiedDate': DateTime.now(),
                       }, merge: true);
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
                     }

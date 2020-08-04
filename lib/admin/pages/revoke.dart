@@ -227,7 +227,7 @@ class _RevokeState extends State<Revoke> {
                                                                           );
                                                                         }
                                                                       });
-                                                                      if(gotError) {
+                                                                      if(!gotError) {
                                                                         Navigator.pop(context);
                                                                       }
                                                                     },
