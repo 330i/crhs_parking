@@ -444,7 +444,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   title: Text(
                     'I acknowledge that I have received and read the KISD & CRHS Parking Rules and Regulations information.',
                     style: TextStyle(
-                      fontSize: 15
+                      fontSize: 15,
                     ),
                   ),
                 ),

@@ -7,6 +7,9 @@ void main() {
   runApp(
       MaterialApp(
         home: DontDoIt(),
+        theme: ThemeData(
+          fontFamily: 'Roboto',
+        ),
         debugShowCheckedModeBanner: false,
       )
   );

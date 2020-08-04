@@ -337,6 +337,7 @@ class _SpotsState extends State<Spots> {
                                               currentSpotDoc.setData({
                                                 'spot': spotSearch[i],
                                                 'confirmed': false,
+                                                'userid': currentUser.uid,
                                               }, merge: true);
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(builder: (context) => Navigation()),
