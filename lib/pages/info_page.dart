@@ -162,7 +162,7 @@ class _InfoPageState extends State<InfoPage> {
                                     height: 50,
                                   ),
                                   Container(
-                                    height: 200,
+                                    height: 170,
                                     child: AspectRatio(
                                       aspectRatio: 1000/560,
                                       child: FlareActor(
@@ -242,7 +242,7 @@ class _InfoPageState extends State<InfoPage> {
                       if(!spotData.data['completed']) {
                         return Scaffold(
                           body: Container(
-                            child: Column(
+                            child: ListView(
                               children: [
                                 Container(
                                   height: 240,
