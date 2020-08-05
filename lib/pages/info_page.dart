@@ -324,11 +324,9 @@ class _InfoPageState extends State<InfoPage> {
                                           GestureDetector(
                                             child: Column(
                                               children: <Widget>[
+
                                                 Container(
-                                                  height: 20,
-                                                ),
-                                                Container(
-                                                  height: 200,
+                                                  height: 100,
                                                   child: AspectRatio(
                                                     aspectRatio: 1000/560,
                                                     child: FlareActor(

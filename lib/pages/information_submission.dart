@@ -530,6 +530,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                         zip.text!=''&&
                         phone.text!=''&&
                         model.text!=''&&
+                        phone.text.length==10&&
                         color.text!=''&&
                         year.text!=''&&
                         plate.text!=''&&
