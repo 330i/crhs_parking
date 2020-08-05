@@ -1,3 +1,4 @@
+import 'package:crhs_parking_app/login/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -131,6 +132,9 @@ class _AdminSigninState extends State<AdminSignin> {
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
+                    debugPrint("Process 1");
+                    adminAuthService.signOut();
+                    debugPrint("Process 2");
                     String key = keyController.text;
                     await adminAuthService.googleSignIn(key).catchError((onError) {
                       if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
@@ -146,13 +150,17 @@ class _AdminSigninState extends State<AdminSignin> {
                         );
                       }
                     });
+                    debugPrint("Process 3");
                     String email;
                     FirebaseAuth.instance.currentUser().then((currentUser) {
+                      debugPrint("Process 4");
                       if(currentUser!=null) {
                         email = currentUser.email;
                       }
-                      if(hasError!=null&&email!=null) {
-                        if((email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')&&!hasError&&FirebaseAuth.instance.currentUser()!=null){
+                      if(email!=null) {
+                        debugPrint("Process 5");
+                        if(FirebaseAuth.instance.currentUser()!=null){
+                          debugPrint("Process 6");
                           Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                         }
                         else {

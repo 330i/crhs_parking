@@ -6,7 +6,6 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/sanitizers.dart';
 
 bool _isAgreed = false;

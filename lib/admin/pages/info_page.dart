@@ -16,6 +16,11 @@ class _SpotInfoState extends State<SpotInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:AppBar(
+        backgroundColor: Colors.white,
+        shadowColor: Colors.white,
+        iconTheme:IconThemeData(color:Colors.black),
+      ),
       body: Container(
         child: Row(
           children: <Widget>[
@@ -28,7 +33,7 @@ class _SpotInfoState extends State<SpotInfo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    height: 50,
+                    height: 10,
                   ),
                   Text(
                     '${widget.reference.data['first']} ${widget.reference.data['last']}',
@@ -249,11 +254,16 @@ class _SpotInfoState extends State<SpotInfo> {
   Widget StudentInfo(String info) {
     return Column(
       children: <Widget>[
-        Text(
-          info,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w400
+        Container(
+          width: MediaQuery.of(context).size.width-20,
+          child: Text(
+            info,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w400
+            ),
           ),
         ),
         Container(
