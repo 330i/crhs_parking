@@ -543,8 +543,8 @@ class _InfoPageState extends State<InfoPage> {
                                             height: MediaQuery.of(context).size.height-296,
                                             child: Column(
                                               children: <Widget>[
-                                                Container(
-                                                  height: 160,
+                                                Spacer(
+                                                  flex: 1,
                                                 ),
                                                 Text(
                                                   'Due at Counselor\'s Office',
@@ -565,8 +565,9 @@ class _InfoPageState extends State<InfoPage> {
                                                     ),
                                                   ),
                                                 ),
-                                                Container(
-                                                  height: MediaQuery.of(context).size.height-616,
+                                                Spacer(
+                                                  flex:
+                                                  1,
                                                 ),
                                                 Text(
                                                   'Spot Information',

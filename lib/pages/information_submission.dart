@@ -151,7 +151,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: 150,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -253,7 +253,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: 150,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -310,14 +310,14 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: 150,
                       child: FlatButton(
                         child: Row(
                           children: [
                             Text(
                               _insuranceExpiration == null ? 'Insurance Exp.' : '${_insuranceExpiration.month}/${_insuranceExpiration.day}/${_insuranceExpiration.year}',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -357,7 +357,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     Container(
                       height: 48,
                       child: ToggleSwitch(
-                          minWidth: 85.0,
+                          minWidth: 75.0,
                           cornerRadius: 5,
                           activeBgColor: Colors.green,
                           //activeTextColor: Colors.white,
@@ -430,12 +430,12 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     plateSave = plate.text;
                     driverSave = driver.text;
 
-                    if (await canLaunch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf')&&read) {
+                    /*if (await canLaunch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf')&&read) {
                     await launch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf');
                     }
                     else {
 
-                    }
+                    }*/
                     setState(() {
                       _isRead = read;
                     });
@@ -580,7 +580,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                 child: Column(
                                                   children: <Widget>[
                                                     Container(
-                                                      height: 70,
+                                                      height: 40,
                                                     ),
                                                     AspectRatio(
                                                       aspectRatio: 1,
@@ -613,7 +613,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                       Text(
                                                         'Show your License and Insurance to your Counselor to Confirm your Parking Spot',
                                                         style: TextStyle(
-                                                          fontSize: 20,
+                                                          fontSize: 12,
                                                           fontWeight: FontWeight.w300,
                                                         ),
                                                       ),
@@ -725,7 +725,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -754,7 +754,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           maxLength: max,
           controller: controller,
@@ -785,7 +785,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -814,12 +814,12 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           maxLength: max,
           controller: controller,
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 12,
             color: Colors.black,
           ),
           keyboardType: type,

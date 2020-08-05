@@ -118,7 +118,7 @@ class _InfoChangeState extends State<InfoChange> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: 150,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -220,7 +220,7 @@ class _InfoChangeState extends State<InfoChange> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: 150,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -277,7 +277,7 @@ class _InfoChangeState extends State<InfoChange> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: 150,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -325,7 +325,7 @@ class _InfoChangeState extends State<InfoChange> {
                       height: 48,
                       child: ToggleSwitch(
                         initialLabelIndex: payCash ? 0 : 1,
-                        minWidth: 85.0,
+                        minWidth: 75.0,
                         cornerRadius: 5,
                         activeBgColor: Colors.green,
                         //activeTextColor: Colors.white,
@@ -452,7 +452,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -481,7 +481,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           maxLength: max,
           controller: controller,
@@ -512,7 +512,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -541,7 +541,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: 150,
         child: TextField(
           maxLength: max,
           controller: controller,
