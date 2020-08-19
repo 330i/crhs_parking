@@ -151,7 +151,7 @@ class _AdminSigninState extends State<AdminSignin> {
                       if(currentUser!=null) {
                         email = currentUser.email;
                       }
-                      if(hasError!=null&&email!=null) {
+                      if(email!=null) {
                         if((email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')&&!hasError&&FirebaseAuth.instance.currentUser()!=null){
                           Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                         }

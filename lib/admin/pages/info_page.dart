@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SpotInfo extends StatefulWidget {
   DocumentSnapshot reference;
@@ -16,6 +17,12 @@ class _SpotInfoState extends State<SpotInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+      ),
       body: Container(
         child: Row(
           children: <Widget>[
@@ -27,9 +34,6 @@ class _SpotInfoState extends State<SpotInfo> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    height: 50,
-                  ),
                   Text(
                     '${widget.reference.data['first']} ${widget.reference.data['last']}',
                     style: TextStyle(
@@ -249,11 +253,15 @@ class _SpotInfoState extends State<SpotInfo> {
   Widget StudentInfo(String info) {
     return Column(
       children: <Widget>[
-        Text(
-          info,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w400
+        Container(
+          width: MediaQuery.of(context).size.width-20,
+          child: Text(
+            info,
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400
+            ),
+            maxLines: 2,
           ),
         ),
         Container(

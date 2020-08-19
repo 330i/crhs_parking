@@ -179,7 +179,7 @@ class _InfoPageState extends State<InfoPage> {
                                   Row(
                                     children: <Widget>[
                                       Spacer(
-                                        flex: 11,
+                                        flex: 1,
                                       ),
                                       Container(
                                         height: 30,
@@ -194,7 +194,7 @@ class _InfoPageState extends State<InfoPage> {
                                         ),
                                       ),
                                       Spacer(
-                                        flex: 9,
+                                        flex: 1,
                                       ),
                                     ],
                                   ),
@@ -345,7 +345,7 @@ class _InfoPageState extends State<InfoPage> {
                                                 Row(
                                                   children: <Widget>[
                                                     Spacer(
-                                                      flex: 11,
+                                                      flex: 1,
                                                     ),
                                                     Container(
                                                       height: 30,
@@ -360,7 +360,7 @@ class _InfoPageState extends State<InfoPage> {
                                                       ),
                                                     ),
                                                     Spacer(
-                                                      flex: 10,
+                                                      flex: 1,
                                                     ),
                                                   ],
                                                 ),
@@ -543,20 +543,63 @@ class _InfoPageState extends State<InfoPage> {
                                             height: MediaQuery.of(context).size.height-296,
                                             child: Column(
                                               children: <Widget>[
-                                                Container(
-                                                  height: 160,
+                                                Spacer(
+                                                  flex: 1,
                                                 ),
-                                                Text(
-                                                  'Due at Counselor\'s Office',
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                (spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30+(7-(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays>0 ? Column(
+                                                  children: <Widget>[
+                                                    RichText(
+                                                      text: TextSpan(
+                                                          style: DefaultTextStyle.of(context).style,
+                                                          children: <TextSpan>[
+                                                            TextSpan(
+                                                              text: '${(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30+(7-(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays}',
+                                                              style: TextStyle(
+                                                                fontSize: MediaQuery.of(context).size.width/7,
+                                                                fontWeight: FontWeight.w500,
+                                                              ),
+                                                            ),
+                                                            TextSpan(
+                                                              text: ' Days',
+                                                              style: TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            ),
+                                                          ]
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Until Spot Deletion',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ) :
+                                                Column(
+                                                  children: <Widget>[
+                                                    Text(
+                                                      'Your Spot Will Be',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Deleted This Midnight',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 Container(
                                                   height: 20,
                                                 ),
-                                                Container(
+                                                (spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30+(7-(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays>0 ? Container(
                                                   width: 200,
                                                   child: Text(
                                                     'Show your valid License, Insurance, and your School ID to your Counselor to Confirm your Parking Spot',
@@ -564,9 +607,18 @@ class _InfoPageState extends State<InfoPage> {
                                                     style: TextStyle(
                                                     ),
                                                   ),
-                                                ),
+                                                ) :
                                                 Container(
-                                                  height: MediaQuery.of(context).size.height-616,
+                                                  width: 200,
+                                                  child: Text(
+                                                    'It\'s Sunday. Sooooooo...... um... Isn\'t the school closed today?',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                    ),
+                                                  ),
+                                                ),
+                                                Spacer(
+                                                  flex: 1,
                                                 ),
                                                 Text(
                                                   'Spot Information',

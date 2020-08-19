@@ -38,22 +38,20 @@ class InfoSubmit extends StatefulWidget {
 }
 
 class _InfoSubmitState extends State<InfoSubmit> {
+  TextEditingController first = new TextEditingController(text: firstSave);
+  TextEditingController last = new TextEditingController(text: lastSave);
+  TextEditingController grade = new TextEditingController(text: gradeSave);
+  TextEditingController id = new TextEditingController(text: idSave);
+  TextEditingController address = new TextEditingController(text: addressSave);
+  TextEditingController zip = new TextEditingController(text: zipSave);
+  TextEditingController phone = new TextEditingController(text: phoneSave);
+  TextEditingController model = new TextEditingController(text: modelSave);
+  TextEditingController color = new TextEditingController(text: colorSave);
+  TextEditingController year = new TextEditingController(text: yearSave);
+  TextEditingController plate = new TextEditingController(text: plateSave);
+  TextEditingController driver = new TextEditingController(text: driverSave);
   @override
   Widget build(BuildContext context) {
-
-    TextEditingController first = new TextEditingController(text: firstSave);
-    TextEditingController last = new TextEditingController(text: lastSave);
-    TextEditingController grade = new TextEditingController(text: gradeSave);
-    TextEditingController id = new TextEditingController(text: idSave);
-    TextEditingController address = new TextEditingController(text: addressSave);
-    TextEditingController zip = new TextEditingController(text: zipSave);
-    TextEditingController phone = new TextEditingController(text: phoneSave);
-    TextEditingController model = new TextEditingController(text: modelSave);
-    TextEditingController color = new TextEditingController(text: colorSave);
-    TextEditingController year = new TextEditingController(text: yearSave);
-    TextEditingController plate = new TextEditingController(text: plateSave);
-    TextEditingController driver = new TextEditingController(text: driverSave);
-
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Container(
@@ -151,7 +149,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: (MediaQuery.of(context).size.width-20)/2,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -253,7 +251,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: (MediaQuery.of(context).size.width-20)/2,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -310,7 +308,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: (MediaQuery.of(context).size.width-20)/2,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -355,16 +353,15 @@ class _InfoSubmitState extends State<InfoSubmit> {
                       ),
                     ),
                     Container(
-                      height: 48,
+                      height: 45,
                       child: ToggleSwitch(
-                          minWidth: 85.0,
+                          minWidth: (MediaQuery.of(context).size.width-20)/4,
                           cornerRadius: 5,
-                          activeBgColor: Colors.green,
-                          //activeTextColor: Colors.white,
+                          activeTextColor: Colors.white,
                           inactiveBgColor: Colors.grey,
-                          //inactiveTextColor: Colors.white,
+                          inactiveTextColor: Colors.white,
                           labels: ['Cash', 'Check'],
-                          //activeColors: [Colors.green, Colors.blue],
+                          activeColors: [Colors.green, Colors.blue],
                           onToggle: (index) {
                             if (index == 0) {
                               _payCash = true;
@@ -488,7 +485,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   child: Container(
                     child: Container(
                       height: 48,
-                      width: 360,
+                      width: (MediaQuery.of(context).size.width-10)/2,
                       child: Center(
                         child: Text(
                           'Submit',
@@ -529,7 +526,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                         id.text!=''&&
                         address.text!=''&&
                         zip.text!=''&&
-                        phone.text!=''&&
+                        phone.text.length==10&&
                         model.text!=''&&
                         color.text!=''&&
                         year.text!=''&&
@@ -725,7 +722,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -754,7 +751,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           maxLength: max,
           controller: controller,
@@ -775,7 +772,8 @@ class _InfoSubmitState extends State<InfoSubmit> {
             border: InputBorder.none,
 
           ),
-        ));
+        )
+    );
   }
 
   Widget FieldGenSmall (String hint, TextInputType type, TextEditingController controller) {
@@ -785,7 +783,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -814,7 +812,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           maxLength: max,
           controller: controller,

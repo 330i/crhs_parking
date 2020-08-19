@@ -163,7 +163,7 @@ class _SpotsState extends State<Spots> {
                     height: 5,
                   ),
                   Container(
-                    height: 200,
+                    height: MediaQuery.of(context).size.height/3,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
                       child: PhotoView.customChild(
@@ -184,9 +184,7 @@ class _SpotsState extends State<Spots> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            height: MediaQuery.of(context).size.height-280,
+          Expanded(
             child: Container(
               child: StreamBuilder(
                 stream: Firestore.instance.collection('spots').snapshots(),
@@ -212,7 +210,6 @@ class _SpotsState extends State<Spots> {
 
                     return Scaffold(
                       body: Container(
-                        height: MediaQuery.of(context).size.height-280,
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -272,8 +269,7 @@ class _SpotsState extends State<Spots> {
                             Container(
                               height: 10,
                             ),
-                            Container(
-                              height: MediaQuery.of(context).size.height-340,
+                            Expanded(
                               child: ListView(
                                 children: List.generate(spotSearch.length, (i) {
                                   bool isOccupied = false;

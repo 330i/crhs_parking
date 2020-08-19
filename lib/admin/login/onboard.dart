@@ -127,7 +127,21 @@ class _DontDoItState extends State<DontDoIt> {
                                   FadeAnimationUp(
                                     1.8,
                                     Text(
-                                      'I understand that my name and ID registered to the KatyISD Database is also stored on the Parking Database ',
+                                      'I understand that my name and ID registered to the KatyISD Database is also stored on the Parking Database.',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 20,
+                                  ),
+                                  FadeAnimationUp(
+                                    2.0,
+                                    Text(
+                                      'I understand that my reserved parking spot will be deleted on the next Sunday 30 days after the reservation of the parking spot.',
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,

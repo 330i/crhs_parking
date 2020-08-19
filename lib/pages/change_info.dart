@@ -118,7 +118,7 @@ class _InfoChangeState extends State<InfoChange> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: (MediaQuery.of(context).size.width-20)/2,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -220,7 +220,7 @@ class _InfoChangeState extends State<InfoChange> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: (MediaQuery.of(context).size.width-20)/2,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -277,7 +277,7 @@ class _InfoChangeState extends State<InfoChange> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
-                      width: 170,
+                      width: (MediaQuery.of(context).size.width-20)/2,
                       child: FlatButton(
                         child: Row(
                           children: [
@@ -325,14 +325,13 @@ class _InfoChangeState extends State<InfoChange> {
                       height: 48,
                       child: ToggleSwitch(
                         initialLabelIndex: payCash ? 0 : 1,
-                        minWidth: 85.0,
+                        minWidth: (MediaQuery.of(context).size.width-20)/4.0,
                         cornerRadius: 5,
-                        activeBgColor: Colors.green,
-                        //activeTextColor: Colors.white,
+                        activeTextColor: Colors.white,
                         inactiveBgColor: Colors.grey,
-                        //inactiveTextColor: Colors.white,
+                        inactiveTextColor: Colors.white,
                         labels: ['Cash', 'Check'],
-                        //activeColors: [Colors.green, Colors.blue],
+                        activeColors: [Colors.green, Colors.blue],
                         onToggle: (index) {
                           if (index == 0) {
                             payCash = true;
@@ -351,7 +350,7 @@ class _InfoChangeState extends State<InfoChange> {
                   child: Container(
                     child: Container(
                       height: 48,
-                      width: 180,
+                      width: (MediaQuery.of(context).size.width-10)/2,
                       child: Center(
                         child: Text(
                           'Submit',
@@ -452,7 +451,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -481,7 +480,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           maxLength: max,
           controller: controller,
@@ -512,7 +511,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -541,7 +540,7 @@ class _InfoChangeState extends State<InfoChange> {
             borderRadius: BorderRadius.all(Radius.circular(5))
 
         ),
-        width: 170,
+        width: (MediaQuery.of(context).size.width-20)/2,
         child: TextField(
           maxLength: max,
           controller: controller,
