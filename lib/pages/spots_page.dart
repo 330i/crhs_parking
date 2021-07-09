@@ -4,7 +4,6 @@ import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
 
 class Spots extends StatefulWidget {
   String position;
@@ -163,14 +162,10 @@ class _SpotsState extends State<Spots> {
                   height: MediaQuery.of(context).size.height/3,
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                    child: PhotoView.customChild(
-                      initialScale: 0.9,
+                    child: InteractiveViewer(
                       minScale: 0.9,
                       maxScale: 8.0,
                       child: Image.asset("assets/parking${widget.position}.png"),
-                      backgroundDecoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
                     ),
                   ),
                 ),
@@ -197,11 +192,11 @@ class _SpotsState extends State<Spots> {
                     );
                   }
                   else {
-                    List<DocumentSnapshot> snaps = snap.data as List<DocumentSnapshot>;
+                    QuerySnapshot snaps = snap.data as QuerySnapshot;
                     List<int> occupied = [];
-                    for(int i=0;i<snaps.length;i++) {
-                      if(snaps[i]['spot']>=min&&snaps[i]['spot']<=max){
-                        occupied.add(snaps[i]['spot']);
+                    for(int i=0;i<snaps.size;i++) {
+                      if(snaps.docs[i]['spot']>=min&&snaps.docs[i]['spot']<=max){
+                        occupied.add(snaps.docs[i]['spot']);
                       }
                     }
 

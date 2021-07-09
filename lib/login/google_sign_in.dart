@@ -141,22 +141,7 @@ class _SigninState extends State<Signin> {
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
-                    await doAuthStuff().catchError((onError) {
-                      print(onError.toString());
-                      if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Error'),
-                                content: Text('Cannot Sign in with Google'),
-                              );
-                            }
-                        );
-                      }
-                    });
-                    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+                    await doAuthStuff();
                     if(FirebaseAuth.instance.currentUser!.email!.endsWith('@students.katyisd.org')){
                       Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                     }
@@ -258,6 +243,17 @@ class _SigninState extends State<Signin> {
           Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
         });
       }
+    }).catchError((onError) {
+      showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Cannot Sign in with Google\nError: ${onError.toString()}'),
+            );
+          }
+      );
     });
   }
 }

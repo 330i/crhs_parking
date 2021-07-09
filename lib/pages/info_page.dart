@@ -487,7 +487,7 @@ class _InfoPageState extends State<InfoPage> {
                                                         TextSpan(
                                                           text: '${(spotData['submitDate'] as Timestamp).toDate().add(Duration(days: 30+(7-(spotData['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays}',
                                                           style: TextStyle(
-                                                            fontSize: MediaQuery.of(context).size.width/7,
+                                                            fontSize: 50,
                                                             fontWeight: FontWeight.w500,
                                                           ),
                                                         ),

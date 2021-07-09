@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/pages/navigation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,9 +10,9 @@ import 'package:validators/sanitizers.dart';
 bool _isAgreed = false;
 bool _isRead = false;
 bool _isGood = false;
-late DateTime _birth;
-late DateTime _licenseExpiration;
-late DateTime _insuranceExpiration;
+DateTime _birth = DateTime(1970);
+DateTime _licenseExpiration = DateTime(1970);
+DateTime _insuranceExpiration = DateTime(1970);
 bool _payCash = true;
 
 String firstSave = '';
@@ -149,11 +148,15 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      height: 47,
+                      child: TextButton(
                         child: Row(
                           children: [
+                            SizedBox(
+                              width: 12,
+                            ),
                             Text(
-                              _birth == null ? 'Date of Birth' : '${_birth.month}/${_birth.day}/${_birth.year}',
+                              _birth == DateTime(1970) ? 'Date of Birth' : '${_birth.month}/${_birth.day}/${_birth.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -181,7 +184,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
 
                           showDatePicker(
                             context: context,
-                            initialDate: _birth != null ? _birth : DateTime(DateTime.now().year),
+                            initialDate: _birth != DateTime(1970) ? _birth : DateTime(DateTime.now().year),
                             firstDate: DateTime(1970),
                             lastDate: DateTime(DateTime.now().year),
                           ).then((date) {
@@ -251,11 +254,15 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      height: 47,
+                      child: TextButton(
                         child: Row(
                           children: [
+                            SizedBox(
+                              width: 12,
+                            ),
                             Text(
-                              _licenseExpiration == null ? 'License Exp.' : '${_licenseExpiration.month}/${_licenseExpiration.day}/${_licenseExpiration.year}',
+                              _licenseExpiration == DateTime(1970) ? 'License Exp.' : '${_licenseExpiration.month}/${_licenseExpiration.day}/${_licenseExpiration.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -283,7 +290,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
 
                           showDatePicker(
                             context: context,
-                            initialDate: _licenseExpiration != null ? _licenseExpiration : DateTime(DateTime.now().year),
+                            initialDate: _licenseExpiration != DateTime(1970) ? _licenseExpiration : DateTime(DateTime.now().year),
                             firstDate: DateTime(DateTime.now().year),
                             lastDate: DateTime(2070),
                           ).then((licensedate) {
@@ -308,11 +315,15 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      height: 47,
+                      child: TextButton(
                         child: Row(
                           children: [
+                            SizedBox(
+                              width: 12,
+                            ),
                             Text(
-                              _insuranceExpiration == null ? 'Insurance Exp.' : '${_insuranceExpiration.month}/${_insuranceExpiration.day}/${_insuranceExpiration.year}',
+                              _insuranceExpiration == DateTime(1970) ? 'Insurance Exp.' : '${_insuranceExpiration.month}/${_insuranceExpiration.day}/${_insuranceExpiration.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -340,7 +351,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
 
                           showDatePicker(
                             context: context,
-                            initialDate: _insuranceExpiration != null ? _insuranceExpiration : DateTime(DateTime.now().year),
+                            initialDate: _insuranceExpiration != DateTime(1970) ? _insuranceExpiration : DateTime(DateTime.now().year),
                             firstDate: DateTime(DateTime.now().year),
                             lastDate: DateTime(2050),
                           ).then((insurancedate) {
@@ -495,30 +506,30 @@ class _InfoSubmitState extends State<InfoSubmit> {
                         ),
                       ),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.redAccent,
                       ),
                     ),
                   ),
                   onTap: () {
                     if(first!=null&&
-                       last!=null&&
-                       grade!=null&&
-                       id!=null&&
-                       address!=null&&
-                       zip!=null&&
-                       phone!=null&&
-                       _birth!=null&&
-                       model!=null&&
-                       color!=null&&
-                       year!=null&&
-                       plate!=null&&
-                       driver!=null&&
-                       _licenseExpiration!=null&&
-                       _insuranceExpiration!=null&&
-                       _isAgreed&&
-                       _isRead&&
-                       _isGood&&
+                        last!=null&&
+                        grade!=null&&
+                        id!=null&&
+                        address!=null&&
+                        zip!=null&&
+                        phone!=null&&
+                        _birth!=DateTime(1970)&&
+                        model!=null&&
+                        color!=null&&
+                        year!=null&&
+                        plate!=null&&
+                        driver!=null&&
+                        _licenseExpiration!=DateTime(1970)&&
+                        _insuranceExpiration!=DateTime(1970)&&
+                        _isAgreed&&
+                        _isRead&&
+                        _isGood&&
                         first.text!=''&&
                         last.text!=''&&
                         grade.text!=''&&
@@ -539,7 +550,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                               title: Text('Wait'),
                               content: Text('Please double check your information. Information regarding the reserved spot can be changed before the reserved spot is confirmed.'),
                               actions: [
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Double Check',
                                     style: TextStyle(
@@ -550,7 +561,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                     Navigator.pop(context);
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Continue',
                                     style: TextStyle(
@@ -611,7 +622,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                     Container(
                                                       height: 40,
                                                     ),
-                                                    FlatButton(
+                                                    TextButton(
                                                       child: Container(
                                                         width: MediaQuery.of(context).size.width-50,
                                                         height: 50,

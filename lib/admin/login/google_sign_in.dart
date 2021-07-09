@@ -217,18 +217,16 @@ class _AdminSigninState extends State<AdminSignin> {
                         Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                       });
                     }).catchError((onError) {
-                      if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Error'),
-                                content: Text('Cannot Sign in with Google'),
-                              );
-                            }
-                        );
-                      }
+                      showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Error'),
+                              content: Text('Cannot Sign in with Google'),
+                            );
+                          }
+                      );
                     });
                   },
                 ),

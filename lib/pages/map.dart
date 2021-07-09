@@ -26,6 +26,7 @@ class _MapState extends State<Map> {
                 Container(
                   child: Image.asset(
                     'assets/schoolparking.png',
+                    height: MediaQuery.of(context).size.height/3,
                   ),
                 ),
                 Container(
@@ -33,26 +34,9 @@ class _MapState extends State<Map> {
                 ),
               ],
             ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    Color.fromRGBO(236, 239, 241, 1),
-                    Color.fromRGBO(224, 242, 241, 1),
-                  ]
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-            ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height-90-((2094/4241)*MediaQuery.of(context).size.width),
+            height: 2*MediaQuery.of(context).size.height/3-90,
             child: ListView(
               children: [
                 Container(
