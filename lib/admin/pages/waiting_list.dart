@@ -1,5 +1,3 @@
-import 'package:crhs_parking_app/animations/FadeAnimationLeft.dart';
-import 'package:crhs_parking_app/animations/FadeAnimationStatic.dart';
 import 'package:crhs_parking_app/admin/pages/info_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +10,6 @@ class WaitingList extends StatefulWidget {
 
 class _WaitingListState extends State<WaitingList> {
 
-  List<int> spotSearch = new List<int>();
-
   TextEditingController searchController = new TextEditingController(text: '');
   String query = '';
 
@@ -22,7 +18,7 @@ class _WaitingListState extends State<WaitingList> {
     return Scaffold(
       body: Container(
         child: StreamBuilder(
-          stream: Firestore.instance.collection('spots').snapshots(),
+          stream: FirebaseFirestore.instance.collection('spots').snapshots(),
           builder: (context, snapshots) {
             if(!snapshots.hasData) {
               return Scaffold(
@@ -36,6 +32,7 @@ class _WaitingListState extends State<WaitingList> {
               );
             }
             else {
+              QuerySnapshot documents = (snapshots.data as QuerySnapshot);
               return Scaffold(
                 body: Container(
                   child: Column(
@@ -96,52 +93,46 @@ class _WaitingListState extends State<WaitingList> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: snapshots.data.documents.length,
+                          itemCount: documents.docs.length,
                           itemBuilder: (context, i) {
-                            if(snapshots.data.documents[i]['spot']!=0&&snapshots.data.documents[i]['completed']&&!snapshots.data.documents[i]['confirmed']&&snapshots.data.documents[i]['spot'].toString().contains(query)) {
+                            if(documents.docs[i]['spot']!=0&&documents.docs[i]['completed']&&!documents.docs[i]['confirmed']&&documents.docs[i]['spot'].toString().contains(query)) {
                               return Container(
                                 child: Column(
                                   children: <Widget>[
-                                    FadeAnimationLeft(
-                                      1+i*0.2,
-                                      FlatButton(
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                width: 10,
+                                    TextButton(
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${documents.docs[i]['first']} ${documents.docs[i]['last']}',
+                                              style: TextStyle(
+                                                fontSize: 23,
                                               ),
-                                              Text(
-                                                '${snapshots.data.documents[i]['first']} ${snapshots.data.documents[i]['last']}',
-                                                style: TextStyle(
-                                                  fontSize: 23,
-                                                ),
+                                            ),
+                                            Container(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${documents.docs[i]['spot']}',
+                                              style: TextStyle(
+                                                fontSize: 23,
                                               ),
-                                              Container(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                '${snapshots.data.documents[i]['spot']}',
-                                                style: TextStyle(
-                                                  fontSize: 23,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                        onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => SpotInfo(snapshots.data.documents[i])));
-                                        },
                                       ),
+                                      onPressed: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => SpotInfo(documents.docs[i])));
+                                      },
                                     ),
-                                    FadeAnimationStatic(
-                                      1+i*0.2+0.1,
-                                      Divider(
-                                        indent: 15,
-                                        endIndent: 15,
-                                        thickness: 3,
-                                      ),
+                                    Divider(
+                                      indent: 15,
+                                      endIndent: 15,
+                                      thickness: 3,
                                     ),
                                   ],
                                 ),

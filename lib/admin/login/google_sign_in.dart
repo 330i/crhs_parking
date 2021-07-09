@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/admin/pages/navigation.dart';
 import 'package:crhs_parking_app/login/google_sign_in.dart';
@@ -83,7 +83,7 @@ class _AdminSigninState extends State<AdminSignin> {
                     width: 20,
                   ),
                   Container(
-                    child: Text('KatyISD Account Required',
+                    child: Text('KatyISD Staff Account Required',
                       style: TextStyle(
                         fontSize: 24,
                         color: Colors.black87,
@@ -131,36 +131,33 @@ class _AdminSigninState extends State<AdminSignin> {
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
-                    String key = keyController.text;
-                    await adminAuthService.googleSignIn(key).catchError((onError) {
-                      if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Error'),
-                                content: Text('Cannot Sign in with Google'),
-                              );
-                            }
-                        );
+                    GoogleSignIn().signIn().then((value) async {
+                      final GoogleSignInAuthentication googleSignInAuthentication = await value!.authentication;
+                      final AuthCredential credential = GoogleAuthProvider.credential(
+                        accessToken: googleSignInAuthentication.accessToken,
+                        idToken: googleSignInAuthentication.idToken,
+                      );
+
+                      try {
+                        final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                      } on FirebaseAuthException catch (e) {
+                        print('error: cannot sign in');
                       }
-                    });
-                    String email;
-                    FirebaseAuth.instance.currentUser().then((currentUser) {
-                      if(currentUser!=null) {
-                        email = currentUser.email;
+
+                      late String email;
+                      if(FirebaseAuth.instance.currentUser!=null) {
+                        email = FirebaseAuth.instance.currentUser!.email!;
                       }
                       if(email!=null) {
-                        if((email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')&&!hasError&&FirebaseAuth.instance.currentUser()!=null){
+                        if((email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')&&FirebaseAuth.instance.currentUser!=null){
                           Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                         }
                         else {
-                          print(hasError);
                           if(!(email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')) {
                             print('invalid account');
                             FirebaseAuth.instance.signOut();
-                            adminAuthService.signOut();
+                            FirebaseAuth.instance.signOut();
+                            GoogleSignIn().signOut();
                             showDialog(
                                 context: context,
                                 barrierDismissible: true,
@@ -173,7 +170,8 @@ class _AdminSigninState extends State<AdminSignin> {
                             );
                           }
                           else {
-                            adminAuthService.signOut();
+                            FirebaseAuth.instance.signOut();
+                            GoogleSignIn().signOut();
                             showDialog(
                                 context: context,
                                 barrierDismissible: true,
@@ -187,8 +185,9 @@ class _AdminSigninState extends State<AdminSignin> {
                           }
                         }
                       }
-                      else if(currentUser==null) {
-                        adminAuthService.signOut();
+                      else if(FirebaseAuth.instance.currentUser==null) {
+                        FirebaseAuth.instance.signOut();
+                        GoogleSignIn().signOut();
                         showDialog(
                             context: context,
                             barrierDismissible: true,
@@ -196,6 +195,36 @@ class _AdminSigninState extends State<AdminSignin> {
                               return AlertDialog(
                                 title: Text('Stop'),
                                 content: Text('Unauthorized'),
+                              );
+                            }
+                        );
+                      }
+
+                      verifyAccount();
+
+                      await FirebaseFirestore.instance.collection('admin').doc(FirebaseAuth.instance.currentUser!.uid).update({
+                        'uid': FirebaseAuth.instance.currentUser!.uid,
+                        'email': FirebaseAuth.instance.currentUser!.email,
+                        'displayName': FirebaseAuth.instance.currentUser!.displayName,
+                        'signDate': DateTime.now(),
+                        'key': keyController.text,
+                        'emailProvider': FirebaseAuth.instance.currentUser!.email!.substring(FirebaseAuth.instance.currentUser!.email!.indexOf('@'))
+                      }).catchError((onError) {
+                        print('denied');
+                        FirebaseAuth.instance.signOut();
+                        GoogleSignIn().signOut();
+                      }).then((value) {
+                        Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
+                      });
+                    }).catchError((onError) {
+                      if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content: Text('Cannot Sign in with Google'),
                               );
                             }
                         );
@@ -211,29 +240,61 @@ class _AdminSigninState extends State<AdminSignin> {
       ),
     );
   }
-}
 
-class Users extends StatefulWidget {
-  @override
-  _UsersState createState() => _UsersState();
-}
-
-class _UsersState extends State<Users> {
-  Map<String,dynamic> _profile;
-  bool _loading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    adminAuthService.profile.listen((state) => setState(() => _profile = state));
-
-    adminAuthService.loading.listen((state) => setState(() => _loading = state));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(_profile.toString()),
-    );
+  verifyAccount() {
+    late String email;
+    if(FirebaseAuth.instance.currentUser!=null) {
+      email = FirebaseAuth.instance.currentUser!.email!;
+    }
+    if(email!=null) {
+      if((email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')&&FirebaseAuth.instance.currentUser!=null){
+        Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
+      }
+      else {
+        if(!(email.endsWith('@katyisd.org')||email=='k0910022@students.katyisd.org')) {
+          print('invalid account');
+          FirebaseAuth.instance.signOut();
+          GoogleSignIn().signOut();
+          showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Error'),
+                  content: Text('Use your KatyISD Google Account'),
+                );
+              }
+          );
+        }
+        else {
+          FirebaseAuth.instance.signOut();
+          GoogleSignIn().signOut();
+          showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Stop'),
+                  content: Text('Unauthorized'),
+                );
+              }
+          );
+        }
+      }
+    }
+    else if(FirebaseAuth.instance.currentUser==null) {
+      FirebaseAuth.instance.signOut();
+      GoogleSignIn().signOut();
+      showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Stop'),
+              content: Text('Unauthorized'),
+            );
+          }
+      );
+    }
   }
 }

@@ -1,16 +1,22 @@
 import 'package:crhs_parking_app/admin/login/onboard.dart';
-import 'package:crhs_parking_app/login/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:crhs_parking_app/login/google_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(
-      MaterialApp(
-        home: DontDoIt(),
-        theme: ThemeData(
-          fontFamily: 'Roboto',
-        ),
-        debugShowCheckedModeBanner: false,
-      )
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: DontDoIt(),
+      theme: ThemeData(
+        fontFamily: 'Roboto',
+      ),
+      debugShowCheckedModeBanner: false,
+    );
+  }
 }

@@ -1,4 +1,3 @@
-import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/spots_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,44 +14,41 @@ class _MapState extends State<Map> {
       backgroundColor: Color.fromRGBO(236, 239, 241, 1),
       body: Column(
         children: [
-          FadeAnimationUp(
-            1,
-            Container(
-              child: Column(
-                children: [
-                  Container(
-                    height: 50,
-                  ),
-                  Container(
-                    height: 5,
-                  ),
-                  Container(
-                    child: Image.asset(
-                      'assets/schoolparking.png',
-                    ),
-                  ),
-                  Container(
-                    height: 35,
-                  ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      Color.fromRGBO(236, 239, 241, 1),
-                      Color.fromRGBO(224, 242, 241, 1),
-                    ]
+          Container(
+            child: Column(
+              children: [
+                Container(
+                  height: 50,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                Container(
+                  height: 5,
+                ),
+                Container(
+                  child: Image.asset(
+                    'assets/schoolparking.png',
                   ),
-                ],
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+                ),
+                Container(
+                  height: 35,
+                ),
+              ],
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(236, 239, 241, 1),
+                    Color.fromRGBO(224, 242, 241, 1),
+                  ]
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
             ),
           ),
           Container(
@@ -64,30 +60,12 @@ class _MapState extends State<Map> {
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: [
-                      FadeAnimationUp(
-                        1.5,
-                        SpotButton('Back Lot', 'a')
-                      ),
-                      FadeAnimationUp(
-                        2,
-                        SpotButton('9th Grade Center', 'b')
-                      ),
-                      FadeAnimationUp(
-                        2.5,
-                        SpotButton('PAC Lot', 'c')
-                      ),
-                      FadeAnimationUp(
-                        3,
-                          SpotButton('1200 Lot', 'd')
-                      ),
-                      FadeAnimationUp(
-                        3.5,
-                        SpotButton('1600 Lot', 'e')
-                      ),
-                      FadeAnimationUp(
-                        4,
-                        SpotButton('Athletic Lot', 'f')
-                      ),
+                      SpotButton('Back Lot', 'a'),
+                      SpotButton('9th Grade Center', 'b'),
+                      SpotButton('PAC Lot', 'c'),
+                      SpotButton('1200 Lot', 'd'),
+                      SpotButton('1600 Lot', 'e'),
+                      SpotButton('Athletic Lot', 'f'),
                     ],
                   ),
                 ),

@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ConfirmPage(),
-    );
-  }
-}
-
 class ConfirmPage extends StatefulWidget {
-  ConfirmPage({Key key}) : super(key: key);
-
+  ConfirmPage();
   @override
   _ConfirmPageState createState() => _ConfirmPageState();
 }

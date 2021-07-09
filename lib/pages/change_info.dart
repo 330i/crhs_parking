@@ -156,7 +156,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(DateTime.now().year),
                           ).then((date) {
                             setState(() {
-                              birth = date;
+                              birth = date!;
                             });
                           });
                         },
@@ -258,7 +258,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(2070),
                           ).then((licensedate) {
                             setState(() {
-                              licenseExpiration = licensedate;
+                              licenseExpiration = licensedate!;
                             });
                           });
                         },
@@ -315,7 +315,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(2050),
                           ).then((insurancedate) {
                             setState(() {
-                              insuranceExpiration = insurancedate;
+                              insuranceExpiration = insurancedate!;
                             });
                           });
                         },
@@ -324,23 +324,23 @@ class _InfoChangeState extends State<InfoChange> {
                     Container(
                       height: 48,
                       child: ToggleSwitch(
-                        initialLabelIndex: payCash ? 0 : 1,
-                        minWidth: (MediaQuery.of(context).size.width-20)/4.0,
-                        cornerRadius: 5,
-                        activeTextColor: Colors.white,
-                        inactiveBgColor: Colors.grey,
-                        inactiveTextColor: Colors.white,
-                        labels: ['Cash', 'Check'],
-                        activeColors: [Colors.green, Colors.blue],
-                        onToggle: (index) {
-                          if (index == 0) {
-                            payCash = true;
+                          initialLabelIndex: payCash ? 0 : 1,
+                          minWidth: (MediaQuery.of(context).size.width-20)/4.0,
+                          cornerRadius: 5,
+                          activeFgColor: Colors.white,
+                          inactiveBgColor: Colors.grey,
+                          inactiveFgColor: Colors.white,
+                          labels: ['Cash', 'Check'],
+                          activeBgColors: [Colors.green, Colors.blue],
+                          onToggle: (index) {
+                            if (index == 0) {
+                              payCash = true;
+                            }
+                            else {
+                              payCash = false;
+                            }
+                            print('Cash is ' + payCash.toString());
                           }
-                          else {
-                            payCash = false;
-                          }
-                          print('Cash is ' + payCash.toString());
-                        }
                       ),
                     )
                   ],
@@ -394,10 +394,9 @@ class _InfoChangeState extends State<InfoChange> {
                         year.text!=''&&
                         plate.text!=''&&
                         driver.text!='') {
-                      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                      DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(currentUser.uid).get();
-                      DocumentReference reference = Firestore.instance.collection('spots').document(userDoc.data['spotuid']);
-                      await reference.setData({
+                      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+                      DocumentReference reference = FirebaseFirestore.instance.collection('spots').doc(userDoc['spotuid']);
+                      await reference.update({
                         'first': first.text.substring(0, 1).toUpperCase()+first.text.substring(1),
                         'last': last.text.substring(0, 1).toUpperCase()+last.text.substring(1),
                         'grade': toInt(grade.text),
@@ -416,8 +415,8 @@ class _InfoChangeState extends State<InfoChange> {
                         'isCash': payCash,
                         'confirmed': false,
                         'completed': true,
-                        'userid': currentUser.uid,
-                      }, merge: true);
+                        'userid': FirebaseAuth.instance.currentUser!.uid,
+                      });
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
                     }
                     else {

@@ -35,7 +35,7 @@ class _SpotInfoState extends State<SpotInfo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    '${widget.reference.data['first']} ${widget.reference.data['last']}',
+                    '${widget.reference['first']} ${widget.reference['last']}',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*60,
@@ -43,7 +43,7 @@ class _SpotInfoState extends State<SpotInfo> {
                     ),
                   ),
                   Text(
-                    'Spot ${widget.reference.data['spot']}',
+                    'Spot ${widget.reference['spot']}',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*40,
@@ -61,9 +61,9 @@ class _SpotInfoState extends State<SpotInfo> {
                         ),
                       ),
                       Text(
-                        '${widget.reference.data['isCash'] ? 'Cash' : 'Check'}',
+                        '${widget.reference['isCash'] ? 'Cash' : 'Check'}',
                         style: TextStyle(
-                          color: widget.reference.data['isCash'] ? Colors.green : Colors.blue,
+                          color: widget.reference['isCash'] ? Colors.green : Colors.blue,
                           fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*30,
                           fontWeight: FontWeight.w400,
                         ),
@@ -109,12 +109,12 @@ class _SpotInfoState extends State<SpotInfo> {
                                         Container(
                                           height: (10*log(MediaQuery.of(context).size.width+5)-7)/64*10,
                                         ),
-                                        StudentInfo('Student ID: ${widget.reference.data['schoolID']}'),
-                                        StudentInfo('Grade: ${widget.reference.data['grade']}'),
-                                        StudentInfo('Birth Date: ${widget.reference.data['birth'].toDate().month}/${widget.reference.data['birth'].toDate().day}/${widget.reference.data['birth'].toDate().year}'),
-                                        StudentInfo('Address: ${widget.reference.data['address']}'),
-                                        StudentInfo('Zip Code: ${widget.reference.data['zipCode']}'),
-                                        StudentInfo('Phone Number: (${widget.reference.data['phone'].substring(0,3)}) ${widget.reference.data['phone'].substring(3,6)}-${widget.reference.data['phone'].substring(6)}'),
+                                        StudentInfo('Student ID: ${widget.reference['schoolID']}'),
+                                        StudentInfo('Grade: ${widget.reference['grade']}'),
+                                        StudentInfo('Birth Date: ${widget.reference['birth'].toDate().month}/${widget.reference['birth'].toDate().day}/${widget.reference['birth'].toDate().year}'),
+                                        StudentInfo('Address: ${widget.reference['address']}'),
+                                        StudentInfo('Zip Code: ${widget.reference['zipCode']}'),
+                                        StudentInfo('Phone Number: (${widget.reference['phone'].substring(0,3)}) ${widget.reference['phone'].substring(3,6)}-${widget.reference['phone'].substring(6)}'),
                                       ],
                                     ),
                                     Spacer(
@@ -162,13 +162,13 @@ class _SpotInfoState extends State<SpotInfo> {
                                         Container(
                                           height: (10*log(MediaQuery.of(context).size.width+5)-7)/64*10,
                                         ),
-                                        StudentInfo('Make/Model: ${widget.reference.data['model']}'),
-                                        StudentInfo('Color: ${widget.reference.data['color']}'),
-                                        StudentInfo('Year: ${widget.reference.data['year']}'),
-                                        StudentInfo('License Plate Number: ${widget.reference.data['licensePlate']}'),
-                                        StudentInfo('Driver\'s License Number: ${widget.reference.data['driverLicenseNumber']}'),
-                                        StudentInfo('Driver\'s License Expiration: ${widget.reference.data['licenseExpiration'].toDate().month}/${widget.reference.data['licenseExpiration'].toDate().day}/${widget.reference.data['licenseExpiration'].toDate().year}'),
-                                        StudentInfo('Insurance Expiration: ${widget.reference.data['insuranceExpiration'].toDate().month}/${widget.reference.data['insuranceExpiration'].toDate().day}/${widget.reference.data['insuranceExpiration'].toDate().year}'),
+                                        StudentInfo('Make/Model: ${widget.reference['model']}'),
+                                        StudentInfo('Color: ${widget.reference['color']}'),
+                                        StudentInfo('Year: ${widget.reference['year']}'),
+                                        StudentInfo('License Plate Number: ${widget.reference['licensePlate']}'),
+                                        StudentInfo('Driver\'s License Number: ${widget.reference['driverLicenseNumber']}'),
+                                        StudentInfo('Driver\'s License Expiration: ${widget.reference['licenseExpiration'].toDate().month}/${widget.reference['licenseExpiration'].toDate().day}/${widget.reference['licenseExpiration'].toDate().year}'),
+                                        StudentInfo('Insurance Expiration: ${widget.reference['insuranceExpiration'].toDate().month}/${widget.reference['insuranceExpiration'].toDate().day}/${widget.reference['insuranceExpiration'].toDate().year}'),
                                       ],
                                     ),
                                     Spacer(
@@ -212,15 +212,14 @@ class _SpotInfoState extends State<SpotInfo> {
                               ),
                             ),
                             onTap: () async {
-                              Firestore.instance.collection('spots').document(widget.reference.documentID).setData({
+                              FirebaseFirestore.instance.collection('spots').doc(widget.reference.id).update({
                                 'confirmed': true,
-                              }, merge: true);
-                              FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                              Firestore.instance.collection('admin').document(currentUser.uid).collection('history').document('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').setData({
+                              });
+                              FirebaseFirestore.instance.collection('admin').doc(FirebaseAuth.instance.currentUser!.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').update({
                                 'time': DateTime.now(),
-                                'documentID': widget.reference.documentID,
+                                'documentID': widget.reference.id,
                                 'action': 'confirm',
-                              }, merge: true);
+                              });
                               showDialog(
                                   context: context,
                                   builder: (context) {

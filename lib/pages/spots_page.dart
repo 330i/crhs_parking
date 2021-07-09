@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/information_submission.dart';
 import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,13 +15,13 @@ class Spots extends StatefulWidget {
 
 class _SpotsState extends State<Spots> {
 
-  List<int> spotSearch = new List<int>();
+  List<int> spotSearch = [];
 
   TextEditingController searchController = new TextEditingController(text: '');
   String query = '';
 
   Search(List<int> spots) {
-    spotSearch = new List<int>();
+    spotSearch = [];
     print(spotSearch);
     int i=0;
     print(spots.length);
@@ -56,9 +55,9 @@ class _SpotsState extends State<Spots> {
 
   @override
   Widget build(BuildContext context) {
-    List<int> spots = new List<int>();
-    int min;
-    int max;
+    List<int> spots = [];
+    late int min;
+    late int max;
 
     if(widget.position=='a'){
       //Back Lot
@@ -141,53 +140,50 @@ class _SpotsState extends State<Spots> {
           Container(
             height: 25,
           ),
-          FadeAnimationUp(
-            1,
-            Container(
-              child: Column(
-                children: [
-                  Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: Text(
-                          'Lot Selection',
-                          style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w800,
-                          ),
+          Container(
+            child: Column(
+              children: [
+                Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: Text(
+                        'Lot Selection',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w800,
                         ),
-                      )
-                  ),
-                  Container(
-                    height: 5,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height/3,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                      child: PhotoView.customChild(
-                        initialScale: 0.9,
-                        minScale: 0.9,
-                        maxScale: 8.0,
-                        child: Image.asset("assets/parking${widget.position}.png"),
-                        backgroundDecoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
+                      ),
+                    )
+                ),
+                Container(
+                  height: 5,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height/3,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+                    child: PhotoView.customChild(
+                      initialScale: 0.9,
+                      minScale: 0.9,
+                      maxScale: 8.0,
+                      child: Image.asset("assets/parking${widget.position}.png"),
+                      backgroundDecoration: BoxDecoration(
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
+                ),
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
           ),
           Expanded(
             child: Container(
               child: StreamBuilder(
-                stream: Firestore.instance.collection('spots').snapshots(),
+                stream: FirebaseFirestore.instance.collection('spots').snapshots(),
                 builder: (context, snap) {
                   if(!snap.hasData) {
                     return Scaffold(
@@ -201,10 +197,11 @@ class _SpotsState extends State<Spots> {
                     );
                   }
                   else {
-                    List<int> occupied = new List<int>();
-                    for(int i=0;i<snap.data.documents.length;i++) {
-                      if(snap.data.documents[i]['spot']>=min&&snap.data.documents[i]['spot']<=max){
-                        occupied.add(snap.data.documents[i]['spot']);
+                    List<DocumentSnapshot> snaps = snap.data as List<DocumentSnapshot>;
+                    List<int> occupied = [];
+                    for(int i=0;i<snaps.length;i++) {
+                      if(snaps[i]['spot']>=min&&snaps[i]['spot']<=max){
+                        occupied.add(snaps[i]['spot']);
                       }
                     }
 
@@ -326,31 +323,31 @@ class _SpotsState extends State<Spots> {
                                         ),
                                         onTap: () async {
                                           if(!isOccupied) {
-                                            FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                            DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(currentUser.uid).get();
-                                            if(userDoc.data['spotuid']!='none') {
-                                              DocumentReference currentSpotDoc = await Firestore.instance.collection('spots').document(userDoc.data['spotuid']);
-                                              currentSpotDoc.setData({
+                                            User currentUser = FirebaseAuth.instance.currentUser!;
+                                            DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+                                            if(userDoc['spotuid']!='none') {
+                                              DocumentReference currentSpotDoc = await FirebaseFirestore.instance.collection('spots').doc(userDoc['spotuid']);
+                                              currentSpotDoc.update({
                                                 'spot': spotSearch[i],
                                                 'confirmed': false,
                                                 'userid': currentUser.uid,
-                                              }, merge: true);
+                                              });
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(builder: (context) => Navigation()),
                                               );
                                             }
                                             else {
-                                              DocumentReference spotDoc = await Firestore.instance.collection('spots').document();
-                                              spotDoc.setData({
+                                              DocumentReference spotDoc = FirebaseFirestore.instance.collection('spots').doc();
+                                              spotDoc.update({
                                                 'spot': spotSearch[i],
                                                 'completed': false,
                                                 'confirmed': false,
                                                 'userid': currentUser.uid,
                                                 'submitDate': DateTime.now(),
-                                              }, merge: true);
-                                              await Firestore.instance.collection('users').document(currentUser.uid).setData({
-                                                'spotuid': spotDoc.documentID,
-                                              }, merge: true);
+                                              });
+                                              await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).update({
+                                                'spotuid': spotDoc.id,
+                                              });
                                               Navigator.of(context).push(
                                                 CupertinoPageRoute(builder: (context) => InfoSubmit(spotDoc)),
                                               );

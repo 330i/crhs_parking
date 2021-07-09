@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:video_player/video_player.dart';
-import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/admin/login/google_sign_in.dart';
 
@@ -17,16 +15,16 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
 
-  VideoPlayerController videoPlayerController;
-  Future<void> _initializeVideoPlayerFuture;
+  VideoPlayerController videoPlayerController = VideoPlayerController.asset('assets/above.mp4');
 
   @override
   void initState() {
-    setState(() {
-      videoPlayerController = VideoPlayerController.asset('assets/above.mp4');
-    });
-    _initializeVideoPlayerFuture = videoPlayerController.initialize();
     super.initState();
+    videoPlayerController = VideoPlayerController.asset('assets/above.mp4')..initialize().then((_) {
+      setState(() {
+        videoPlayerController.play();
+      });
+    });
   }
 
   @override
@@ -37,10 +35,9 @@ class _SigninState extends State<Signin> {
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height,
-            child: FutureBuilder(
-              future: _initializeVideoPlayerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
+            child: Builder(
+              builder: (context) {
+                if (videoPlayerController.value.isInitialized) {
                   videoPlayerController.play();
                   videoPlayerController.setLooping(true);
                   return Container(
@@ -144,7 +141,7 @@ class _SigninState extends State<Signin> {
                   padding: EdgeInsets.all(0),
                   child: Image.asset('assets/google_signin.png'),
                   onPressed: () async {
-                    await authService.googleSignIn().catchError((onError) {
+                    await doAuthStuff().catchError((onError) {
                       print(onError.toString());
                       if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
                         showDialog(
@@ -159,20 +156,14 @@ class _SigninState extends State<Signin> {
                         );
                       }
                     });
-                    String uid;
-                    String email;
-                    await FirebaseAuth.instance.currentUser().then((currentUser) {
-                      uid = currentUser.uid;
-                      email = currentUser.email;
-                    });
-                    DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(uid).get();
-                    if(email.endsWith('@students.katyisd.org')){
+                    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+                    if(FirebaseAuth.instance.currentUser!.email!.endsWith('@students.katyisd.org')){
                       Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
                     }
                     else {
                       print('invalid account');
                       FirebaseAuth.instance.signOut();
-                      authService.signOut();
+                      GoogleSignIn().signOut();
                       showDialog(
                           context: context,
                           barrierDismissible: true,
@@ -232,29 +223,41 @@ class _SigninState extends State<Signin> {
       ),
     );
   }
-}
 
-class Users extends StatefulWidget {
-  @override
-  _UsersState createState() => _UsersState();
-}
-
-class _UsersState extends State<Users> {
-  Map<String,dynamic> _profile;
-  bool _loading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    authService.profile.listen((state) => setState(() => _profile = state));
-    
-    authService.loading.listen((state) => setState(() => _loading = state));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(_profile.toString()),
-    );
+  Future doAuthStuff() async {
+    GoogleSignIn().signIn().then((value) async {
+      final GoogleSignInAuthentication googleSignInAuthentication = await value!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      try {
+        final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      } on FirebaseAuthException catch (e) {
+        print('error: cannot sign in');
+      }
+      DocumentSnapshot snap = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+      if(snap.data()!=null){
+        FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
+          'uid': FirebaseAuth.instance.currentUser!.uid,
+          'email': FirebaseAuth.instance.currentUser!.email,
+          'displayName': FirebaseAuth.instance.currentUser!.displayName,
+          'url': FirebaseAuth.instance.currentUser!.photoURL,
+        }).then((value) {
+          Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
+        });
+      }
+      else{
+        FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
+          'uid': FirebaseAuth.instance.currentUser!.uid,
+          'email': FirebaseAuth.instance.currentUser!.email,
+          'displayName': FirebaseAuth.instance.currentUser!.displayName,
+          'spotuid': 'none',
+          'url': FirebaseAuth.instance.currentUser!.photoURL,
+        }).then((value) {
+          Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
+        });
+      }
+    });
   }
 }

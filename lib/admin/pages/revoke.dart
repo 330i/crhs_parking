@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crhs_parking_app/animations/FadeAnimationLeft.dart';
-import 'package:crhs_parking_app/animations/FadeAnimationStatic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +23,7 @@ class _RevokeState extends State<Revoke> {
     return Scaffold(
       body: Container(
         child: StreamBuilder(
-          stream: Firestore.instance.collection('spots').snapshots(),
+          stream: FirebaseFirestore.instance.collection('spots').snapshots(),
           builder: (context, snapshots) {
             if(!snapshots.hasData) {
               return Scaffold(
@@ -39,6 +37,7 @@ class _RevokeState extends State<Revoke> {
               );
             }
             else {
+              QuerySnapshot documents = (snapshots.data as QuerySnapshot);
               return Scaffold(
                 body: Container(
                   child: Column(
@@ -98,110 +97,107 @@ class _RevokeState extends State<Revoke> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: snapshots.data.documents.length,
+                          itemCount: documents.docs.length,
                           itemBuilder: (context, i) {
-                            if(snapshots.data.documents[i]['spot']!=0&&snapshots.data.documents[i]['completed']&&snapshots.data.documents[i]['confirmed']&&'${snapshots.data.documents[i]['first'].toLowerCase()} ${snapshots.data.documents[i]['last'].toLowerCase()}'.contains(query.toLowerCase())) {
+                            if(documents.docs[i]['spot']!=0&&documents.docs[i]['completed']&&documents.docs[i]['confirmed']&&'${documents.docs[i]['first'].toLowerCase()} ${documents.docs[i]['last'].toLowerCase()}'.contains(query.toLowerCase())) {
                               return Container(
                                 child: Column(
                                   children: <Widget>[
-                                    FadeAnimationLeft(
-                                      1+i*0.2,
-                                      Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Container(
-                                              width: MediaQuery.of(context).size.width,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    width: 20,
+                                    Container(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 20,
+                                                ),
+                                                Text(
+                                                  '${documents.docs[i]['first']} ${documents.docs[i]['last']}',
+                                                  style: TextStyle(
+                                                    fontSize: 26,
                                                   ),
-                                                  Text(
-                                                    '${snapshots.data.documents[i]['first']} ${snapshots.data.documents[i]['last']}',
-                                                    style: TextStyle(
-                                                      fontSize: 26,
-                                                    ),
+                                                ),
+                                                Spacer(
+                                                  flex: 1,
+                                                ),
+                                                Text(
+                                                  '${documents.docs[i]['spot']}',
+                                                  style: TextStyle(
+                                                    fontSize: 26,
                                                   ),
-                                                  Spacer(
-                                                    flex: 1,
-                                                  ),
-                                                  Text(
-                                                    '${snapshots.data.documents[i]['spot']}',
-                                                    style: TextStyle(
-                                                      fontSize: 26,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: 20,
-                                                  )
-                                                ],
-                                              ),
+                                                ),
+                                                Container(
+                                                  width: 20,
+                                                )
+                                              ],
                                             ),
-                                            Container(
-                                              height: 10,
-                                            ),
-                                            Container(
-                                              height: 48,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Spacer(
-                                                    flex: 1,
-                                                  ),
-                                                  Container(
-                                                    width: (MediaQuery.of(context).size.width-50)/2,
-                                                    child: InkWell(
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(10),
-                                                        child: Center(
-                                                          child: Text(
-                                                            'Revoke',
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 18,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
+                                          ),
+                                          Container(
+                                            height: 10,
+                                          ),
+                                          Container(
+                                            height: 48,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Spacer(
+                                                  flex: 1,
+                                                ),
+                                                Container(
+                                                  width: (MediaQuery.of(context).size.width-50)/2,
+                                                  child: InkWell(
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(10),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Revoke',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.bold,
                                                           ),
                                                         ),
                                                       ),
-                                                      onTap: () {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return AlertDialog(
-                                                                title: Row(
-                                                                  children: <Widget>[
-                                                                    Icon(
-                                                                      Icons.warning,
+                                                    ),
+                                                    onTap: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              title: Row(
+                                                                children: <Widget>[
+                                                                  Icon(
+                                                                    Icons.warning,
+                                                                    color: Colors.red,
+                                                                  ),
+                                                                  Text(
+                                                                    ' Alert',
+                                                                    style: TextStyle(
                                                                       color: Colors.red,
                                                                     ),
-                                                                    Text(
-                                                                      ' Alert',
-                                                                      style: TextStyle(
-                                                                        color: Colors.red,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                content: Text('Are You Sure You Want to Revoke This Person From the Database'),
-                                                                actions: <Widget>[
-                                                                  FlatButton(
-                                                                    child: Text('No'),
-                                                                    onPressed: () {
-                                                                      Navigator.pop(context);
-                                                                    },
                                                                   ),
-                                                                  FlatButton(
-                                                                    child: Text('Yes'),
-                                                                    onPressed: () async {
-                                                                      bool gotError = false;
-                                                                      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                                                      Firestore.instance.collection('admin').document(currentUser.uid).collection('history').document('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').setData({
-                                                                        'time': DateTime.now(),
-                                                                        'documentID': snapshots.data.documents[i].documentID,
-                                                                        'action': 'revoke',
-                                                                      }, merge: true).catchError((onError) {
-                                                                        gotError = true;
-                                                                        showDialog(
+                                                                ],
+                                                              ),
+                                                              content: Text('Are You Sure You Want to Revoke This Person From the Database'),
+                                                              actions: <Widget>[
+                                                                FlatButton(
+                                                                  child: Text('No'),
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                ),
+                                                                FlatButton(
+                                                                  child: Text('Yes'),
+                                                                  onPressed: () async {
+                                                                    bool gotError = false;
+                                                                    FirebaseFirestore.instance.collection('admin').doc(FirebaseAuth.instance.currentUser!.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').update({
+                                                                      'time': DateTime.now(),
+                                                                      'documentID': documents.docs[i].id,
+                                                                      'action': 'revoke',
+                                                                    }).catchError((onError) {
+                                                                      gotError = true;
+                                                                      showDialog(
                                                                           context: context,
                                                                           builder: (context) {
                                                                             return AlertDialog(
@@ -209,96 +205,12 @@ class _RevokeState extends State<Revoke> {
                                                                               content: Text('Access Denied'),
                                                                             );
                                                                           }
-                                                                        );
-                                                                      });
-                                                                      Firestore.instance.collection('spots').document(snapshots.data.documents[i].documentID).setData({
-                                                                        'confirmed': false,
-                                                                      }, merge: true).catchError((onError) {
-                                                                        if(!gotError) {
-                                                                          gotError = true;
-                                                                          showDialog(
-                                                                              context: context,
-                                                                              builder: (context) {
-                                                                                return AlertDialog(
-                                                                                  title: Text('Error'),
-                                                                                  content: Text('Access Denied'),
-                                                                                );
-                                                                              }
-                                                                          );
-                                                                        }
-                                                                      });
+                                                                      );
+                                                                    });
+                                                                    FirebaseFirestore.instance.collection('spots').doc(documents.docs[i].id).update({
+                                                                      'confirmed': false,
+                                                                    }).catchError((onError) {
                                                                       if(!gotError) {
-                                                                        Navigator.pop(context);
-                                                                      }
-                                                                    },
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            }
-                                                        );
-                                                      },
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromRGBO(255, 183, 77, 1),
-                                                    ),
-                                                  ),
-                                                  Spacer(
-                                                    flex: 1,
-                                                  ),
-                                                  Container(
-                                                    width: (MediaQuery.of(context).size.width-50)/2,
-                                                    child: InkWell(
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(10),
-                                                        child: Center(
-                                                          child: Text(
-                                                            'Delete',
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 18,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onTap: () {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return AlertDialog(
-                                                                title: Row(
-                                                                  children: <Widget>[
-                                                                    Icon(
-                                                                      Icons.warning,
-                                                                      color: Colors.red,
-                                                                    ),
-                                                                    Text(
-                                                                      ' Alert',
-                                                                      style: TextStyle(
-                                                                        color: Colors.red,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                content: Text('Are You Sure You Want to Delete This Person\'s Spot From the Database'),
-                                                                actions: <Widget>[
-                                                                  FlatButton(
-                                                                    child: Text('No'),
-                                                                    onPressed: () {
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                  ),
-                                                                  FlatButton(
-                                                                    child: Text('Yes'),
-                                                                    onPressed: () async {
-                                                                      bool gotError = false;
-                                                                      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                                                      Firestore.instance.collection('admin').document(currentUser.uid).collection('history').document('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').setData({
-                                                                        'time': DateTime.now(),
-                                                                        'documentID': snapshots.data.documents[i].documentID,
-                                                                        'action': 'delete',
-                                                                      }, merge: true).catchError((onError) {
                                                                         gotError = true;
                                                                         showDialog(
                                                                             context: context,
@@ -309,70 +221,149 @@ class _RevokeState extends State<Revoke> {
                                                                               );
                                                                             }
                                                                         );
-                                                                      });
-                                                                      Firestore.instance.collection('spots').document(snapshots.data.documents[i].documentID).delete().catchError((onError) {
-                                                                        if(!gotError) {
-                                                                          gotError = true;
-                                                                          showDialog(
-                                                                              context: context,
-                                                                              builder: (context) {
-                                                                                return AlertDialog(
-                                                                                  title: Text('Error'),
-                                                                                  content: Text('Access Denied'),
-                                                                                );
-                                                                              }
-                                                                          );
-                                                                        }
-                                                                      });
-                                                                      Firestore.instance.collection('users').document(snapshots.data.documents[i]['userid']).setData({
-                                                                        'spotuid': 'none',
-                                                                      },merge: true).catchError((onError) {
-                                                                        if(!gotError) {
-                                                                          gotError = true;
-                                                                          showDialog(
-                                                                              context: context,
-                                                                              builder: (context) {
-                                                                                return AlertDialog(
-                                                                                  title: Text('Error'),
-                                                                                  content: Text('Access Denied'),
-                                                                                );
-                                                                              }
-                                                                          );
-                                                                        }
-                                                                      });
-                                                                      if(!gotError) {
-                                                                        Navigator.pop(context);
                                                                       }
-                                                                    },
+                                                                    });
+                                                                    if(!gotError) {
+                                                                      Navigator.pop(context);
+                                                                    }
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            );
+                                                          }
+                                                      );
+                                                    },
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: Color.fromRGBO(255, 183, 77, 1),
+                                                  ),
+                                                ),
+                                                Spacer(
+                                                  flex: 1,
+                                                ),
+                                                Container(
+                                                  width: (MediaQuery.of(context).size.width-50)/2,
+                                                  child: InkWell(
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(10),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Delete',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              title: Row(
+                                                                children: <Widget>[
+                                                                  Icon(
+                                                                    Icons.warning,
+                                                                    color: Colors.red,
+                                                                  ),
+                                                                  Text(
+                                                                    ' Alert',
+                                                                    style: TextStyle(
+                                                                      color: Colors.red,
+                                                                    ),
                                                                   ),
                                                                 ],
-                                                              );
-                                                            }
-                                                        );
-                                                      },
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromRGBO(255, 23, 68, 1),
-                                                    ),
+                                                              ),
+                                                              content: Text('Are You Sure You Want to Delete This Person\'s Spot From the Database'),
+                                                              actions: <Widget>[
+                                                                FlatButton(
+                                                                  child: Text('No'),
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                ),
+                                                                FlatButton(
+                                                                  child: Text('Yes'),
+                                                                  onPressed: () async {
+                                                                    bool gotError = false;
+                                                                    FirebaseFirestore.instance.collection('admin').doc(FirebaseAuth.instance.currentUser!.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').update({
+                                                                      'time': DateTime.now(),
+                                                                      'documentID': documents.docs[i].id,
+                                                                      'action': 'delete',
+                                                                    }).catchError((onError) {
+                                                                      gotError = true;
+                                                                      showDialog(
+                                                                          context: context,
+                                                                          builder: (context) {
+                                                                            return AlertDialog(
+                                                                              title: Text('Error'),
+                                                                              content: Text('Access Denied'),
+                                                                            );
+                                                                          }
+                                                                      );
+                                                                    });
+                                                                    FirebaseFirestore.instance.collection('spots').doc(documents.docs[i].id).delete().catchError((onError) {
+                                                                      if(!gotError) {
+                                                                        gotError = true;
+                                                                        showDialog(
+                                                                            context: context,
+                                                                            builder: (context) {
+                                                                              return AlertDialog(
+                                                                                title: Text('Error'),
+                                                                                content: Text('Access Denied'),
+                                                                              );
+                                                                            }
+                                                                        );
+                                                                      }
+                                                                    });
+                                                                    FirebaseFirestore.instance.collection('users').doc(documents.docs[i]['userid']).update({
+                                                                      'spotuid': 'none',
+                                                                    }).catchError((onError) {
+                                                                      if(!gotError) {
+                                                                        gotError = true;
+                                                                        showDialog(
+                                                                            context: context,
+                                                                            builder: (context) {
+                                                                              return AlertDialog(
+                                                                                title: Text('Error'),
+                                                                                content: Text('Access Denied'),
+                                                                              );
+                                                                            }
+                                                                        );
+                                                                      }
+                                                                    });
+                                                                    if(!gotError) {
+                                                                      Navigator.pop(context);
+                                                                    }
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            );
+                                                          }
+                                                      );
+                                                    },
                                                   ),
-                                                  Spacer(
-                                                    flex: 1,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: Color.fromRGBO(255, 23, 68, 1),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                Spacer(
+                                                  flex: 1,
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    FadeAnimationStatic(
-                                      1+i*0.2+0.1,
-                                      Divider(
-                                        indent: 15,
-                                        endIndent: 15,
-                                        thickness: 3,
-                                      ),
+                                    Divider(
+                                      indent: 15,
+                                      endIndent: 15,
+                                      thickness: 3,
                                     ),
                                   ],
                                 ),

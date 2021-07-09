@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -12,9 +11,9 @@ import 'package:validators/sanitizers.dart';
 bool _isAgreed = false;
 bool _isRead = false;
 bool _isGood = false;
-DateTime _birth;
-DateTime _licenseExpiration;
-DateTime _insuranceExpiration;
+late DateTime _birth;
+late DateTime _licenseExpiration;
+late DateTime _insuranceExpiration;
 bool _payCash = true;
 
 String firstSave = '';
@@ -187,7 +186,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             lastDate: DateTime(DateTime.now().year),
                           ).then((date) {
                             setState(() {
-                              _birth = date;
+                              _birth = date!;
                             });
                           });
                         },
@@ -289,7 +288,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             lastDate: DateTime(2070),
                           ).then((licensedate) {
                             setState(() {
-                              _licenseExpiration = licensedate;
+                              _licenseExpiration = licensedate!;
                             });
                           });
                         },
@@ -346,7 +345,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             lastDate: DateTime(2050),
                           ).then((insurancedate) {
                             setState(() {
-                              _insuranceExpiration = insurancedate;
+                              _insuranceExpiration = insurancedate!;
                             });
                           });
                         },
@@ -357,11 +356,11 @@ class _InfoSubmitState extends State<InfoSubmit> {
                       child: ToggleSwitch(
                           minWidth: (MediaQuery.of(context).size.width-20)/4,
                           cornerRadius: 5,
-                          activeTextColor: Colors.white,
+                          activeFgColor: Colors.white,
                           inactiveBgColor: Colors.grey,
-                          inactiveTextColor: Colors.white,
+                          inactiveFgColor: Colors.white,
                           labels: ['Cash', 'Check'],
-                          activeColors: [Colors.green, Colors.blue],
+                          activeBgColors: [Colors.green, Colors.blue],
                           onToggle: (index) {
                             if (index == 0) {
                               _payCash = true;
@@ -395,7 +394,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     driverSave = driver.text;
 
                     setState(() {
-                      _isAgreed = agree;
+                      _isAgreed = agree!;
                     });
                     print(_isAgreed);
                   },
@@ -427,14 +426,14 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     plateSave = plate.text;
                     driverSave = driver.text;
 
-                    if (await canLaunch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf')&&read) {
+                    if (await canLaunch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf')&&read!) {
                     await launch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf');
                     }
                     else {
 
                     }
                     setState(() {
-                      _isRead = read;
+                      _isRead = read!;
                     });
                     print(_isRead);
                   },
@@ -467,7 +466,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     driverSave = driver.text;
 
                     setState(() {
-                      _isGood = good;
+                      _isGood = good!;
                     });
                     print(_isGood);
                   },
@@ -591,28 +590,22 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                     Container(
                                                       height: 10,
                                                     ),
-                                                    FadeAnimationUp(
-                                                      3,
-                                                      Text(
-                                                        'Confirmed!',
-                                                        style: TextStyle(
-                                                            color: Colors.greenAccent,
-                                                            fontSize: 30,
-                                                            fontWeight: FontWeight.bold
-                                                        ),
+                                                    Text(
+                                                      'Confirmed!',
+                                                      style: TextStyle(
+                                                          color: Colors.greenAccent,
+                                                          fontSize: 30,
+                                                          fontWeight: FontWeight.bold
                                                       ),
                                                     ),
                                                     Container(
                                                       height: 20,
                                                     ),
-                                                    FadeAnimationUp(
-                                                      3.5,
-                                                      Text(
-                                                        'Show your License and Insurance to your Counselor to Confirm your Parking Spot',
-                                                        style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight: FontWeight.w300,
-                                                        ),
+                                                    Text(
+                                                      'Show your License and Insurance to your Counselor to Confirm your Parking Spot',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w300,
                                                       ),
                                                     ),
                                                     Container(
@@ -650,8 +643,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                           );
                                         }
                                     );
-                                    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                    widget.reference.setData({
+                                    widget.reference.update({
                                       'first': first.text.substring(0, 1).toUpperCase()+first.text.substring(1),
                                       'last': last.text.substring(0, 1).toUpperCase()+last.text.substring(1),
                                       'grade': toInt(grade.text),
@@ -670,7 +662,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                       'isCash': _payCash,
                                       'confirmed': false,
                                       'completed': true,
-                                    }, merge: true);
+                                    });
 
                                     _payCash = true;
                                   },

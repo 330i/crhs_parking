@@ -1,7 +1,7 @@
-import 'package:crhs_parking_app/login/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:crhs_parking_app/admin/login/auth.dart';
 import 'package:crhs_parking_app/admin/login/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatefulWidget {
@@ -107,7 +107,8 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   onPressed: () {
-                    adminAuthService.signOut();
+                    FirebaseAuth.instance.signOut();
+                    GoogleSignIn().signOut();
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AdminSignin()),ModalRoute.withName('/pages'));
                   },
                   splashColor: Color.fromRGBO(239, 154, 154, 1),
