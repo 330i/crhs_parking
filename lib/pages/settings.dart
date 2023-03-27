@@ -81,7 +81,7 @@ class _SettingsState extends State<Settings> {
                   width: 10,
                 ),
                 Container(
-                  child: FlatButton(
+                  child: TextButton(
                     child: Container(
                       width: MediaQuery.of(context).size.width-50,
                       child: Row(
@@ -146,7 +146,7 @@ class _SettingsState extends State<Settings> {
                                 return Column(
                                   children: <Widget>[
                                     snap.data['completed'] ? Container(
-                                      child: FlatButton(
+                                      child: TextButton(
                                         child: Container(
                                           width: MediaQuery.of(context).size.width-50,
                                           child: Row(
@@ -175,7 +175,7 @@ class _SettingsState extends State<Settings> {
                                       ),
                                     ) : Container(),
                                     Container(
-                                      child: FlatButton(
+                                      child: TextButton(
                                         child: Container(
                                           width: MediaQuery.of(context).size.width-50,
                                           child: Row(
@@ -204,7 +204,7 @@ class _SettingsState extends State<Settings> {
                                       ),
                                     ),
                                     Container(
-                                      child: FlatButton(
+                                      child: TextButton(
                                         child: Container(
                                           width: MediaQuery.of(context).size.width-50,
                                           child: Row(
@@ -246,13 +246,13 @@ class _SettingsState extends State<Settings> {
                                                 ),
                                                 content: Text('Are You Sure You Want to Remove Your Reservation'),
                                                 actions: <Widget>[
-                                                  FlatButton(
+                                                  TextButton(
                                                     child: Text('No'),
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                   ),
-                                                  FlatButton(
+                                                  TextButton(
                                                     child: Text('Yes'),
                                                     onPressed: () {
                                                       Firestore.instance.collection('spots').document(snapshots.data['spotuid']).delete();
@@ -289,7 +289,7 @@ class _SettingsState extends State<Settings> {
                   width: 10,
                 ),
                 Container(
-                  child: FlatButton(
+                  child: TextButton(
                     child: Container(
                       width: MediaQuery.of(context).size.width-50,
                       child: Row(

@@ -184,13 +184,13 @@ class _RevokeState extends State<Revoke> {
                                                                 ),
                                                                 content: Text('Are You Sure You Want to Revoke This Person From the Database'),
                                                                 actions: <Widget>[
-                                                                  FlatButton(
+                                                                  TextButton(
                                                                     child: Text('No'),
                                                                     onPressed: () {
                                                                       Navigator.pop(context);
                                                                     },
                                                                   ),
-                                                                  FlatButton(
+                                                                  TextButton(
                                                                     child: Text('Yes'),
                                                                     onPressed: () async {
                                                                       bool gotError = false;
@@ -283,13 +283,13 @@ class _RevokeState extends State<Revoke> {
                                                                 ),
                                                                 content: Text('Are You Sure You Want to Delete This Person\'s Spot From the Database'),
                                                                 actions: <Widget>[
-                                                                  FlatButton(
+                                                                  TextButton(
                                                                     child: Text('No'),
                                                                     onPressed: () {
                                                                       Navigator.pop(context);
                                                                     },
                                                                   ),
-                                                                  FlatButton(
+                                                                  TextButton(
                                                                     child: Text('Yes'),
                                                                     onPressed: () async {
                                                                       bool gotError = false;

@@ -376,7 +376,7 @@ class _InfoPageState extends State<InfoPage> {
                                           Container(
                                             height: 50,
                                           ),
-                                          RaisedButton(
+                                          ElevatedButton(
                                             splashColor: Colors.transparent,
                                             color: Colors.transparent,
                                             child: Container(

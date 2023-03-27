@@ -1,4 +1,3 @@
-import 'package:crhs_parking_app/login/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:crhs_parking_app/admin/login/auth.dart';
 import 'package:crhs_parking_app/admin/login/google_sign_in.dart';
@@ -44,7 +43,7 @@ class _SettingsState extends State<Settings> {
                 width: 10,
               ),
               Container(
-                child: FlatButton(
+                child: TextButton(
                   child: Container(
                     width: MediaQuery.of(context).size.width-50,
                     child: Row(
@@ -85,7 +84,7 @@ class _SettingsState extends State<Settings> {
                 width: 10,
               ),
               Container(
-                child: FlatButton(
+                child: TextButton(
                   child: Container(
                     width: MediaQuery.of(context).size.width-50,
                     child: Row(

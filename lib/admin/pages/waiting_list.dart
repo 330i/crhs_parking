@@ -104,7 +104,7 @@ class _WaitingListState extends State<WaitingList> {
                                   children: <Widget>[
                                     FadeAnimationLeft(
                                       1+i*0.2,
-                                      FlatButton(
+                                      TextButton(
                                         child: Container(
                                           width: MediaQuery.of(context).size.width,
                                           child: Row(

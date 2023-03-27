@@ -103,7 +103,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 margin: EdgeInsets.all(25.0),
               ),
               Container(
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text(
                     'Confirm',
                     style: TextStyle(fontSize: 22.0),

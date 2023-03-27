@@ -106,7 +106,7 @@ class _MapState extends State<Map> {
           width: MediaQuery.of(context).size.width-10,
           child: ButtonTheme(
             height: 70,
-            child: RaisedButton(
+            child: ElevatedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(17),
               ),

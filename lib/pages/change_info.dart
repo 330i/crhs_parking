@@ -119,7 +119,7 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
@@ -221,7 +221,7 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
@@ -278,7 +278,7 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
