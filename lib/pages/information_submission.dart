@@ -251,7 +251,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: Row(
                           children: [
                             Text(
@@ -308,7 +308,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: Row(
                           children: [
                             Text(
@@ -356,11 +356,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                       child: ToggleSwitch(
                           minWidth: (MediaQuery.of(context).size.width-20)/4,
                           cornerRadius: 5,
-<<<<<<< Updated upstream
-                          activeTextColor: Colors.white,
-=======
-                          theme: Colors.white, //Use themes or some shit otherwise it wont allow u to do this
->>>>>>> Stashed changes
+                          theme: Colors.white,
                           inactiveBgColor: Colors.grey,
                           inactiveFgColor: Colors.white,
                           labels: ['Cash', 'Check'],
@@ -543,7 +539,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                               title: Text('Wait'),
                               content: Text('Please double check your information. Information regarding the reserved spot can be changed before the reserved spot is confirmed.'),
                               actions: [
-                                FlatButton(
+                                ElevatedButton(
                                   child: Text(
                                     'Double Check',
                                     style: TextStyle(
@@ -554,7 +550,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                     Navigator.pop(context);
                                   },
                                 ),
-                                FlatButton(
+                                ElevatedButton(
                                   child: Text(
                                     'Continue',
                                     style: TextStyle(
@@ -621,7 +617,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                     Container(
                                                       height: 40,
                                                     ),
-                                                    FlatButton(
+                                                    ElevatedButton(
                                                       child: Container(
                                                         width: MediaQuery.of(context).size.width-50,
                                                         height: 50,
