@@ -4,7 +4,6 @@ import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/sanitizers.dart';
@@ -150,7 +149,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: Row(
                           children: [
                             Text(
@@ -357,11 +356,15 @@ class _InfoSubmitState extends State<InfoSubmit> {
                       child: ToggleSwitch(
                           minWidth: (MediaQuery.of(context).size.width-20)/4,
                           cornerRadius: 5,
+<<<<<<< Updated upstream
                           activeTextColor: Colors.white,
+=======
+                          theme: Colors.white, //Use themes or some shit otherwise it wont allow u to do this
+>>>>>>> Stashed changes
                           inactiveBgColor: Colors.grey,
-                          inactiveTextColor: Colors.white,
+                          inactiveFgColor: Colors.white,
                           labels: ['Cash', 'Check'],
-                          activeColors: [Colors.green, Colors.blue],
+                          activeBgColors: [Colors.green, Colors.blue],
                           onToggle: (index) {
                             if (index == 0) {
                               _payCash = true;

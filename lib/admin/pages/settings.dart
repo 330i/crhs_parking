@@ -72,8 +72,10 @@ class _SettingsState extends State<Settings> {
 
                     }
                   },
-                  splashColor: Color.fromRGBO(79, 195, 247, 1),
-                  highlightColor: Color.fromRGBO(129, 212, 250, 1),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(79, 195, 247, 1),  // Button color
+                    foregroundColor: Color.fromRGBO(129, 212, 250, 1),   // Splash color
+                  ),
                 ),
               ),
             ],
@@ -109,8 +111,10 @@ class _SettingsState extends State<Settings> {
                     adminAuthService.signOut();
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AdminSignin()),ModalRoute.withName('/pages'));
                   },
-                  splashColor: Color.fromRGBO(239, 154, 154, 1),
-                  highlightColor: Color.fromRGBO(255, 205, 210, 1),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(239, 154, 154, 1),  // Button color
+                    foregroundColor: Color.fromRGBO(255, 205, 210, 1),  // Splash color
+                  ),
                 ),
               ),
             ],

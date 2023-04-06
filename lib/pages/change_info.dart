@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:validators/sanitizers.dart';
 import 'navigation.dart';
@@ -327,11 +326,11 @@ class _InfoChangeState extends State<InfoChange> {
                         initialLabelIndex: payCash ? 0 : 1,
                         minWidth: (MediaQuery.of(context).size.width-20)/4.0,
                         cornerRadius: 5,
-                        activeTextColor: Colors.white,
+                        activeFgColor: Colors.white,
                         inactiveBgColor: Colors.grey,
-                        inactiveTextColor: Colors.white,
+                        inactiveFgColor: Colors.white,
                         labels: ['Cash', 'Check'],
-                        activeColors: [Colors.green, Colors.blue],
+                        activeBgColors: [Colors.green, Colors.blue],
                         onToggle: (index) {
                           if (index == 0) {
                             payCash = true;

@@ -377,8 +377,10 @@ class _InfoPageState extends State<InfoPage> {
                                             height: 50,
                                           ),
                                           ElevatedButton(
-                                            splashColor: Colors.transparent,
-                                            color: Colors.transparent,
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: Colors.transparent,  // Button color
+                                              foregroundColor: Colors.transparent,   // Splash color
+                                            ),
                                             child: Container(
                                               height: 60,
                                               child: FadeAnimationStatic(

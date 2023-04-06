@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/login/google_sign_in.dart';
-import 'package:crhs_parking_app/pages/change_info.dart';
 import 'package:crhs_parking_app/pages/process_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -110,8 +109,10 @@ class _SettingsState extends State<Settings> {
 
                       }
                     },
-                    splashColor: Color.fromRGBO(79, 195, 247, 1),
-                    highlightColor: Color.fromRGBO(129, 212, 250, 1),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(129, 212, 250, 1),  // Button color
+                      foregroundColor: Color.fromRGBO(79, 195, 247, 1),   // Splash color
+                    ),
                   ),
                 ),
               ],
@@ -170,8 +171,10 @@ class _SettingsState extends State<Settings> {
                                         onPressed: () {
                                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => Process()));
                                         },
-                                        splashColor: Color.fromRGBO(79, 195, 247, 1),
-                                        highlightColor: Color.fromRGBO(129, 212, 250, 1),
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Color.fromRGBO(129, 212, 250, 1),  // Button color
+                                          foregroundColor: Color.fromRGBO(79, 195, 247, 1),   // Splash color
+                                        ),
                                       ),
                                     ) : Container(),
                                     Container(
@@ -199,8 +202,10 @@ class _SettingsState extends State<Settings> {
                                         onPressed: () {
                                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => Map()));
                                         },
-                                        splashColor: Colors.black38,
-                                        highlightColor: Colors.black12,
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.black12,  // Button color
+                                          foregroundColor: Colors.black38,   // Splash color
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -267,8 +272,10 @@ class _SettingsState extends State<Settings> {
                                             }
                                           );
                                         },
-                                        splashColor: Color.fromRGBO(239, 154, 154, 1),
-                                        highlightColor: Color.fromRGBO(255, 205, 210, 1),
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Color.fromRGBO(239, 154, 154, 1),  // Button color
+                                          foregroundColor: Color.fromRGBO(255, 205, 210, 1),   // Splash color
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -314,8 +321,11 @@ class _SettingsState extends State<Settings> {
                       authService.signOut();
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Signin()),ModalRoute.withName('/pages'));
                     },
-                    splashColor: Color.fromRGBO(239, 154, 154, 1),
-                    highlightColor: Color.fromRGBO(255, 205, 210, 1),
+
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(255, 205, 210, 1),  // Button color
+                      foregroundColor: Color.fromRGBO(239, 154, 154, 1),   // Splash color
+                    ),
                   ),
                 ),
               ],
