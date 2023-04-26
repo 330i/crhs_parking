@@ -65,8 +65,8 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   onPressed: () async {
-                    if (await canLaunch('https://forms.gle/NcPZGGcLJKaFFEEh7')) {
-                      await launch('https://forms.gle/NcPZGGcLJKaFFEEh7');
+                    if (await canLaunchUrl('https://forms.gle/NcPZGGcLJKaFFEEh7' as Uri)) {
+                      await launchUrl('https://forms.gle/NcPZGGcLJKaFFEEh7' as Uri);
                     }
                     else {
 
@@ -109,7 +109,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   onPressed: () {
                     adminAuthService.signOut();
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AdminSignin()),ModalRoute.withName('/pages'));
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AdminSignin()), ModalRoute.withName('/pages'));
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Color.fromRGBO(239, 154, 154, 1),  // Button color

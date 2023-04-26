@@ -107,10 +107,12 @@ class _MapState extends State<Map> {
           child: ButtonTheme(
             height: 70,
             child: ElevatedButton(
-              shape: RoundedRectangleBorder(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(17),
+                ),
               ),
-              elevation: 0,
               child: Row(
                 children: [
                   Text(
@@ -119,6 +121,7 @@ class _MapState extends State<Map> {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(236, 239, 241, 1),
                     ),
                   ),
                   Spacer(
@@ -126,7 +129,6 @@ class _MapState extends State<Map> {
                   )
                 ],
               ),
-              color: Color.fromRGBO(236, 239, 241, 1),
               onPressed: () {
                 Navigator.push(context, CupertinoPageRoute(builder: (context) => Spots(spot)));
               },

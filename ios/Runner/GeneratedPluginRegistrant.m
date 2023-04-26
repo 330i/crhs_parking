@@ -6,8 +6,8 @@
 
 #import "GeneratedPluginRegistrant.h"
 
-#if __has_include(<cloud_firestore/FLTCloudFirestorePlugin.h>)
-#import <cloud_firestore/FLTCloudFirestorePlugin.h>
+#if __has_include(<cloud_firestore/FLTFirebaseFirestorePlugin.h>)
+#import <cloud_firestore/FLTFirebaseFirestorePlugin.h>
 #else
 @import cloud_firestore;
 #endif
@@ -30,10 +30,10 @@
 @import firebase_storage;
 #endif
 
-#if __has_include(<google_sign_in/FLTGoogleSignInPlugin.h>)
-#import <google_sign_in/FLTGoogleSignInPlugin.h>
+#if __has_include(<google_sign_in_ios/FLTGoogleSignInPlugin.h>)
+#import <google_sign_in_ios/FLTGoogleSignInPlugin.h>
 #else
-@import google_sign_in;
+@import google_sign_in_ios;
 #endif
 
 #if __has_include(<image_crop/ImageCropPlugin.h>)
@@ -42,22 +42,22 @@
 @import image_crop;
 #endif
 
-#if __has_include(<url_launcher/FLTURLLauncherPlugin.h>)
-#import <url_launcher/FLTURLLauncherPlugin.h>
+#if __has_include(<url_launcher_ios/FLTURLLauncherPlugin.h>)
+#import <url_launcher_ios/FLTURLLauncherPlugin.h>
 #else
-@import url_launcher;
+@import url_launcher_ios;
 #endif
 
-#if __has_include(<video_player/FLTVideoPlayerPlugin.h>)
-#import <video_player/FLTVideoPlayerPlugin.h>
+#if __has_include(<video_player_avfoundation/FLTVideoPlayerPlugin.h>)
+#import <video_player_avfoundation/FLTVideoPlayerPlugin.h>
 #else
-@import video_player;
+@import video_player_avfoundation;
 #endif
 
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
-  [FLTCloudFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTCloudFirestorePlugin"]];
+  [FLTFirebaseFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseFirestorePlugin"]];
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];

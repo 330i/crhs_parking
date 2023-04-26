@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:crhs_parking_app/login/auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'map.dart';
-import 'package:crhs_parking_app/models/user.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -15,7 +14,6 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
 
-  String _uid;
   User currentStudent;
 
   @override
@@ -25,9 +23,8 @@ class _SettingsState extends State<Settings> {
   }
 
   void getUser() async {
-    FirebaseUser getUser = await FirebaseAuth.instance.currentUser();
-    DocumentSnapshot userData = await Firestore.instance.collection('users').document(getUser.uid).get();
-    _uid = getUser.uid;
+    User getUser = await FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(getUser.uid).get();
     currentStudent = User.fromSnapshot(userData);
     setState(() {
 
@@ -102,8 +99,8 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     onPressed: () async {
-                      if (await canLaunch('https://forms.gle/NcPZGGcLJKaFFEEh7')) {
-                      await launch('https://forms.gle/NcPZGGcLJKaFFEEh7');
+                      if (await canLaunchUrl('https://forms.gle/NcPZGGcLJKaFFEEh7' as Uri)) {
+                      await launchUrl('https://forms.gle/NcPZGGcLJKaFFEEh7' as Uri);
                       }
                       else {
 
@@ -123,7 +120,7 @@ class _SettingsState extends State<Settings> {
                   width: 10,
                 ),
                 StreamBuilder(
-                  stream: Firestore.instance.collection('users').document(currentStudent.uid).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('users').doc(currentStudent.uid).snapshots(),
                   builder: (context, snapshots) {
                     if(!snapshots.hasData) {
                       return Container();
@@ -134,7 +131,7 @@ class _SettingsState extends State<Settings> {
                       }
                       else {
                         return StreamBuilder(
-                          stream: Firestore.instance.collection('spots').document(snapshots.data['spotuid']).snapshots(),
+                          stream: FirebaseFirestore.instance.collection('spots').doc(snapshots.data['spotuid']).snapshots(),
                           builder: (context, snap) {
                             if(!snap.hasData) {
                               return Container();
@@ -260,10 +257,10 @@ class _SettingsState extends State<Settings> {
                                                   TextButton(
                                                     child: Text('Yes'),
                                                     onPressed: () {
-                                                      Firestore.instance.collection('spots').document(snapshots.data['spotuid']).delete();
-                                                      Firestore.instance.collection('users').document(currentStudent.uid).setData({
+                                                      FirebaseFirestore.instance.collection('spots').doc(snapshots.data['spotuid']).delete();
+                                                      FirebaseFirestore.instance.collection('users').doc(currentStudent.uid).set({
                                                         'spotuid': 'none'
-                                                      }, merge: true);
+                                                      }, SetOptions(merge: true));
                                                       Navigator.pop(context);
                                                     },
                                                   ),
