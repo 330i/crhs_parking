@@ -149,8 +149,8 @@ class _AdminSigninState extends State<AdminSignin> {
                         }
                       }
                     );
-                    String email;
-                    User currentUser = FirebaseAuth.instance.currentUser;
+                    String? email;
+                    User? currentUser = FirebaseAuth.instance.currentUser;
                     if (currentUser != null) {
                         email = currentUser.email;
                     }
@@ -226,7 +226,7 @@ class Users extends StatefulWidget {
 }
 
 class _UsersState extends State<Users> {
-  Map<String, dynamic> _profile;
+  late Map<String, dynamic> _profile;
   bool _loading = false;
 
   @override

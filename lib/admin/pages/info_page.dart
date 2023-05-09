@@ -213,8 +213,8 @@ class _SpotInfoState extends State<SpotInfo> {
                               FirebaseFirestore.instance.collection('spots').doc(widget.reference.id).set({
                                 'confirmed': true,
                               }, SetOptions(merge: true));
-                              User currentUser = await FirebaseAuth.instance.currentUser;
-                              FirebaseFirestore.instance.collection('admin').doc(currentUser.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').set({
+                              User? currentUser = await FirebaseAuth.instance.currentUser;
+                              FirebaseFirestore.instance.collection('admin').doc(currentUser?.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').set({
                                 'time': DateTime.now(),
                                 'documentID': widget.reference.id,
                                 'action': 'confirm',

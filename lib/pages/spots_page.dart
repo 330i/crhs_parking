@@ -16,13 +16,13 @@ class Spots extends StatefulWidget {
 
 class _SpotsState extends State<Spots> {
 
-  List<int> spotSearch = new List<int>();
+  List<int> spotSearch = <int>[];
 
   TextEditingController searchController = new TextEditingController(text: '');
   String query = '';
 
   Search(List<int> spots) {
-    spotSearch = new List<int>();
+    spotSearch = <int>[];
     print(spotSearch);
     int i=0;
     print(spots.length);
@@ -56,7 +56,7 @@ class _SpotsState extends State<Spots> {
 
   @override
   Widget build(BuildContext context) {
-    List<int> spots = new List<int>();
+    List<int> spots = <int>[];
     int min;
     int max;
 
@@ -201,10 +201,10 @@ class _SpotsState extends State<Spots> {
                     );
                   }
                   else {
-                    List<int> occupied = new List<int>();
-                    for(int i=0;i<snap.data.documents.length;i++) {
-                      if(snap.data.documents[i]['spot']>=min&&snap.data.documents[i]['spot']<=max){
-                        occupied.add(snap.data.documents[i]['spot']);
+                    List<int> occupied = <int>[];
+                    for(int i = 0;i < snap.data!.docs.length;i++) {
+                      if(snap.data!.docs[i]['spot'] >= min && snap.data!.docs[i]['spot'] <= max){
+                        occupied.add(snap.data!.docs[i]['spot']);
                       }
                     }
 
@@ -326,8 +326,8 @@ class _SpotsState extends State<Spots> {
                                         ),
                                         onTap: () async {
                                           if(!isOccupied) {
-                                            User currentUser = await FirebaseAuth.instance.currentUser;
-                                            DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+                                            User? currentUser = await FirebaseAuth.instance.currentUser;
+                                            DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get();
                                             if((userDoc.data as DocumentSnapshot)['spotuid']!='none') {
                                               DocumentReference currentSpotDoc = await FirebaseFirestore.instance.collection('spots').doc((userDoc.data as DocumentSnapshot)['spotuid']);
                                               currentSpotDoc.set({

@@ -98,9 +98,9 @@ class _RevokeState extends State<Revoke> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: snapshots.data.docs.length,
+                          itemCount: snapshots.data?.docs.length,
                           itemBuilder: (context, i) {
-                            if(snapshots.data.docs[i]['spot']!=0&&snapshots.data.docs[i]['completed']&&snapshots.data.docs[i]['confirmed']&&'${snapshots.data.docs[i]['first'].toLowerCase()} ${snapshots.data.docs[i]['last'].toLowerCase()}'.contains(query.toLowerCase())) {
+                            if(snapshots.data?.docs[i]['spot'] != 0 && snapshots.data?.docs[i]['completed'] && snapshots.data?.docs[i]['confirmed'] && '${snapshots.data?.docs[i]['first'].toLowerCase()} ${snapshots.data?.docs[i]['last'].toLowerCase()}'.contains(query.toLowerCase())) {
                               return Container(
                                 child: Column(
                                   children: <Widget>[
@@ -117,7 +117,7 @@ class _RevokeState extends State<Revoke> {
                                                     width: 20,
                                                   ),
                                                   Text(
-                                                    '${snapshots.data.docs[i]['first']} ${snapshots.data.docs[i]['last']}',
+                                                    '${snapshots.data?.docs[i]['first']} ${snapshots.data?.docs[i]['last']}',
                                                     style: TextStyle(
                                                       fontSize: 26,
                                                     ),
@@ -126,7 +126,7 @@ class _RevokeState extends State<Revoke> {
                                                     flex: 1,
                                                   ),
                                                   Text(
-                                                    '${snapshots.data.docs[i]['spot']}',
+                                                    '${snapshots.data?.docs[i]['spot']}',
                                                     style: TextStyle(
                                                       fontSize: 26,
                                                     ),
@@ -194,10 +194,10 @@ class _RevokeState extends State<Revoke> {
                                                                     child: Text('Yes'),
                                                                     onPressed: () async {
                                                                       bool gotError = false;
-                                                                      User currentUser = await FirebaseAuth.instance.currentUser;
-                                                                      FirebaseFirestore.instance.collection('admin').doc(currentUser.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').set({
+                                                                      User? currentUser = await FirebaseAuth.instance.currentUser;
+                                                                      FirebaseFirestore.instance.collection('admin').doc(currentUser?.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').set({
                                                                         'time': DateTime.now(),
-                                                                        'docID': snapshots.data.docs[i].docID,
+                                                                        'docID': snapshots.data?.docs[i].id,
                                                                         'action': 'revoke',
                                                                       }, SetOptions(merge: true)).catchError((onError) {
                                                                         gotError = true;
@@ -211,7 +211,7 @@ class _RevokeState extends State<Revoke> {
                                                                           }
                                                                         );
                                                                       });
-                                                                      FirebaseFirestore.instance.collection('spots').doc(snapshots.data.docs[i].docID).set({
+                                                                      FirebaseFirestore.instance.collection('spots').doc(snapshots.data?.docs[i].id).set({
                                                                         'confirmed': false,
                                                                       }, SetOptions(merge: true)).catchError((onError) {
                                                                         if(!gotError) {
@@ -293,10 +293,10 @@ class _RevokeState extends State<Revoke> {
                                                                     child: Text('Yes'),
                                                                     onPressed: () async {
                                                                       bool gotError = false;
-                                                                      User currentUser = await FirebaseAuth.instance.currentUser;
-                                                                      FirebaseFirestore.instance.collection('admin').doc(currentUser.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').set({
+                                                                      User? currentUser = await FirebaseAuth.instance.currentUser;
+                                                                      FirebaseFirestore.instance.collection('admin').doc(currentUser?.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').set({
                                                                         'time': DateTime.now(),
-                                                                        'docID': snapshots.data.docs[i].docID,
+                                                                        'docID': snapshots.data?.docs[i].id,
                                                                         'action': 'delete',
                                                                       }, SetOptions(merge: true)).catchError((onError) {
                                                                         gotError = true;
@@ -310,7 +310,7 @@ class _RevokeState extends State<Revoke> {
                                                                             }
                                                                         );
                                                                       });
-                                                                      FirebaseFirestore.instance.collection('spots').doc(snapshots.data.docs[i].docID).delete().catchError((onError) {
+                                                                      FirebaseFirestore.instance.collection('spots').doc(snapshots.data?.docs[i].id).delete().catchError((onError) {
                                                                         if(!gotError) {
                                                                           gotError = true;
                                                                           showDialog(
@@ -324,7 +324,7 @@ class _RevokeState extends State<Revoke> {
                                                                           );
                                                                         }
                                                                       });
-                                                                      FirebaseFirestore.instance.collection('users').doc(snapshots.data.docs[i]['userid']).set({
+                                                                      FirebaseFirestore.instance.collection('users').doc(snapshots.data?.docs[i]['userid']).set({
                                                                         'spotuid': 'none',
                                                                       }, SetOptions(merge: true)).catchError((onError) {
                                                                         if(!gotError) {

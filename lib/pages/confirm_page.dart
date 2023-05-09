@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 }
 
 class ConfirmPage extends StatefulWidget {
-  ConfirmPage({Key key}) : super(key: key);
+  ConfirmPage({Key? key}) : super(key: key);
 
   @override
   _ConfirmPageState createState() => _ConfirmPageState();

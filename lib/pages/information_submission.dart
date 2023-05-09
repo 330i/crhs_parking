@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/navigation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -11,9 +10,9 @@ import 'package:validators/sanitizers.dart';
 bool _isAgreed = false;
 bool _isRead = false;
 bool _isGood = false;
-DateTime _birth;
-DateTime _licenseExpiration;
-DateTime _insuranceExpiration;
+DateTime? _birth;
+DateTime? _licenseExpiration;
+DateTime? _insuranceExpiration;
 bool _payCash = true;
 
 String firstSave = '';
@@ -157,7 +156,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             Text(
                               _birth == null
                                   ? 'Date of Birth'
-                                  : '${_birth.month}/${_birth.day}/${_birth.year}',
+                                  : '${_birth!.month}/${_birth!.day}/${_birth!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -192,7 +191,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             lastDate: DateTime(DateTime.now().year),
                           ).then((date) {
                             setState(() {
-                              _birth = date;
+                              _birth = date!;
                             });
                           });
                         },
@@ -262,7 +261,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             Text(
                               _licenseExpiration == null
                                   ? 'License Exp.'
-                                  : '${_licenseExpiration.month}/${_licenseExpiration.day}/${_licenseExpiration.year}',
+                                  : '${_licenseExpiration!.month}/${_licenseExpiration!.day}/${_licenseExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -297,7 +296,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             lastDate: DateTime(2070),
                           ).then((licensedate) {
                             setState(() {
-                              _licenseExpiration = licensedate;
+                              _licenseExpiration = licensedate!;
                             });
                           });
                         },
@@ -322,7 +321,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             Text(
                               _insuranceExpiration == null
                                   ? 'Insurance Exp.'
-                                  : '${_insuranceExpiration.month}/${_insuranceExpiration.day}/${_insuranceExpiration.year}',
+                                  : '${_insuranceExpiration!.month}/${_insuranceExpiration!.day}/${_insuranceExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -357,7 +356,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                             lastDate: DateTime(2050),
                           ).then((insurancedate) {
                             setState(() {
-                              _insuranceExpiration = insurancedate;
+                              _insuranceExpiration = insurancedate!;
                             });
                           });
                         },
@@ -404,7 +403,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     driverSave = driver.text;
 
                     setState(() {
-                      _isAgreed = agree;
+                      _isAgreed = agree!;
                     });
                     print(_isAgreed);
                   },
@@ -438,13 +437,13 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     if (await canLaunchUrl(
                             'http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf'
                                 as Uri) &&
-                        read) {
+                        read!) {
                       await launchUrl(
                           'http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf'
                               as Uri);
                     } else {}
                     setState(() {
-                      _isRead = read;
+                      _isRead = read!;
                     });
                     print(_isRead);
                   },
@@ -476,7 +475,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     driverSave = driver.text;
 
                     setState(() {
-                      _isGood = good;
+                      _isGood = good!;
                     });
                     print(_isGood);
                   },
@@ -509,22 +508,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     ),
                   ),
                   onTap: () {
-                    if (first != null &&
-                        last != null &&
-                        grade != null &&
-                        id != null &&
-                        address != null &&
-                        zip != null &&
-                        phone != null &&
-                        _birth != null &&
-                        model != null &&
-                        color != null &&
-                        year != null &&
-                        plate != null &&
-                        driver != null &&
-                        _licenseExpiration != null &&
-                        _insuranceExpiration != null &&
-                        _isAgreed &&
+                    if (_isAgreed &&
                         _isRead &&
                         _isGood &&
                         first.text != '' &&
@@ -679,8 +663,6 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                             ),
                                           );
                                         });
-                                    User currentUser =
-                                        await FirebaseAuth.instance.currentUser;
                                     widget.reference.set({
                                       'first': first.text
                                               .substring(0, 1)

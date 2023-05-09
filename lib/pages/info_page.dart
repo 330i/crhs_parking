@@ -7,18 +7,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'map.dart';
+import 'package:crhs_parking_app/pages/map.dart';
 
 class InfoPage extends StatefulWidget {
-
   @override
   _InfoPageState createState() => _InfoPageState();
 }
 
 class _InfoPageState extends State<InfoPage> {
-
-  String _uid;
-  User currentStudent;
+  late String _uid;
+  late User currentStudent;
 
   @override
   void initState() {
@@ -27,27 +25,36 @@ class _InfoPageState extends State<InfoPage> {
   }
 
   void getUser() async {
-    User getUser = await FirebaseAuth.instance.currentUser;
-    DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(getUser.uid).get();
-    _uid = getUser.uid;
+    User? getUser = await FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(getUser?.uid)
+        .get();
+    _uid = getUser!.uid;
     currentStudent = User.fromSnapshot(userData);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
 
-    List<Color> completedGradient = [Color.fromRGBO(100, 181, 246, 1),Color.fromRGBO(159, 168, 218, 1)];
-    List<Color> unconfirmedGradient = [Color.fromRGBO(139, 195, 74, 1),Color.fromRGBO(102, 187, 106, 1)];
-    List<Color> incompleteGradient = [Color.fromRGBO(229, 115, 115, 1),Color.fromRGBO(255, 171, 145, 1)];
+    List<Color> completedGradient = [
+      Color.fromRGBO(100, 181, 246, 1),
+      Color.fromRGBO(159, 168, 218, 1)
+    ];
+    List<Color> unconfirmedGradient = [
+      Color.fromRGBO(139, 195, 74, 1),
+      Color.fromRGBO(102, 187, 106, 1)
+    ];
+    List<Color> incompleteGradient = [
+      Color.fromRGBO(229, 115, 115, 1),
+      Color.fromRGBO(255, 171, 145, 1)
+    ];
 
-    if(currentStudent==null){
+    if (currentStudent == null) {
       return Scaffold(
         body: Center(
           child: Container(
@@ -57,13 +64,15 @@ class _InfoPageState extends State<InfoPage> {
           ),
         ),
       );
-    }
-    else{
+    } else {
       return Scaffold(
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('users').doc(_uid).snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(_uid)
+              .snapshots(),
           builder: (context, snapshot) {
-            if(!snapshot.hasData) {
+            if (!snapshot.hasData) {
               return Scaffold(
                 body: Center(
                   child: Container(
@@ -73,9 +82,8 @@ class _InfoPageState extends State<InfoPage> {
                   ),
                 ),
               );
-            }
-            else {
-              if(snapshot.data['spotuid']=='none') {
+            } else {
+              if (snapshot.data['spotuid'] == 'none') {
                 return Scaffold(
                   body: Container(
                     child: Column(
@@ -98,16 +106,18 @@ class _InfoPageState extends State<InfoPage> {
                                           height: 105,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: BorderRadius.circular(50),
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.black.withOpacity(0.3),
+                                                  color: Colors.black
+                                                      .withOpacity(0.3),
                                                   spreadRadius: 3,
                                                   blurRadius: 5,
-                                                  offset: Offset(0, 3), // changes position of shadow
+                                                  offset: Offset(0,
+                                                      3), // changes position of shadow
                                                 ),
-                                              ]
-                                          ),
+                                              ]),
                                         ),
                                       ),
                                       Center(
@@ -120,8 +130,10 @@ class _InfoPageState extends State<InfoPage> {
                                               width: 95,
                                               height: 95,
                                               child: ClipRRect(
-                                                child: Image.network(currentStudent.uid),
-                                                borderRadius: BorderRadius.circular(45),
+                                                child: Image.network(
+                                                    currentStudent.uid),
+                                                borderRadius:
+                                                    BorderRadius.circular(45),
                                               ),
                                             ),
                                             Container(
@@ -163,10 +175,10 @@ class _InfoPageState extends State<InfoPage> {
                                   Container(
                                     height: 170,
                                     child: AspectRatio(
-                                      aspectRatio: 1000/560,
+                                      aspectRatio: 1000 / 560,
                                       child: FlareActor(
                                         "assets/add.flr",
-                                        alignment:Alignment.center,
+                                        alignment: Alignment.center,
                                         fit: BoxFit.fill,
                                         animation: 'active',
                                       ),
@@ -186,7 +198,7 @@ class _InfoPageState extends State<InfoPage> {
                                           aspectRatio: 8.5,
                                           child: FlareActor(
                                             "assets/parktext.flr",
-                                            alignment:Alignment.center,
+                                            alignment: Alignment.center,
                                             fit: BoxFit.fill,
                                             animation: 'reserve',
                                           ),
@@ -200,16 +212,19 @@ class _InfoPageState extends State<InfoPage> {
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height-296,
+                              height: MediaQuery.of(context).size.height - 296,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15)),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(0, 3), // changes position of shadow
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
                                   ),
                                 ],
                               ),
@@ -227,18 +242,19 @@ class _InfoPageState extends State<InfoPage> {
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: incompleteGradient
-                      ),
+                          colors: incompleteGradient),
                     ),
                   ),
                 );
-              }
-              else{
+              } else {
                 return FutureBuilder(
-                  future: FirebaseFirestore.instance.collection('spots').doc(snapshot.data['spotuid']).get(),
+                  future: FirebaseFirestore.instance
+                      .collection('spots')
+                      .doc(snapshot.data!['spotuid'])
+                      .get(),
                   builder: (context, spotData) {
-                    if(spotData.hasData) {
-                      if(!spotData.data['completed']) {
+                    if (spotData.hasData) {
+                      if (!spotData.data!['completed']) {
                         return Scaffold(
                           body: Container(
                             child: ListView(
@@ -261,16 +277,19 @@ class _InfoPageState extends State<InfoPage> {
                                                   height: 105,
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
-                                                      borderRadius: BorderRadius.circular(50),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
                                                       boxShadow: [
                                                         BoxShadow(
-                                                          color: Colors.black.withOpacity(0.3),
+                                                          color: Colors.black
+                                                              .withOpacity(0.3),
                                                           spreadRadius: 3,
                                                           blurRadius: 5,
-                                                          offset: Offset(0, 3), // changes position of shadow
+                                                          offset: Offset(0,
+                                                              3), // changes position of shadow
                                                         ),
-                                                      ]
-                                                  ),
+                                                      ]),
                                                 ),
                                               ),
                                               Center(
@@ -283,8 +302,11 @@ class _InfoPageState extends State<InfoPage> {
                                                       width: 95,
                                                       height: 95,
                                                       child: ClipRRect(
-                                                        child: Image.network(currentStudent.uid),
-                                                        borderRadius: BorderRadius.circular(45),
+                                                        child: Image.network(
+                                                            currentStudent.uid),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(45),
                                                       ),
                                                     ),
                                                     Container(
@@ -329,10 +351,11 @@ class _InfoPageState extends State<InfoPage> {
                                                 Container(
                                                   height: 200,
                                                   child: AspectRatio(
-                                                    aspectRatio: 1000/560,
+                                                    aspectRatio: 1000 / 560,
                                                     child: FlareActor(
                                                       "assets/add.flr",
-                                                      alignment:Alignment.center,
+                                                      alignment:
+                                                          Alignment.center,
                                                       fit: BoxFit.fill,
                                                       animation: 'parking',
                                                     ),
@@ -352,7 +375,8 @@ class _InfoPageState extends State<InfoPage> {
                                                         aspectRatio: 8.5,
                                                         child: FlareActor(
                                                           "assets/parktext.flr",
-                                                          alignment:Alignment.center,
+                                                          alignment:
+                                                              Alignment.center,
                                                           fit: BoxFit.fill,
                                                           animation: 'continue',
                                                         ),
@@ -366,10 +390,15 @@ class _InfoPageState extends State<InfoPage> {
                                               ],
                                             ),
                                             onTap: () {
-                                              DocumentReference spotRef = FirebaseFirestore.instance.collection('spots').doc(snapshot.data['spotuid']);
+                                              DocumentReference spotRef =
+                                                  FirebaseFirestore.instance
+                                                      .collection('spots')
+                                                      .doc(snapshot
+                                                          .data!['spotuid']);
                                               Navigator.of(context).push(
-                                                  MaterialPageRoute(builder: (context) => InfoSubmit(spotRef))
-                                              );
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          InfoSubmit(spotRef)));
                                             },
                                           ),
                                           Container(
@@ -377,8 +406,10 @@ class _InfoPageState extends State<InfoPage> {
                                           ),
                                           ElevatedButton(
                                             style: TextButton.styleFrom(
-                                              backgroundColor: Colors.transparent,  // Button color
-                                              foregroundColor: Colors.transparent,   // Splash color
+                                              backgroundColor: Colors
+                                                  .transparent, // Button color
+                                              foregroundColor: Colors
+                                                  .transparent, // Splash color
                                             ),
                                             child: Container(
                                               height: 60,
@@ -397,8 +428,7 @@ class _InfoPageState extends State<InfoPage> {
                                                         Text(
                                                           'or',
                                                           style: TextStyle(
-                                                              fontSize: 20
-                                                          ),
+                                                              fontSize: 20),
                                                         ),
                                                       ),
                                                       FadeAnimationUp(
@@ -406,38 +436,45 @@ class _InfoPageState extends State<InfoPage> {
                                                         Text(
                                                           'Change Your Selection',
                                                           style: TextStyle(
-                                                              fontSize: 20
-                                                          ),
+                                                              fontSize: 20),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                             onPressed: () {
-                                              DocumentReference spotRef = FirebaseFirestore.instance.collection('spots').doc(snapshot.data['spotuid']);
                                               Navigator.of(context).push(
-                                                  MaterialPageRoute(builder: (context) => Map())
-                                              );
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Map()));
                                             },
                                           ),
                                         ],
                                       ),
                                       width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height-296,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              296,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15)),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black54.withOpacity(.5),
+                                            color:
+                                                Colors.black54.withOpacity(.5),
                                             spreadRadius: 5,
                                             blurRadius: 7,
-                                            offset: Offset(0, 3), // changes position of shadow
+                                            offset: Offset(0,
+                                                3), // changes position of shadow
                                           ),
                                         ],
                                       ),
@@ -450,13 +487,11 @@ class _InfoPageState extends State<InfoPage> {
                               gradient: LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
-                                  colors: incompleteGradient
-                              ),
+                                  colors: incompleteGradient),
                             ),
                           ),
                         );
-                      }
-                      else if(!spotData.data['confirmed']) {
+                      } else if (!spotData.data!['confirmed']) {
                         return Scaffold(
                           body: Container(
                             child: Column(
@@ -479,16 +514,19 @@ class _InfoPageState extends State<InfoPage> {
                                                   height: 105,
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
-                                                      borderRadius: BorderRadius.circular(50),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
                                                       boxShadow: [
                                                         BoxShadow(
-                                                          color: Colors.black.withOpacity(0.3),
+                                                          color: Colors.black
+                                                              .withOpacity(0.3),
                                                           spreadRadius: 3,
                                                           blurRadius: 5,
-                                                          offset: Offset(0, 3), // changes position of shadow
+                                                          offset: Offset(0,
+                                                              3), // changes position of shadow
                                                         ),
-                                                      ]
-                                                  ),
+                                                      ]),
                                                 ),
                                               ),
                                               Center(
@@ -501,8 +539,11 @@ class _InfoPageState extends State<InfoPage> {
                                                       width: 95,
                                                       height: 95,
                                                       child: ClipRRect(
-                                                        child: Image.network(currentStudent.uid),
-                                                        borderRadius: BorderRadius.circular(45),
+                                                        child: Image.network(
+                                                            currentStudent.uid),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(45),
                                                       ),
                                                     ),
                                                     Container(
@@ -541,83 +582,139 @@ class _InfoPageState extends State<InfoPage> {
                                         physics: ScrollPhysics(),
                                         children: [
                                           Container(
-                                            height: MediaQuery.of(context).size.height-296,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                296,
                                             child: Column(
                                               children: <Widget>[
                                                 Spacer(
                                                   flex: 1,
                                                 ),
-                                                (spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30+(7-(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays>0 ? Column(
-                                                  children: <Widget>[
-                                                    RichText(
-                                                      text: TextSpan(
-                                                          style: DefaultTextStyle.of(context).style,
-                                                          children: <TextSpan>[
-                                                            TextSpan(
-                                                              text: '${(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30+(7-(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays}',
-                                                              style: TextStyle(
-                                                                fontSize: MediaQuery.of(context).size.width/7,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),
+                                                (spotData.data!['submitDate']
+                                                                as Timestamp)
+                                                            .toDate()
+                                                            .add(Duration(
+                                                                days: 30 +
+                                                                    (7 -
+                                                                        (spotData.data!['submitDate']
+                                                                                as Timestamp)
+                                                                            .toDate()
+                                                                            .add(Duration(
+                                                                                days:
+                                                                                    30))
+                                                                            .weekday)))
+                                                            .difference(
+                                                                DateTime.now())
+                                                            .inDays >
+                                                        0
+                                                    ? Column(
+                                                        children: <Widget>[
+                                                          RichText(
+                                                            text: TextSpan(
+                                                                style: DefaultTextStyle.of(
+                                                                        context)
+                                                                    .style,
+                                                                children: <
+                                                                    TextSpan>[
+                                                                  TextSpan(
+                                                                    text:
+                                                                        '${(spotData.data!['submitDate'] as Timestamp).toDate().add(Duration(days: 30 + (7 - (spotData.data!['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          MediaQuery.of(context).size.width /
+                                                                              7,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text:
+                                                                        ' Days',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          30,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
+                                                                  ),
+                                                                ]),
+                                                          ),
+                                                          Text(
+                                                            'Until Spot Deletion',
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                             ),
-                                                            TextSpan(
-                                                              text: ' Days',
-                                                              style: TextStyle(
-                                                                fontSize: 30,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : Column(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            'Your Spot Will Be',
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                             ),
-                                                          ]
+                                                          ),
+                                                          Text(
+                                                            'Deleted This Midnight',
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      'Until Spot Deletion',
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ) :
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      'Your Spot Will Be',
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'Deleted This Midnight',
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
                                                 Container(
                                                   height: 20,
                                                 ),
-                                                (spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30+(7-(spotData.data['submitDate'] as Timestamp).toDate().add(Duration(days: 30)).weekday))).difference(DateTime.now()).inDays>0 ? Container(
-                                                  width: 200,
-                                                  child: Text(
-                                                    'Show your valid License, Insurance, and your School ID to your Counselor to Confirm your Parking Spot',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                    ),
-                                                  ),
-                                                ) :
-                                                Container(
-                                                  width: 200,
-                                                  child: Text(
-                                                    'It\'s Sunday. Sooooooo...... um... Isn\'t the school closed today?',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                    ),
-                                                  ),
-                                                ),
+                                                (spotData.data!['submitDate']
+                                                                as Timestamp)
+                                                            .toDate()
+                                                            .add(Duration(
+                                                                days: 30 +
+                                                                    (7 -
+                                                                        (spotData.data!['submitDate']
+                                                                                as Timestamp)
+                                                                            .toDate()
+                                                                            .add(Duration(
+                                                                                days:
+                                                                                    30))
+                                                                            .weekday)))
+                                                            .difference(
+                                                                DateTime.now())
+                                                            .inDays >
+                                                        0
+                                                    ? Container(
+                                                        width: 200,
+                                                        child: Text(
+                                                          'Show your valid License, Insurance, and your School ID to your Counselor to Confirm your Parking Spot',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(),
+                                                        ),
+                                                      )
+                                                    : Container(
+                                                        width: 200,
+                                                        child: Text(
+                                                          'It\'s Sunday. Sooooooo...... um... Isn\'t the school closed today?',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(),
+                                                        ),
+                                                      ),
                                                 Spacer(
                                                   flex: 1,
                                                 ),
@@ -643,10 +740,17 @@ class _InfoPageState extends State<InfoPage> {
                                                 width: 20,
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context).size.width-20,
-                                                height: MediaQuery.of(context).size.height-326,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    20,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height -
+                                                    326,
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Container(
                                                       height: 10,
@@ -654,17 +758,20 @@ class _InfoPageState extends State<InfoPage> {
                                                     Text(
                                                       'Your spot is',
                                                       style: TextStyle(
-                                                        fontWeight: FontWeight.w300,
+                                                        fontWeight:
+                                                            FontWeight.w300,
                                                         fontSize: 20,
                                                         color: Colors.black87,
                                                       ),
                                                     ),
                                                     Text(
-                                                      spotData.data['spot'].toString(),
+                                                      spotData.data!['spot']
+                                                          .toString(),
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 60,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                       ),
                                                     ),
                                                     Row(
@@ -674,15 +781,24 @@ class _InfoPageState extends State<InfoPage> {
                                                           style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight:
+                                                                FontWeight.w600,
                                                           ),
                                                         ),
                                                         Text(
-                                                          spotData.data['isCash'] ? 'Cash' : 'Check',
+                                                          spotData.data![
+                                                                  'isCash']
+                                                              ? 'Cash'
+                                                              : 'Check',
                                                           style: TextStyle(
-                                                            color: spotData.data['isCash'] ? Colors.green : Colors.blue,
+                                                            color: spotData
+                                                                        .data![
+                                                                    'isCash']
+                                                                ? Colors.green
+                                                                : Colors.blue,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight:
+                                                                FontWeight.w600,
                                                           ),
                                                         ),
                                                       ],
@@ -695,16 +811,22 @@ class _InfoPageState extends State<InfoPage> {
                                         ],
                                       ),
                                       width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height-296,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              296,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15)),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black54.withOpacity(.5),
+                                            color:
+                                                Colors.black54.withOpacity(.5),
                                             spreadRadius: 5,
                                             blurRadius: 7,
-                                            offset: Offset(0, 3), // changes position of shadow
+                                            offset: Offset(0,
+                                                3), // changes position of shadow
                                           ),
                                         ],
                                       ),
@@ -717,13 +839,11 @@ class _InfoPageState extends State<InfoPage> {
                               gradient: LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
-                                  colors: unconfirmedGradient
-                              ),
+                                  colors: unconfirmedGradient),
                             ),
                           ),
                         );
-                      }
-                      else {
+                      } else {
                         return Scaffold(
                           body: Container(
                             child: Column(
@@ -746,16 +866,19 @@ class _InfoPageState extends State<InfoPage> {
                                                   height: 105,
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
-                                                      borderRadius: BorderRadius.circular(50),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
                                                       boxShadow: [
                                                         BoxShadow(
-                                                          color: Colors.black.withOpacity(0.3),
+                                                          color: Colors.black
+                                                              .withOpacity(0.3),
                                                           spreadRadius: 3,
                                                           blurRadius: 5,
-                                                          offset: Offset(0, 3), // changes position of shadow
+                                                          offset: Offset(0,
+                                                              3), // changes position of shadow
                                                         ),
-                                                      ]
-                                                  ),
+                                                      ]),
                                                 ),
                                               ),
                                               Center(
@@ -768,8 +891,11 @@ class _InfoPageState extends State<InfoPage> {
                                                       width: 95,
                                                       height: 95,
                                                       child: ClipRRect(
-                                                        child: Image.network(currentStudent.uid),
-                                                        borderRadius: BorderRadius.circular(45),
+                                                        child: Image.network(
+                                                            currentStudent.uid),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(45),
                                                       ),
                                                     ),
                                                     Container(
@@ -810,10 +936,17 @@ class _InfoPageState extends State<InfoPage> {
                                               width: 20,
                                             ),
                                             Container(
-                                              width: MediaQuery.of(context).size.width-20,
-                                              height: MediaQuery.of(context).size.height-326,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  20,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  326,
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Container(
                                                     height: 10,
@@ -821,36 +954,42 @@ class _InfoPageState extends State<InfoPage> {
                                                   Text(
                                                     'Your spot is',
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.w300,
+                                                      fontWeight:
+                                                          FontWeight.w300,
                                                       fontSize: 20,
                                                       color: Colors.black87,
                                                     ),
                                                   ),
                                                   Text(
-                                                    spotData.data['spot'].toString(),
+                                                    spotData.data!['spot']
+                                                        .toString(),
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 60,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                   Text(
-                                                    '${spotData.data['year']} ${spotData.data['model']}',
+                                                    '${spotData.data!['year']} ${spotData.data!['model']}',
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 25,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                   Container(
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    spotData.data['licensePlate'],
+                                                    spotData
+                                                        .data!['licensePlate'],
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 20,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                 ],
@@ -860,16 +999,22 @@ class _InfoPageState extends State<InfoPage> {
                                         ),
                                       ),
                                       width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height-296,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              296,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15)),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black54.withOpacity(.5),
+                                            color:
+                                                Colors.black54.withOpacity(.5),
                                             spreadRadius: 5,
                                             blurRadius: 7,
-                                            offset: Offset(0, 3), // changes position of shadow
+                                            offset: Offset(0,
+                                                3), // changes position of shadow
                                           ),
                                         ],
                                       ),
@@ -882,14 +1027,12 @@ class _InfoPageState extends State<InfoPage> {
                               gradient: LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
-                                  colors: completedGradient
-                              ),
+                                  colors: completedGradient),
                             ),
                           ),
                         );
                       }
-                    }
-                    else {
+                    } else {
                       return Scaffold(
                         body: Center(
                           child: Container(

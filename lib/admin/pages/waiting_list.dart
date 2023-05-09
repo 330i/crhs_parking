@@ -11,7 +11,7 @@ class WaitingList extends StatefulWidget {
 
 class _WaitingListState extends State<WaitingList> {
 
-  List<int> spotSearch = new List<int>();
+  List<int> spotSearch = <int>[];
 
   TextEditingController searchController = new TextEditingController(text: '');
   String query = '';
@@ -95,9 +95,9 @@ class _WaitingListState extends State<WaitingList> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: snapshots.data.documents.length,
+                          itemCount: snapshots.data?.docs.length,
                           itemBuilder: (context, i) {
-                            if(snapshots.data.documents[i]['spot']!=0&&snapshots.data.documents[i]['completed']&&!snapshots.data.documents[i]['confirmed']&&snapshots.data.documents[i]['spot'].toString().contains(query)) {
+                            if(snapshots.data?.docs[i]['spot'] != 0 && snapshots.data?.docs[i]['completed'] && !snapshots.data?.docs[i]['confirmed'] && snapshots.data!.docs[i]['spot'].toString().contains(query)) {
                               return Container(
                                 child: Column(
                                   children: <Widget>[
@@ -112,7 +112,7 @@ class _WaitingListState extends State<WaitingList> {
                                                 width: 10,
                                               ),
                                               Text(
-                                                '${snapshots.data.documents[i]['first']} ${snapshots.data.documents[i]['last']}',
+                                                '${snapshots.data?.docs[i]['first']} ${snapshots.data?.docs[i]['last']}',
                                                 style: TextStyle(
                                                   fontSize: 23,
                                                 ),
@@ -121,7 +121,7 @@ class _WaitingListState extends State<WaitingList> {
                                                 width: 10,
                                               ),
                                               Text(
-                                                '${snapshots.data.documents[i]['spot']}',
+                                                '${snapshots.data?.docs[i]['spot']}',
                                                 style: TextStyle(
                                                   fontSize: 23,
                                                 ),
@@ -130,7 +130,7 @@ class _WaitingListState extends State<WaitingList> {
                                           ),
                                         ),
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => SpotInfo(snapshots.data.documents[i])));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => SpotInfo(snapshots.data!.docs[i])));
                                         },
                                       ),
                                     ),

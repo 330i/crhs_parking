@@ -1,10 +1,9 @@
+import 'package:crhs_parking_app/login/auth.dart';
 import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/admin/login/google_sign_in.dart';
 
 class Signin extends StatefulWidget {
@@ -13,8 +12,8 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  VideoPlayerController videoPlayerController;
-  Future<void> _initializeVideoPlayerFuture;
+  late VideoPlayerController videoPlayerController;
+  late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
@@ -169,16 +168,11 @@ class _SigninState extends State<Signin> {
                             });
                       }
                     });
-                    String uid;
-                    String email;
+                    String? email;
                     await FirebaseAuth.instance.currentUser;
                     // uid = currentUser.uid;
                     // email = currentUser.email;
-                    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(uid)
-                        .get();
-                    if (email.endsWith('@students.katyisd.org')) {
+                    if (email!.endsWith('@students.katyisd.org')) {
                       Navigator.of(context).pushAndRemoveUntil(
                           CupertinoPageRoute(
                               builder: (context) => Navigation()),
@@ -253,15 +247,13 @@ class Users extends StatefulWidget {
 }
 
 class _UsersState extends State<Users> {
-  Map<String, dynamic> _profile;
-  bool _loading = false;
+  late Map<String, dynamic> _profile;
 
   @override
   void initState() {
     super.initState();
     authService.profile.listen((state) => setState(() => _profile = state));
 
-    authService.loading.listen((state) => setState(() => _loading = state));
   }
 
   @override

@@ -14,7 +14,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
 
-  User currentStudent;
+  User? currentStudent;
 
   @override
   void initState() {
@@ -23,8 +23,8 @@ class _SettingsState extends State<Settings> {
   }
 
   void getUser() async {
-    User getUser = await FirebaseAuth.instance.currentUser;
-    DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(getUser.uid).get();
+    User? getUser = await FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(getUser!.uid).get();
     currentStudent = User.fromSnapshot(userData);
     setState(() {
 
@@ -33,7 +33,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    if(currentStudent==null) {
+    if(currentStudent == null) {
       return Scaffold(
         body: Center(
           child: Container(
@@ -120,30 +120,30 @@ class _SettingsState extends State<Settings> {
                   width: 10,
                 ),
                 StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('users').doc(currentStudent.uid).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('users').doc(currentStudent!.uid).snapshots(),
                   builder: (context, snapshots) {
                     if(!snapshots.hasData) {
                       return Container();
                     }
                     else {
-                      if(snapshots.data['spotuid']=='none') {
+                      if(snapshots.data?['spotuid'] =='none') {
                         return Container();
                       }
                       else {
                         return StreamBuilder(
-                          stream: FirebaseFirestore.instance.collection('spots').doc(snapshots.data['spotuid']).snapshots(),
+                          stream: FirebaseFirestore.instance.collection('spots').doc(snapshots.data!['spotuid']).snapshots(),
                           builder: (context, snap) {
                             if(!snap.hasData) {
                               return Container();
                             }
                             else {
-                              if(snap.data['confirmed']) {
+                              if(snap.data?['confirmed']) {
                                 return Container();
                               }
                               else {
                                 return Column(
                                   children: <Widget>[
-                                    snap.data['completed'] ? Container(
+                                    snap.data?['completed'] ? Container(
                                       child: TextButton(
                                         child: Container(
                                           width: MediaQuery.of(context).size.width-50,
@@ -257,8 +257,8 @@ class _SettingsState extends State<Settings> {
                                                   TextButton(
                                                     child: Text('Yes'),
                                                     onPressed: () {
-                                                      FirebaseFirestore.instance.collection('spots').doc(snapshots.data['spotuid']).delete();
-                                                      FirebaseFirestore.instance.collection('users').doc(currentStudent.uid).set({
+                                                      FirebaseFirestore.instance.collection('spots').doc(snapshots.data!['spotuid']).delete();
+                                                      FirebaseFirestore.instance.collection('users').doc(currentStudent!.uid).set({
                                                         'spotuid': 'none'
                                                       }, SetOptions(merge: true));
                                                       Navigator.pop(context);

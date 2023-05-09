@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crhs_parking_app/pages/process_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:validators/sanitizers.dart';
-import 'navigation.dart';
-import 'process_info.dart';
 
 class InfoChange extends StatefulWidget {
   InfoChange();
@@ -122,7 +121,7 @@ class _InfoChangeState extends State<InfoChange> {
                         child: Row(
                           children: [
                             Text(
-                              birth == null ? 'Date of Birth' : '${birth.month}/${birth.day}/${birth.year}',
+                              birth == null ? 'Date of Birth' : '${birth!.month}/${birth!.day}/${birth!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -155,7 +154,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(DateTime.now().year),
                           ).then((date) {
                             setState(() {
-                              birth = date;
+                              birth = date!;
                             });
                           });
                         },
@@ -224,7 +223,7 @@ class _InfoChangeState extends State<InfoChange> {
                         child: Row(
                           children: [
                             Text(
-                              licenseExpiration == null ? 'License Exp.' : '${licenseExpiration.month}/${licenseExpiration.day}/${licenseExpiration.year}',
+                              licenseExpiration == null ? 'License Exp.' : '${licenseExpiration!.month}/${licenseExpiration!.day}/${licenseExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -257,7 +256,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(2070),
                           ).then((licensedate) {
                             setState(() {
-                              licenseExpiration = licensedate;
+                              licenseExpiration = licensedate!;
                             });
                           });
                         },
@@ -281,7 +280,7 @@ class _InfoChangeState extends State<InfoChange> {
                         child: Row(
                           children: [
                             Text(
-                              insuranceExpiration == null ? 'Insurance Exp.' : '${insuranceExpiration.month}/${insuranceExpiration.day}/${insuranceExpiration.year}',
+                              insuranceExpiration == null ? 'Insurance Exp.' : '${insuranceExpiration!.month}/${insuranceExpiration!.day}/${insuranceExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -314,7 +313,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(2050),
                           ).then((insurancedate) {
                             setState(() {
-                              insuranceExpiration = insurancedate;
+                              insuranceExpiration = insurancedate!;
                             });
                           });
                         },
@@ -366,21 +365,7 @@ class _InfoChangeState extends State<InfoChange> {
                     ),
                   ),
                   onTap: () async {
-                    if(first!=null&&
-                        last!=null&&
-                        grade!=null&&
-                        id!=null&&
-                        address!=null&&
-                        zip!=null&&
-                        phone!=null&&
-                        birth!=null&&
-                        model!=null&&
-                        color!=null&&
-                        year!=null&&
-                        plate!=null&&
-                        driver!=null&&
-                        licenseExpiration!=null&&
-                        insuranceExpiration!=null&&
+                    if(last!=null&&
                         first.text!=''&&
                         last.text!=''&&
                         grade.text!=''&&
@@ -393,8 +378,8 @@ class _InfoChangeState extends State<InfoChange> {
                         year.text!=''&&
                         plate.text!=''&&
                         driver.text!='') {
-                      User currentUser = await FirebaseAuth.instance.currentUser;
-                      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+                      User? currentUser = await FirebaseAuth.instance.currentUser;
+                      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser?.uid).get();
                       DocumentReference reference = FirebaseFirestore.instance.collection('spots').doc((userDoc.data as DocumentSnapshot)['spotuid']);
                       await reference.set({
                         'first': first.text.substring(0, 1).toUpperCase()+first.text.substring(1),
@@ -415,7 +400,7 @@ class _InfoChangeState extends State<InfoChange> {
                         'isCash': payCash,
                         'confirmed': false,
                         'completed': true,
-                        'userid': currentUser.uid,
+                        'userid': currentUser?.uid,
                       }, SetOptions(merge: true));
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
                     }
