@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crhs_parking_app/pages/process_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:validators/sanitizers.dart';
-import 'navigation.dart';
-import 'process_info.dart';
 
 class InfoChange extends StatefulWidget {
   InfoChange();
@@ -119,11 +117,11 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
-                              birth == null ? 'Date of Birth' : '${birth.month}/${birth.day}/${birth.year}',
+                              birth == null ? 'Date of Birth' : '${birth!.month}/${birth!.day}/${birth!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -156,7 +154,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(DateTime.now().year),
                           ).then((date) {
                             setState(() {
-                              birth = date;
+                              birth = date!;
                             });
                           });
                         },
@@ -221,11 +219,11 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
-                              licenseExpiration == null ? 'License Exp.' : '${licenseExpiration.month}/${licenseExpiration.day}/${licenseExpiration.year}',
+                              licenseExpiration == null ? 'License Exp.' : '${licenseExpiration!.month}/${licenseExpiration!.day}/${licenseExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -258,7 +256,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(2070),
                           ).then((licensedate) {
                             setState(() {
-                              licenseExpiration = licensedate;
+                              licenseExpiration = licensedate!;
                             });
                           });
                         },
@@ -278,11 +276,11 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
-                              insuranceExpiration == null ? 'Insurance Exp.' : '${insuranceExpiration.month}/${insuranceExpiration.day}/${insuranceExpiration.year}',
+                              insuranceExpiration == null ? 'Insurance Exp.' : '${insuranceExpiration!.month}/${insuranceExpiration!.day}/${insuranceExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -315,7 +313,7 @@ class _InfoChangeState extends State<InfoChange> {
                             lastDate: DateTime(2050),
                           ).then((insurancedate) {
                             setState(() {
-                              insuranceExpiration = insurancedate;
+                              insuranceExpiration = insurancedate!;
                             });
                           });
                         },
@@ -327,11 +325,11 @@ class _InfoChangeState extends State<InfoChange> {
                         initialLabelIndex: payCash ? 0 : 1,
                         minWidth: (MediaQuery.of(context).size.width-20)/4.0,
                         cornerRadius: 5,
-                        activeTextColor: Colors.white,
+                        activeFgColor: Colors.white,
                         inactiveBgColor: Colors.grey,
-                        inactiveTextColor: Colors.white,
+                        inactiveFgColor: Colors.white,
                         labels: ['Cash', 'Check'],
-                        activeColors: [Colors.green, Colors.blue],
+                        activeBgColors: [Colors.green, Colors.blue],
                         onToggle: (index) {
                           if (index == 0) {
                             payCash = true;
@@ -367,21 +365,7 @@ class _InfoChangeState extends State<InfoChange> {
                     ),
                   ),
                   onTap: () async {
-                    if(first!=null&&
-                        last!=null&&
-                        grade!=null&&
-                        id!=null&&
-                        address!=null&&
-                        zip!=null&&
-                        phone!=null&&
-                        birth!=null&&
-                        model!=null&&
-                        color!=null&&
-                        year!=null&&
-                        plate!=null&&
-                        driver!=null&&
-                        licenseExpiration!=null&&
-                        insuranceExpiration!=null&&
+                    if(last!=null&&
                         first.text!=''&&
                         last.text!=''&&
                         grade.text!=''&&
@@ -394,10 +378,10 @@ class _InfoChangeState extends State<InfoChange> {
                         year.text!=''&&
                         plate.text!=''&&
                         driver.text!='') {
-                      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                      DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(currentUser.uid).get();
-                      DocumentReference reference = Firestore.instance.collection('spots').document(userDoc.data['spotuid']);
-                      await reference.setData({
+                      User? currentUser = await FirebaseAuth.instance.currentUser;
+                      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser?.uid).get();
+                      DocumentReference reference = FirebaseFirestore.instance.collection('spots').doc((userDoc.data as DocumentSnapshot)['spotuid']);
+                      await reference.set({
                         'first': first.text.substring(0, 1).toUpperCase()+first.text.substring(1),
                         'last': last.text.substring(0, 1).toUpperCase()+last.text.substring(1),
                         'grade': toInt(grade.text),
@@ -416,8 +400,8 @@ class _InfoChangeState extends State<InfoChange> {
                         'isCash': payCash,
                         'confirmed': false,
                         'completed': true,
-                        'userid': currentUser.uid,
-                      }, merge: true);
+                        'userid': currentUser?.uid,
+                      }, SetOptions(merge: true));
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
                     }
                     else {
@@ -446,122 +430,125 @@ class _InfoChangeState extends State<InfoChange> {
 
   Widget FieldGen (String hint, TextInputType type, TextEditingController controller) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
 
+      ),
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+        keyboardType: type,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
             hintStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.black
+              fontSize: 18,
+              color: Colors.black
             ),
             border: InputBorder.none,
 
-          ),
-        ));
+        ),
+      )
+    );
   }
 
   Widget FieldGenMax (String hint, TextInputType type, TextEditingController controller, int max) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
-
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
+      ),
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        maxLength: max,
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          maxLength: max,
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            counterText: '',
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+        keyboardType: type,
+        decoration: InputDecoration(
+          counterText: '',
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
             hintStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.black
+              fontSize: 18,
+              color: Colors.black
             ),
             border: InputBorder.none,
 
-          ),
-        ));
+        ),
+      )
+    );
   }
 
   Widget FieldGenSmall (String hint, TextInputType type, TextEditingController controller) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
+      ),
 
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+        keyboardType: type,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
             hintStyle: TextStyle(
-                fontSize: 13,
-                color: Colors.black
-            ),
-            border: InputBorder.none,
-
+              fontSize: 13,
+              color: Colors.black
           ),
-        ));
+
+          border: InputBorder.none,
+        ),
+      )
+    );
   }
 
-  Widget FieldGenMaxSmall (String hint, TextInputType type, TextEditingController controller, int max) {
+  Widget FieldGenMaxSmall(String hint, TextInputType type, TextEditingController controller, int max) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
 
+      ),
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        maxLength: max,
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          maxLength: max,
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
+        keyboardType: type,
+        decoration: InputDecoration(
+          counterText: '',
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0
           ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            counterText: '',
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
-            hintText: " " + hint,
-            hintStyle: TextStyle(
-                fontSize: 13,
-                color: Colors.black
-            ),
-            border: InputBorder.none,
+          hintText: " " + hint,
+          hintStyle: TextStyle(
+            fontSize: 13,
+            color: Colors.black
+          ),
 
+          border: InputBorder.none,
           ),
-        ));
+      )
+    );
   }
-
 }

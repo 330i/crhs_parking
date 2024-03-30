@@ -10,10 +10,10 @@ class User {
 
   DocumentReference reference;
 
-  User({this.name, this.email, this.uid, this.url, this.spotuid, this.reference});
+  User({required this.name, required this.email, required this.uid, required this.url, required this.spotuid, required this.reference});
 
   factory User.fromSnapshot(DocumentSnapshot snapshot) {
-    User newUser = User.fromJson(snapshot.data);
+    User newUser = User.fromJson(snapshot.data()! as Map<String, dynamic>);
     newUser.reference = snapshot.reference;
     return newUser;
   }
@@ -24,7 +24,8 @@ class User {
       email: json['email'] as String,
       uid: json['uid'] as String,
       url: json['url'] as String,
-      spotuid: json['spotuid'] as String,
+      spotuid: json['spotuid'] as String, 
+      reference: ,
     );
   }
 
@@ -37,5 +38,4 @@ class User {
       'uid': instance.uid,
     };
   }
-
 }

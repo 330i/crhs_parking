@@ -16,13 +16,13 @@ class Spots extends StatefulWidget {
 
 class _SpotsState extends State<Spots> {
 
-  List<int> spotSearch = new List<int>();
+  List<int> spotSearch = <int>[];
 
   TextEditingController searchController = new TextEditingController(text: '');
   String query = '';
 
   Search(List<int> spots) {
-    spotSearch = new List<int>();
+    spotSearch = <int>[];
     print(spotSearch);
     int i=0;
     print(spots.length);
@@ -56,7 +56,7 @@ class _SpotsState extends State<Spots> {
 
   @override
   Widget build(BuildContext context) {
-    List<int> spots = new List<int>();
+    List<int> spots = <int>[];
     int min;
     int max;
 
@@ -187,7 +187,7 @@ class _SpotsState extends State<Spots> {
           Expanded(
             child: Container(
               child: StreamBuilder(
-                stream: Firestore.instance.collection('spots').snapshots(),
+                stream: FirebaseFirestore.instance.collection('spots').snapshots(),
                 builder: (context, snap) {
                   if(!snap.hasData) {
                     return Scaffold(
@@ -201,10 +201,10 @@ class _SpotsState extends State<Spots> {
                     );
                   }
                   else {
-                    List<int> occupied = new List<int>();
-                    for(int i=0;i<snap.data.documents.length;i++) {
-                      if(snap.data.documents[i]['spot']>=min&&snap.data.documents[i]['spot']<=max){
-                        occupied.add(snap.data.documents[i]['spot']);
+                    List<int> occupied = <int>[];
+                    for(int i = 0;i < snap.data!.docs.length;i++) {
+                      if(snap.data!.docs[i]['spot'] >= min && snap.data!.docs[i]['spot'] <= max){
+                        occupied.add(snap.data!.docs[i]['spot']);
                       }
                     }
 
@@ -326,31 +326,31 @@ class _SpotsState extends State<Spots> {
                                         ),
                                         onTap: () async {
                                           if(!isOccupied) {
-                                            FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                            DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(currentUser.uid).get();
-                                            if(userDoc.data['spotuid']!='none') {
-                                              DocumentReference currentSpotDoc = await Firestore.instance.collection('spots').document(userDoc.data['spotuid']);
-                                              currentSpotDoc.setData({
+                                            User? currentUser = await FirebaseAuth.instance.currentUser;
+                                            DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get();
+                                            if((userDoc.data as DocumentSnapshot)['spotuid']!='none') {
+                                              DocumentReference currentSpotDoc = await FirebaseFirestore.instance.collection('spots').doc((userDoc.data as DocumentSnapshot)['spotuid']);
+                                              currentSpotDoc.set({
                                                 'spot': spotSearch[i],
                                                 'confirmed': false,
                                                 'userid': currentUser.uid,
-                                              }, merge: true);
+                                              }, SetOptions(merge: true));
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(builder: (context) => Navigation()),
                                               );
                                             }
                                             else {
-                                              DocumentReference spotDoc = await Firestore.instance.collection('spots').document();
-                                              spotDoc.setData({
+                                              DocumentReference spotDoc = await FirebaseFirestore.instance.collection('spots').doc();
+                                              spotDoc.set({
                                                 'spot': spotSearch[i],
                                                 'completed': false,
                                                 'confirmed': false,
                                                 'userid': currentUser.uid,
                                                 'submitDate': DateTime.now(),
-                                              }, merge: true);
-                                              await Firestore.instance.collection('users').document(currentUser.uid).setData({
-                                                'spotuid': spotDoc.documentID,
-                                              }, merge: true);
+                                              }, SetOptions(merge: true));
+                                              await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).set({
+                                                'spotuid': spotDoc.id,
+                                              }, SetOptions(merge: true));
                                               Navigator.of(context).push(
                                                 CupertinoPageRoute(builder: (context) => InfoSubmit(spotDoc)),
                                               );

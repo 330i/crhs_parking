@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationUp.dart';
 import 'package:crhs_parking_app/pages/navigation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/sanitizers.dart';
@@ -12,9 +10,9 @@ import 'package:validators/sanitizers.dart';
 bool _isAgreed = false;
 bool _isRead = false;
 bool _isGood = false;
-DateTime _birth;
-DateTime _licenseExpiration;
-DateTime _insuranceExpiration;
+DateTime? _birth;
+DateTime? _licenseExpiration;
+DateTime? _insuranceExpiration;
 bool _payCash = true;
 
 String firstSave = '';
@@ -87,7 +85,9 @@ class _InfoSubmitState extends State<InfoSubmit> {
             ),
             Column(
               children: [
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Row(
                   children: [
                     Container(
@@ -102,14 +102,14 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     ),
                     Text(
                       'Personal Info',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400
-                      ),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -143,18 +143,20 @@ class _InfoSubmitState extends State<InfoSubmit> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FieldGenMax("Phone Number", TextInputType.number, phone, 10),
+                    FieldGenMax(
+                        "Phone Number", TextInputType.number, phone, 10),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                      ),
-                      width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      width: (MediaQuery.of(context).size.width - 20) / 2,
+                      child: ElevatedButton(
                         child: Row(
                           children: [
                             Text(
-                              _birth == null ? 'Date of Birth' : '${_birth.month}/${_birth.day}/${_birth.year}',
+                              _birth == null
+                                  ? 'Date of Birth'
+                                  : '${_birth!.month}/${_birth!.day}/${_birth!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -182,12 +184,14 @@ class _InfoSubmitState extends State<InfoSubmit> {
 
                           showDatePicker(
                             context: context,
-                            initialDate: _birth != null ? _birth : DateTime(DateTime.now().year),
+                            initialDate: _birth != null
+                                ? _birth
+                                : DateTime(DateTime.now().year),
                             firstDate: DateTime(1970),
                             lastDate: DateTime(DateTime.now().year),
                           ).then((date) {
                             setState(() {
-                              _birth = date;
+                              _birth = date!;
                             });
                           });
                         },
@@ -212,10 +216,8 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     ),
                     Text(
                       'Car Info',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400
-                      ),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -236,7 +238,8 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FieldGenMax("Year", TextInputType.number, year, 4),
-                    FieldGenSmall("License Plate Number", TextInputType.text, plate)
+                    FieldGenSmall(
+                        "License Plate Number", TextInputType.text, plate)
                   ],
                 ),
                 SizedBox(
@@ -245,18 +248,20 @@ class _InfoSubmitState extends State<InfoSubmit> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FieldGenMaxSmall("Driver's License Number", TextInputType.number, driver, 8),
+                    FieldGenMaxSmall("Driver's License Number",
+                        TextInputType.number, driver, 8),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                      ),
-                      width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      width: (MediaQuery.of(context).size.width - 20) / 2,
+                      child: ElevatedButton(
                         child: Row(
                           children: [
                             Text(
-                              _licenseExpiration == null ? 'License Exp.' : '${_licenseExpiration.month}/${_licenseExpiration.day}/${_licenseExpiration.year}',
+                              _licenseExpiration == null
+                                  ? 'License Exp.'
+                                  : '${_licenseExpiration!.month}/${_licenseExpiration!.day}/${_licenseExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -284,12 +289,14 @@ class _InfoSubmitState extends State<InfoSubmit> {
 
                           showDatePicker(
                             context: context,
-                            initialDate: _licenseExpiration != null ? _licenseExpiration : DateTime(DateTime.now().year),
+                            initialDate: _licenseExpiration != null
+                                ? _licenseExpiration
+                                : DateTime(DateTime.now().year),
                             firstDate: DateTime(DateTime.now().year),
                             lastDate: DateTime(2070),
                           ).then((licensedate) {
                             setState(() {
-                              _licenseExpiration = licensedate;
+                              _licenseExpiration = licensedate!;
                             });
                           });
                         },
@@ -306,14 +313,15 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                      ),
-                      width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      width: (MediaQuery.of(context).size.width - 20) / 2,
+                      child: ElevatedButton(
                         child: Row(
                           children: [
                             Text(
-                              _insuranceExpiration == null ? 'Insurance Exp.' : '${_insuranceExpiration.month}/${_insuranceExpiration.day}/${_insuranceExpiration.year}',
+                              _insuranceExpiration == null
+                                  ? 'Insurance Exp.'
+                                  : '${_insuranceExpiration!.month}/${_insuranceExpiration!.day}/${_insuranceExpiration!.year}',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -341,12 +349,14 @@ class _InfoSubmitState extends State<InfoSubmit> {
 
                           showDatePicker(
                             context: context,
-                            initialDate: _insuranceExpiration != null ? _insuranceExpiration : DateTime(DateTime.now().year),
+                            initialDate: _insuranceExpiration != null
+                                ? _insuranceExpiration
+                                : DateTime(DateTime.now().year),
                             firstDate: DateTime(DateTime.now().year),
                             lastDate: DateTime(2050),
                           ).then((insurancedate) {
                             setState(() {
-                              _insuranceExpiration = insurancedate;
+                              _insuranceExpiration = insurancedate!;
                             });
                           });
                         },
@@ -355,23 +365,22 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     Container(
                       height: 45,
                       child: ToggleSwitch(
-                          minWidth: (MediaQuery.of(context).size.width-20)/4,
+                          minWidth:
+                              (MediaQuery.of(context).size.width - 20) / 4,
                           cornerRadius: 5,
-                          activeTextColor: Colors.white,
+                          // theme: Colors.white,
                           inactiveBgColor: Colors.grey,
-                          inactiveTextColor: Colors.white,
+                          inactiveFgColor: Colors.white,
                           labels: ['Cash', 'Check'],
-                          activeColors: [Colors.green, Colors.blue],
+                          activeBgColors: [Colors.green, Colors.blue],
                           onToggle: (index) {
                             if (index == 0) {
                               _payCash = true;
-                            }
-                            else {
+                            } else {
                               _payCash = false;
                             }
                             print('Cash is ' + _payCash.toString());
-                          }
-                      ),
+                          }),
                     )
                   ],
                 ),
@@ -380,7 +389,6 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _isAgreed,
                   onChanged: (agree) {
-
                     firstSave = first.text;
                     lastSave = last.text;
                     gradeSave = grade.text;
@@ -395,7 +403,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     driverSave = driver.text;
 
                     setState(() {
-                      _isAgreed = agree;
+                      _isAgreed = agree!;
                     });
                     print(_isAgreed);
                   },
@@ -413,7 +421,6 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _isRead,
                   onChanged: (read) async {
-
                     firstSave = first.text;
                     lastSave = last.text;
                     gradeSave = grade.text;
@@ -427,14 +434,16 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     plateSave = plate.text;
                     driverSave = driver.text;
 
-                    if (await canLaunch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf')&&read) {
-                    await launch('http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf');
-                    }
-                    else {
-
-                    }
+                    if (await canLaunchUrl(
+                            'http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf'
+                                as Uri) &&
+                        read!) {
+                      await launchUrl(
+                          'http://www.katyisd.org/campus/CRHS/Documents/PARKING%20PACKET%20%202020-21.pdf'
+                              as Uri);
+                    } else {}
                     setState(() {
-                      _isRead = read;
+                      _isRead = read!;
                     });
                     print(_isRead);
                   },
@@ -452,7 +461,6 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _isGood,
                   onChanged: (good) {
-
                     firstSave = first.text;
                     lastSave = last.text;
                     gradeSave = grade.text;
@@ -467,15 +475,13 @@ class _InfoSubmitState extends State<InfoSubmit> {
                     driverSave = driver.text;
 
                     setState(() {
-                      _isGood = good;
+                      _isGood = good!;
                     });
                     print(_isGood);
                   },
                   title: Text(
                     'I have paid all school related fines and have a valid Driver\'s License, Insurance and School ID.',
-                    style: TextStyle(
-                        fontSize: 15
-                    ),
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
                 SizedBox(
@@ -485,7 +491,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                   child: Container(
                     child: Container(
                       height: 48,
-                      width: (MediaQuery.of(context).size.width-10)/2,
+                      width: (MediaQuery.of(context).size.width - 10) / 2,
                       child: Center(
                         child: Text(
                           'Submit',
@@ -496,51 +502,37 @@ class _InfoSubmitState extends State<InfoSubmit> {
                         ),
                       ),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.redAccent,
                       ),
                     ),
                   ),
                   onTap: () {
-                    if(first!=null&&
-                       last!=null&&
-                       grade!=null&&
-                       id!=null&&
-                       address!=null&&
-                       zip!=null&&
-                       phone!=null&&
-                       _birth!=null&&
-                       model!=null&&
-                       color!=null&&
-                       year!=null&&
-                       plate!=null&&
-                       driver!=null&&
-                       _licenseExpiration!=null&&
-                       _insuranceExpiration!=null&&
-                       _isAgreed&&
-                       _isRead&&
-                       _isGood&&
-                        first.text!=''&&
-                        last.text!=''&&
-                        grade.text!=''&&
-                        id.text!=''&&
-                        address.text!=''&&
-                        zip.text!=''&&
-                        phone.text.length==10&&
-                        model.text!=''&&
-                        color.text!=''&&
-                        year.text!=''&&
-                        plate.text!=''&&
-                        driver.text!='') {
+                    if (_isAgreed &&
+                        _isRead &&
+                        _isGood &&
+                        first.text != '' &&
+                        last.text != '' &&
+                        grade.text != '' &&
+                        id.text != '' &&
+                        address.text != '' &&
+                        zip.text != '' &&
+                        phone.text.length == 10 &&
+                        model.text != '' &&
+                        color.text != '' &&
+                        year.text != '' &&
+                        plate.text != '' &&
+                        driver.text != '') {
                       showDialog(
                           context: context,
                           barrierDismissible: true,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('Wait'),
-                              content: Text('Please double check your information. Information regarding the reserved spot can be changed before the reserved spot is confirmed.'),
+                              content: Text(
+                                  'Please double check your information. Information regarding the reserved spot can be changed before the reserved spot is confirmed.'),
                               actions: [
-                                FlatButton(
+                                ElevatedButton(
                                   child: Text(
                                     'Double Check',
                                     style: TextStyle(
@@ -551,7 +543,7 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                     Navigator.pop(context);
                                   },
                                 ),
-                                FlatButton(
+                                ElevatedButton(
                                   child: Text(
                                     'Continue',
                                     style: TextStyle(
@@ -559,7 +551,6 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                     ),
                                   ),
                                   onPressed: () async {
-
                                     _isRead = false;
                                     _isAgreed = false;
                                     _isGood = false;
@@ -572,8 +563,12 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                             onWillPop: () async => false,
                                             child: AlertDialog(
                                               content: Container(
-                                                width: MediaQuery.of(context).size.width,
-                                                height: MediaQuery.of(context).size.height,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
                                                 child: Column(
                                                   children: <Widget>[
                                                     Container(
@@ -583,8 +578,9 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                       aspectRatio: 1,
                                                       child: FlareActor(
                                                         "assets/confirm.flr",
-                                                        alignment:Alignment.center,
-                                                        fit:BoxFit.contain,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        fit: BoxFit.contain,
                                                         animation: 'Complete',
                                                       ),
                                                     ),
@@ -596,10 +592,12 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                       Text(
                                                         'Confirmed!',
                                                         style: TextStyle(
-                                                            color: Colors.greenAccent,
+                                                            color: Colors
+                                                                .greenAccent,
                                                             fontSize: 30,
-                                                            fontWeight: FontWeight.bold
-                                                        ),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                     ),
                                                     Container(
@@ -611,36 +609,52 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                                         'Show your License and Insurance to your Counselor to Confirm your Parking Spot',
                                                         style: TextStyle(
                                                           fontSize: 20,
-                                                          fontWeight: FontWeight.w300,
+                                                          fontWeight:
+                                                              FontWeight.w300,
                                                         ),
                                                       ),
                                                     ),
                                                     Container(
                                                       height: 40,
                                                     ),
-                                                    FlatButton(
+                                                    ElevatedButton(
                                                       child: Container(
-                                                        width: MediaQuery.of(context).size.width-50,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width -
+                                                            50,
                                                         height: 50,
                                                         child: Center(
                                                           child: Text(
                                                             'Continue',
                                                             style: TextStyle(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight.w700,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                             ),
                                                           ),
                                                         ),
                                                         decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(25),
-                                                            color: Colors.redAccent
-                                                        ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25),
+                                                            color: Colors
+                                                                .redAccent),
                                                       ),
                                                       onPressed: () {
-                                                        Navigator.pushAndRemoveUntil(context,
-                                                            MaterialPageRoute(builder: (BuildContext context) => Navigation()),
-                                                            ModalRoute.withName('/'));
+                                                        Navigator.pushAndRemoveUntil(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    Navigation()),
+                                                            ModalRoute.withName(
+                                                                '/'));
                                                       },
                                                     ),
                                                   ],
@@ -648,14 +662,21 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                               ),
                                             ),
                                           );
-                                        }
-                                    );
-                                    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                    widget.reference.setData({
-                                      'first': first.text.substring(0, 1).toUpperCase()+first.text.substring(1),
-                                      'last': last.text.substring(0, 1).toUpperCase()+last.text.substring(1),
+                                        });
+                                    widget.reference.set({
+                                      'first': first.text
+                                              .substring(0, 1)
+                                              .toUpperCase() +
+                                          first.text.substring(1),
+                                      'last': last.text
+                                              .substring(0, 1)
+                                              .toUpperCase() +
+                                          last.text.substring(1),
                                       'grade': toInt(grade.text),
-                                      'schoolID': id.text.substring(0, 1).toUpperCase()+id.text.substring(1),
+                                      'schoolID': id.text
+                                              .substring(0, 1)
+                                              .toUpperCase() +
+                                          id.text.substring(1),
                                       'address': address.text,
                                       'zipCode': zip.text,
                                       'phone': phone.text,
@@ -666,41 +687,39 @@ class _InfoSubmitState extends State<InfoSubmit> {
                                       'licensePlate': plate.text,
                                       'driverLicenseNumber': driver.text,
                                       'licenseExpiration': _licenseExpiration,
-                                      'insuranceExpiration': _insuranceExpiration,
+                                      'insuranceExpiration':
+                                          _insuranceExpiration,
                                       'isCash': _payCash,
                                       'confirmed': false,
                                       'completed': true,
-                                    }, merge: true);
+                                    }, SetOptions(merge: true));
 
                                     _payCash = true;
                                   },
                                 ),
                               ],
                             );
-                          }
-                      );
-                    }
-                    else if(_isAgreed&&_isRead&&_isGood) {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Text('Please submit all info to continue'),
-                          );
-                        }
-                      );
-                    }
-                    else {
+                          });
+                    } else if (_isAgreed && _isRead && _isGood) {
                       showDialog(
                           context: context,
                           barrierDismissible: true,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              content: Text('Please agree to the Terms and Conditions'),
+                              content:
+                                  Text('Please submit all info to continue'),
                             );
-                          }
-                      );
+                          });
+                    } else {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Text(
+                                  'Please agree to the Terms and Conditions'),
+                            );
+                          });
                     }
                   },
                 ),
@@ -715,14 +734,13 @@ class _InfoSubmitState extends State<InfoSubmit> {
     );
   }
 
-  Widget FieldGen (String hint, TextInputType type, TextEditingController controller) {
+  Widget FieldGen(
+      String hint, TextInputType type, TextEditingController controller) {
     return Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
-
-        ),
-        width: (MediaQuery.of(context).size.width-20)/2,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        width: (MediaQuery.of(context).size.width - 20) / 2,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -734,24 +752,19 @@ class _InfoSubmitState extends State<InfoSubmit> {
             contentPadding: const EdgeInsets.only(
                 top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
-            hintStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.black
-            ),
+            hintStyle: TextStyle(fontSize: 18, color: Colors.black),
             border: InputBorder.none,
-
           ),
         ));
   }
 
-  Widget FieldGenMax (String hint, TextInputType type, TextEditingController controller, int max) {
+  Widget FieldGenMax(String hint, TextInputType type,
+      TextEditingController controller, int max) {
     return Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
-
-        ),
-        width: (MediaQuery.of(context).size.width-20)/2,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        width: (MediaQuery.of(context).size.width - 20) / 2,
         child: TextField(
           maxLength: max,
           controller: controller,
@@ -765,25 +778,19 @@ class _InfoSubmitState extends State<InfoSubmit> {
             contentPadding: const EdgeInsets.only(
                 top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
-            hintStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.black
-            ),
+            hintStyle: TextStyle(fontSize: 18, color: Colors.black),
             border: InputBorder.none,
-
           ),
-        )
-    );
+        ));
   }
 
-  Widget FieldGenSmall (String hint, TextInputType type, TextEditingController controller) {
+  Widget FieldGenSmall(
+      String hint, TextInputType type, TextEditingController controller) {
     return Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
-
-        ),
-        width: (MediaQuery.of(context).size.width-20)/2,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        width: (MediaQuery.of(context).size.width - 20) / 2,
         child: TextField(
           controller: controller,
           style: TextStyle(
@@ -795,24 +802,19 @@ class _InfoSubmitState extends State<InfoSubmit> {
             contentPadding: const EdgeInsets.only(
                 top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
-            hintStyle: TextStyle(
-                fontSize: 13,
-                color: Colors.black
-            ),
+            hintStyle: TextStyle(fontSize: 13, color: Colors.black),
             border: InputBorder.none,
-
           ),
         ));
   }
 
-  Widget FieldGenMaxSmall (String hint, TextInputType type, TextEditingController controller, int max) {
+  Widget FieldGenMaxSmall(String hint, TextInputType type,
+      TextEditingController controller, int max) {
     return Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
-
-        ),
-        width: (MediaQuery.of(context).size.width-20)/2,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        width: (MediaQuery.of(context).size.width - 20) / 2,
         child: TextField(
           maxLength: max,
           controller: controller,
@@ -826,14 +828,9 @@ class _InfoSubmitState extends State<InfoSubmit> {
             contentPadding: const EdgeInsets.only(
                 top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
-            hintStyle: TextStyle(
-                fontSize: 13,
-                color: Colors.black
-            ),
+            hintStyle: TextStyle(fontSize: 13, color: Colors.black),
             border: InputBorder.none,
-
           ),
         ));
   }
-
 }
